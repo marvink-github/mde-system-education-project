@@ -12,13 +12,12 @@ require_once __DIR__ . '/../connection.php';
 $from = $_GET['from'] ?? null;
 $to = $_GET['to'] ?? null;
 $userId = $_GET['userid'] ?? null;
-// $orderId = $_GET['orderid'] ?? null; Muss noch hinzugefügt werden in die Machinetabelle
 $page = $_GET['page'] ?? 1;
 $limit = $_GET['limit'] ?? 200;
 
 $offset = ($page - 1) * $limit;
 
-$sql = "SELECT * FROM machinedata WHERE 1=1"; // Start mit einer immer wahren Bedingung
+$sql = "SELECT * FROM machinedata WHERE 1=1"; // Start mit einer immer wahren Bedingung, damit z.B. from && to nicht mit WHERE sondern mit AND angehängt wird.
 
 if ($from && $to) {
     $sql .= " AND timestamp BETWEEN '$from' AND '$to'";

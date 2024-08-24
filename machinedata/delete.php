@@ -3,6 +3,8 @@ require_once __DIR__ . '/../connection.php';
 
 header("Content-Type: application/json");
 
+// Nur um bestimmte user Datenstätze zu löschen, sollte aber eigentlich über die employee tabelle passieren, 
+// dort wird dann die userid gelöscht und über cascade sollten alle datensätze von dem employee gelöscht werden
 if (isset($_GET['userid'])) {
     $userid = $machineconn->real_escape_string($_GET['userid']);
     
