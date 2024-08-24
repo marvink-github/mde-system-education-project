@@ -17,7 +17,7 @@ $limit = $_GET['limit'] ?? 200;
 
 $offset = ($page - 1) * $limit;
 
-$sql = "SELECT * FROM machinedata WHERE 1=1"; // Start mit einer immer wahren Bedingung, damit z.B. from && to nicht mit WHERE sondern mit AND angehängt wird.
+$sql = "SELECT * FROM machinedata WHERE 1=1"; // Start mit einer immer wahren Bedingung, damit z.B. from && to nicht mit WHERE angehängt werden muss, sondern mit AND.
 
 if ($from && $to) {
     $sql .= " AND timestamp BETWEEN '$from' AND '$to'";
