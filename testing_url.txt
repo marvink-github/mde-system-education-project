@@ -30,7 +30,7 @@ STOP Employee on Machine:
 127.0.0.1/api/getdata.php?df_api=1&df_table=Daten&df_col_DT=2024-08-15T15%3A48%3A16&df_col_Badge=118F31DA&df_col_Identifier=end&df_col_T_ID=3533&df_col_T_Type=EVO%204.6%20FlexKey&df_col_User_ID=896
 
 Auftrag beginnen:
-127.0.0.1/api/getdata.php?df_api=1&df_table=Daten&df_col_DT=2024-08-22T11%3A52%3A46&df_col_Badge=232C416A&df_col_Identifier=start_order&df_col_T_ID=3533&df_col_T_Type=EVO%204.6%20FlexKey&df_col_QR_Code=271HAUD1378
+127.0.0.1/api/getdata.php?df_api=1&df_table=Daten&df_col_DT=2024-08-22T11%3A52%3A46&df_col_Badge=IAJD18AE&df_col_Identifier=start_order&df_col_T_ID=3533&df_col_T_Type=New%20Testterminal&df_col_QR_Code=271HAUD1378
 
 Auftrag beenden:
 127.0.0.1/api/getdata.php?df_api=1&df_table=Daten&df_col_DT=2024-08-22T11%3A52%3A46&df_col_Badge=232C416A&df_col_Identifier=finish_order&df_col_T_ID=3533&df_col_T_Type=EVO%204.6%20FlexKey&df_col_QR_Code=271HAUD1378

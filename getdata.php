@@ -3,11 +3,11 @@
 require 'functions.php';
 require 'connection.php';
     
-// echo 'df_api=1'; // Für clear cache im Datafox Terminal
+// echo 'df_api=1'; // Für clear Datensatzcache im Datafox Terminal
 // exit;
 
 if (!isset($_GET['df_api']) || $_GET['df_api'] != 1) {
-    logDB($machineconn, 'ERROR', 'df_api ist nicht 1');
+    logDB($machineconn, 'ERROR', 'df_api ist ungleich 1');
     exit();
 };
 

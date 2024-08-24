@@ -3,21 +3,17 @@ require_once __DIR__ . '/../connection.php';
 
 header("Content-Type: application/json");
 
-if (isset($_GET['id'])) {
-    $id = $_GET['id'];
+if (isset($_GET['userid'])) {
+    $userid = $machineconn->real_escape_string($_GET['userid']);
     
-    $stmt = $machineconn->prepare("DELETE FROM machinedata WHERE employee_idEmployee = ?");
+    $sql = "DELETE FROM machinedata WHERE employee_idEmployee = '$userid'";
     
-    $stmt->bind_param('i', $id);
-    
-    if ($stmt->execute()) {
+    if ($machineconn->query($sql)) {
         echo json_encode(["message" => "Datensatz erfolgreich gelöscht"]);
     } else {
-        http_response_code(500);
-        echo json_encode(["message" => "Fehler beim Löschen des Datensatzes"]);
+        http_response_code(400);
+        echo json_encode(["message" => "Fehler beim Löschen des Datensatzes: " . $machineconn->error]);
     }
-    
-    $stmt->close();
 } else {
     http_response_code(400);
     echo json_encode(["message" => "ID fehlt"]);

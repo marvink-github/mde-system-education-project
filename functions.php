@@ -195,10 +195,7 @@ function insertMachineData($machineconn, $timestamp, $digital_entry, $impulse, $
 }
 
 
-function startOrder($machineconn, $badge, $timestamp, $barcode, ) {
-    // Ändern in nur Maschinenführer darf Aufträge Starten und Beenden
-    // Der gerade an der Maschine angemeldet ist
-    // und wenn die ordnernumber schon vorhanden dann nicht eintragen
+function startOrder($machineconn, $badge, $timestamp, $barcode, ) {   
     $employeeId = getBadgeId($machineconn, $badge);
 
     if (!isEmployeeLoggedIn($machineconn, $employeeId)) {
@@ -238,24 +235,19 @@ function finishOrder($machineconn, $badge, $timestamp) {
 
 function isEmployeeLoggedIn($machineconn, $employeeId) {
 
-    $employeeId = intval($employeeId); // Eingabe validieren
-
-    // SQL-Abfrage zur Überprüfung, ob der Mitarbeiter angemeldet ist
+    $employeeId = intval($employeeId); 
+    
     $sql = "SELECT COUNT(*) FROM machine WHERE employee_idEmployee = $employeeId";
-
-    // Ausführen der Abfrage
+    
     $result = $machineconn->query($sql);
-
-    // Fehlerbehandlung für die Datenbankabfrage
+   
     if ($result === false) {
         error_log("Fehler bei der SQL-Abfrage: " . $machineconn->error);
-        return false; // Optional, je nach Anforderung
+        return false; 
     }
-
-    // Ergebnis holen
+    
     $row = $result->fetch_row();
-
-    // Gibt true zurück, wenn der Mitarbeiter angemeldet ist
+    
     return $row[0] > 0; 
 }
 

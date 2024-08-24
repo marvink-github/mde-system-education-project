@@ -1,25 +1,26 @@
 <?php
-// header("Content-Type: application/json");
-// header("Access-Control-Allow-Origin: *");
+header("Content-Type: application/json");
+header("Access-Control-Allow-Origin: *");
+
+require_once("../connection.php");
 
 $requestMethod = $_SERVER['REQUEST_METHOD'];
-$requestUri = $_SERVER['REQUEST_URI'];
 
 switch ($requestMethod) {
     case 'GET':
-        require __DIR__ . 'get.php';
+        require __DIR__ . '/get.php';
         break;
 
     case 'POST':
-        require __DIR__ . 'post.php';
+        require __DIR__ . '/post.php';
         break;
 
     case 'PATCH':
-        require __DIR__ . 'patch.php';
+        require __DIR__ . '/patch.php';
         break;
 
     case 'DELETE':
-        require __DIR__ . 'delete.php';
+        require __DIR__ . '/delete.php';
         break;
 
     default:
