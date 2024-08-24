@@ -12,7 +12,7 @@ require_once __DIR__ . '/../connection.php';
 $from = $_GET['from'] ?? null;
 $to = $_GET['to'] ?? null;
 $userId = $_GET['userid'] ?? null;
-// $orderId = $_GET['order_id'] ?? null; Muss noch hinzugefügt werden in die Machinetabelle
+// $orderId = $_GET['orderid'] ?? null; Muss noch hinzugefügt werden in die Machinetabelle
 $page = $_GET['page'] ?? 1;
 $limit = $_GET['limit'] ?? 200;
 
@@ -31,7 +31,7 @@ if ($userId) {
 }
 
 // if ($orderId) {
-//     $sql .= " AND order_id = '$orderId'";
+//     $sql .= " AND orderid = '$orderId'";
 // }
 
 $sql .= " LIMIT $limit OFFSET $offset";

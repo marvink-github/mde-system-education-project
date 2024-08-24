@@ -15,7 +15,7 @@ switch ($requestMethod) {
         break;
 
     case 'PUT':
-        require __DIR__ . 'put.php';
+        require __DIR__ . 'patch.php';
         break;
 
     case 'DELETE':

@@ -15,7 +15,7 @@ if (isset($_GET['id'])) {
             echo json_encode(["message" => "Keine Maschine mit dieser ID gefunden"]);
         }
     } else {
-        http_response_code(500); // Serverproblem
+        http_response_code(400); 
         echo json_encode(["message" => "Fehler beim Löschen der Maschine"]);
     }
     
