@@ -197,10 +197,19 @@ function insertMachineData($machineconn, $timestamp, $digital_entry, $impulse, $
 
 function startOrder($machineconn, $badge, $timestamp, $barcode, ) {
     // Ändern in nur Maschinenführer darf Aufträge Starten und Beenden
-    // Der gerade an der Maschine angemeldet ist.
+    // Der gerade an der Maschine angemeldet ist
+    // und wenn die ordnernumber schon vorhanden dann nicht eintragen
     $employeeId = getBadgeId($machineconn, $badge);
 
-    $sql = "INSERT INTO `order` (start_time, ordernumber, employee_idEmployee) 
+    if (!isEmployeeLoggedIn($machineconn, $employeeId)) {
+        return "Der Mitarbeiter ist nicht an der Maschine angemeldet.";
+    }
+
+    if (isOrderNumberExists($machineconn, $barcode)) {
+        return "Die Auftragsnummer ist bereits vorhanden.";
+    }
+
+    $sql = "INSERT INTO `order` (startTime, ordernumber, employee_idEmployee) 
             VALUES ('$timestamp', '$barcode', $employeeId)";
 
     if ($machineconn->query($sql) === TRUE) {
@@ -215,17 +224,48 @@ function finishOrder($machineconn, $badge, $timestamp) {
     $employeeId = getBadgeId($machineconn, $badge);      
 
     $sql = "UPDATE `order` 
-            SET end_time = '$timestamp', state = 'finished' 
+            SET endTime = '$timestamp', state = 'finished' 
             WHERE employee_idEmployee = $employeeId 
             ORDER BY idOrder DESC LIMIT 1";
     
     if ($machineconn->query($sql) === TRUE) {
         return true; 
     } else {
-        return $machineconn->error; 
+        return false; 
     }
 }
 
+
+function isEmployeeLoggedIn($machineconn, $employeeId) {
+
+    $employeeId = intval($employeeId); // Eingabe validieren
+
+    // SQL-Abfrage zur Überprüfung, ob der Mitarbeiter angemeldet ist
+    $sql = "SELECT COUNT(*) FROM machine WHERE employee_idEmployee = $employeeId";
+
+    // Ausführen der Abfrage
+    $result = $machineconn->query($sql);
+
+    // Fehlerbehandlung für die Datenbankabfrage
+    if ($result === false) {
+        error_log("Fehler bei der SQL-Abfrage: " . $machineconn->error);
+        return false; // Optional, je nach Anforderung
+    }
+
+    // Ergebnis holen
+    $row = $result->fetch_row();
+
+    // Gibt true zurück, wenn der Mitarbeiter angemeldet ist
+    return $row[0] > 0; 
+}
+
+
+function isOrderNumberExists($machineconn, $barcode) {   
+    $sql = "SELECT COUNT(*) FROM `order` WHERE ordernumber = '$barcode'";
+    $result = $machineconn->query($sql);
+    $row = $result->fetch_row();
+    return $row[0] > 0; 
+}
 
 
 function getMachineId($machineconn, $terminal_id, $terminal_type) {
