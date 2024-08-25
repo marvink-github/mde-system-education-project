@@ -25,11 +25,9 @@ switch ($table) {
         $terminal_id = $_GET['df_col_T_ID'];
         $terminal_type = $_GET['df_col_T_Type'];
         $userid = $_GET['df_col_User_ID'];
-        $barcode = $_GET['df_col_QR_Code'];
-        //$inputtype = $_GET['df_col_Inputtyp']; 
-        //$projekt = $_GET ['df_col_Projekt'];   
-        
-        // mysqli_real_escape_string();
+        $barcode = $_GET['df_col_QR_Code'] ?? null; // Muss noch im Terminal in barcode umbenannt werden!!! df_col_Barcode
+        // $inputtype = $_GET['df_col_Inputtyp']; 
+        // $projekt = $_GET ['df_col_Projekt'];           
               
         switch ($action) {
             case 'insert':

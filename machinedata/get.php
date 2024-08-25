@@ -28,7 +28,7 @@ if ($from && $to) {
 }
 
 if ($userId) {
-    $sql .= " AND employee_idEmployee = '$employeeId'";
+    $sql .= " AND employee_idEmployee = '$employeeId'"; 
 }
 
 $sql .= " LIMIT $limit OFFSET $offset";

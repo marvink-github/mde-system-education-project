@@ -12,7 +12,7 @@ if ($machineId) {
 
 $result = mysqli_query($machineconn, $sql);
 if (!$result) {
-    http_response_code(500);
+    http_response_code(400);
     echo json_encode(["message" => "Datenbankabfrage fehlgeschlagen"]);
     exit();
 }

@@ -150,7 +150,7 @@ function startEmployeeOnMachine($machineconn, $terminal_id, $terminal_type, $bad
         return false;
     }
 
-    updateMachineState($machineconn, $terminal_id, $terminal_type, 'Aktiv'); 
+    updateMachineState($machineconn, $terminal_id, $terminal_type, 'active'); 
 }
 
 function stopEmployeeOnMachine($machineconn, $terminal_id, $terminal_type, $badge) {
@@ -179,7 +179,7 @@ function stopEmployeeOnMachine($machineconn, $terminal_id, $terminal_type, $badg
         return false;
     }
 
-    updateMachineState($machineconn, $terminal_id, $terminal_type, 'Inaktiv');
+    updateMachineState($machineconn, $terminal_id, $terminal_type, 'inactive');
 
     return true;
 }
