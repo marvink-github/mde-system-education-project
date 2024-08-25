@@ -5,9 +5,18 @@ curl -X POST "http://127.0.0.1/api/employee/post.php" \
      -H "Content-Type: application/json" \
      -d '{"userid": "10"}'
 
-# Alle Daten noch von einem Employee per userid oder employeeid abfragen können mit JOINS
-curl -X GET "http://127.0.0.1/api/employee/get.php?id=10&userid=105"
+# Alle Daten noch von einem Employee per userid oder employeeid abfragen können mit JOINS?
 
+Alle employeeId und userid anzeigen:
+curl -X GET "http://127.0.0.1/api/employee/get.php"
+
+employeeId herausfinden über userId:
+curl -X GET "http://127.0.0.1/api/employee/get.php?userid=80"
+
+userid herausfinden über employeeId:
+curl -X GET "http://127.0.0.1/api/employee/get.php?id=2"
+
+###############################################################################################################
 
 Machinedata:
 
@@ -29,6 +38,7 @@ curl -X GET "http://127.0.0.1/api/machinedata/get.php?employeeId=3"
 Beispiel 4: Ohne Parameter (Standardwerte page = 1 + limit = 200)
 curl -X GET "http://127.0.0.1/api/machinedata/get.php"
 
+################################################################################################################
 
 Machine:
 
@@ -51,12 +61,16 @@ curl -X PATCH "http://127.0.0.1/api/machine/patch.php" \
 Maschine löschen nach id (Fehlerhaft alle Maschinen werden gelöscht mit der gleichen terminal_id und terminal_type):
 curl -X DELETE "http://127.0.0.1/api/machine/delete.php?id=1"
 
+##################################################################################################################
 
 Order:
 
+##################################################################################################################
 
 Authentication:
 
+##################################################################################################################
 
 Logs:
 
+##################################################################################################################
