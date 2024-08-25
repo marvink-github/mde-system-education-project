@@ -52,8 +52,6 @@ Maschine löschen nach id (Fehlerhaft alle Maschinen werden gelöscht mit der gl
 curl -X DELETE "http://127.0.0.1/api/machine/delete.php?id=1"
 
 
-
-
 Order:
 
 
