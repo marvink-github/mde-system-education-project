@@ -2,14 +2,14 @@
 header("Content-Type: application/json");
 require_once __DIR__ . '/../connection.php';
 
-$id = $_GET['id'] ?? null;
+$employeeid = $_GET['employeeid'] ?? null;
 $userId = $_GET['userid'] ?? null;
 
 $sql = "SELECT * FROM employee WHERE 1=1"; 
 
-if ($id) {
-    $id = $machineconn->real_escape_string($id);
-    $sql .= " AND idEmployee = '$id'";
+if ($employeeid) {
+    $employeeid = $machineconn->real_escape_string($employeeid);
+    $sql .= " AND idEmployee = '$employeeid'";
 }
 
 if ($userId) {

@@ -11,7 +11,7 @@ require_once __DIR__ . '/../connection.php';
 
 $from = $_GET['from'] ?? null;
 $to = $_GET['to'] ?? null;
-$userId = $_GET['userid'] ?? null;
+$employeeId = $_GET['employeeId'] ?? null;
 $page = $_GET['page'] ?? 1;
 $limit = $_GET['limit'] ?? 200;
 
@@ -28,7 +28,7 @@ if ($from && $to) {
 }
 
 if ($userId) {
-    $sql .= " AND employee_idEmployee = '$userId'";
+    $sql .= " AND employee_idEmployee = '$employeeId'";
 }
 
 $sql .= " LIMIT $limit OFFSET $offset";
