@@ -53,12 +53,12 @@ curl -X GET "http://127.0.0.1/api/machine/get.php"
 Eine spezifische Maschine abrufen:
 curl -X GET "http://127.0.0.1/api/machine/get.php?id=123"
 
-Machine Id muss gesetzt sein (die anderen Parameter sind optional)
+Maschine Patchen, Machine Id muss gesetzt sein (die anderen Parameter sind optional)
 curl -X PATCH "http://127.0.0.1/api/machine/patch.php" \
      -H "Content-Type: application/json" \
      -d '{ "id": 1, "terminal_id": "", ""terminal_type": "", "employee_id": "1"}' 
 
-Maschine löschen nach id (Fehlerhaft alle Maschinen werden gelöscht mit der gleichen terminal_id und terminal_type):
+Maschine löschen nach id:
 curl -X DELETE "http://127.0.0.1/api/machine/delete.php?id=1"
 
 ##################################################################################################################
