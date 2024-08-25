@@ -45,7 +45,7 @@ Machine:
 Maschine erstellen:
 curl -X POST "http://127.0.0.1/api/machine/post.php" \
      -H "Content-Type: application/json" \
-     -d '{ "terminal_id": "12345", "terminal_type": "TypeA"}'
+     -d '{ "terminal_id": "3533", "terminal_type": "EVO 4.6 FlexKey"}'
 
 Alle Maschinen abrufen:
 curl -X GET "http://127.0.0.1/api/machine/get.php"

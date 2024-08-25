@@ -34,7 +34,7 @@ if (!$result) {
 }
 
 echo json_encode(["message" => "Maschine erfolgreich hinzugefügt"]);
-mysqli_close($machineconn);
+$machineconn->close();
 
 ?>
 

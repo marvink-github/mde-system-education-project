@@ -24,7 +24,7 @@ switch ($table) {
         $action = $_GET['df_col_Identifier'];
         $terminal_id = $_GET['df_col_T_ID'];
         $terminal_type = $_GET['df_col_T_Type'];
-        $userid = $_GET['df_col_User_ID'];
+        $userid = $_GET['df_col_User_ID'] ?? null;
         $barcode = $_GET['df_col_QR_Code'] ?? null; // Muss noch im Terminal in barcode umbenannt werden!!! df_col_Barcode
         // $inputtype = $_GET['df_col_Inputtyp']; 
         // $projekt = $_GET ['df_col_Projekt'];           
