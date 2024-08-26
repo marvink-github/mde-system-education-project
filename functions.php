@@ -1,6 +1,5 @@
 <?php
 
-
 function sendResponse($responseParams = [], $statuscode = 200) { 
     http_response_code($statuscode);
 
@@ -36,7 +35,9 @@ function logDB($machineconn, $logType, $logMessage) {
 }
 
 
-function registryBadge($machineconn, $userid, $badge, $employeeId) {      
+function registryBadge($machineconn, $userid, $badge) {
+    $employeeId = getEmployeeId($machineconn, $userid);
+    
     if ($employeeId === false) {
         $employeeId = insertEmployee($machineconn, $userid);
     }
@@ -45,10 +46,14 @@ function registryBadge($machineconn, $userid, $badge, $employeeId) {
 
     if ($existingEmployeeId === false) {
         insertBadge($machineconn, $badge, $employeeId);
+    } else if ($existingEmployeeId != $employeeId) {
+        updateBadge($machineconn, $badge, $employeeId);
+        logDB($machineconn, 'INFO', "Das Badge $badge wurde einem anderen Mitarbeiter zugewiesen.");
     } else {
-        logDB($machineconn, 'ERROR', 'Diese Badge ist bereits vergeben.');
+        logDB($machineconn, 'ERROR', "Badge $badge ist bereits zugewiesen.");
     }
 }
+
 
 function getEmployeeId($machineconn, $userid) {
     $sql = $machineconn->query("SELECT idEmployee FROM employee WHERE userid = '$userid'");
@@ -67,7 +72,7 @@ function getEmployeeId($machineconn, $userid) {
 function insertEmployee($machineconn, $userid) {
     $sql = "INSERT INTO employee (userid) VALUES ('$userid')";
     if (!$machineconn->query($sql)) {
-        exit("Fehler beim Einfügen des Employees: " . $machineconn->error);
+        return false;
     }
     return $machineconn->insert_id; // insert_id -> Wert des zuletzt automatisch generierten Primärschlüssels
 }
@@ -92,7 +97,7 @@ function getBadgeId($machineconn, $badge) {
 function insertBadge($machineconn, $badge, $employeeId) {
     $sql = "INSERT INTO authentication (badge, employee_idEmployee) VALUES ('$badge', $employeeId)";
     if (!$machineconn->query($sql)) {
-        exit("Fehler beim Einfügen des Badges: " . $machineconn->error);
+        return false;
     }
 }
 
@@ -115,16 +120,8 @@ function deleteBadge($machineconn, $badge) {
 }
 
 function startEmployeeOnMachine($machineconn, $terminal_id, $terminal_type, $badge, $timestamp) {
-    if (empty($badge)) {
-        return ["success" => false, "message" => "Badge kann nicht leer sein."];
-    }
-
     $checkBadgeSql = "SELECT employee_idEmployee FROM authentication WHERE badge = '$badge'";
-    $badgeResult = $machineconn->query($checkBadgeSql);
-    
-    if (!$badgeResult) {
-        return ["success" => false, "message" => "Fehler bei der Abfrage der Authentifizierung: " . $machineconn->error];
-    }
+    $badgeResult = $machineconn->query($checkBadgeSql); 
     
     if ($badgeResult->num_rows == 0) {
         return ["success" => false, "message" => "Ungültiges Badge. Es ist nicht in der Authentifizierung vorhanden."];
@@ -138,19 +135,15 @@ function startEmployeeOnMachine($machineconn, $terminal_id, $terminal_type, $bad
         return ["success" => false, "message" => "Maschine nicht gefunden."];
     }
 
-    $checkSql = "SELECT * FROM employee_has_machine WHERE machine_idMachine = $machine_id AND employee_idEmployee = $employeeId AND state = 'start'";
+    $checkSql = "SELECT * FROM employee_has_machine WHERE machine_idMachine = $machine_id AND employee_idEmployee = $employeeId AND state = 'active'";
     $checkResult = $machineconn->query($checkSql);
-
-    if (!$checkResult) {
-        return ["success" => false, "message" => "Fehler bei der Abfrage der Mitarbeiterdaten: " . $machineconn->error];
-    }
 
     if ($checkResult->num_rows > 0) {
         return ["success" => false, "message" => "Mitarbeiter ist bereits aktiv an dieser Maschine."];
     }
 
     $sql = "INSERT INTO employee_has_machine (machine_idMachine, employee_idEmployee, startTime, state) 
-            VALUES ($machine_id, $employeeId, '$timestamp', 'start')";
+            VALUES ($machine_id, $employeeId, '$timestamp', 'active')";
 
     if (!$machineconn->query($sql)) {
         logDB($machineconn, 'ERROR', 'Fehler beim Starten der Sitzung: ' . $machineconn->error);
@@ -191,7 +184,7 @@ function stopEmployeeOnMachine($machineconn, $terminal_id, $terminal_type, $badg
     $checkSql = "SELECT * FROM employee_has_machine 
                  WHERE machine_idMachine = (SELECT idMachine FROM machine WHERE terminal_id = '$terminal_id' AND terminal_type = '$terminal_type') 
                  AND employee_idEmployee = $employeeId 
-                 AND state = 'start'";
+                 AND state = 'active'";
     
     $checkResult = $machineconn->query($checkSql);
 
@@ -200,10 +193,10 @@ function stopEmployeeOnMachine($machineconn, $terminal_id, $terminal_type, $badg
     }
 
     $sql = "UPDATE employee_has_machine 
-            SET state = 'stop', endTime = '$timestamp' 
+            SET state = 'end', endTime = '$timestamp' 
             WHERE machine_idMachine = (SELECT idMachine FROM machine WHERE terminal_id = '$terminal_id' AND terminal_type = '$terminal_type') 
             AND employee_idEmployee = $employeeId 
-            AND state = 'start'";
+            AND state = 'active'";
     
     if (!$machineconn->query($sql)) {
         return ["success" => false, "message" => "Fehler beim Aktualisieren der Sitzung: " . $machineconn->error];
@@ -215,11 +208,9 @@ function stopEmployeeOnMachine($machineconn, $terminal_id, $terminal_type, $badg
 }
 
 
-
-
 function insertMachineData($machineconn, $timestamp, $digital_entry, $impulse, $machineId, $employeeId) {
-    $sql = "INSERT INTO machinedata (timestamp, digital, value, machine_idMachine, employee_idEmployee)
-              VALUES ('$timestamp', '$digital_entry', '$impulse', $machineId, $employeeId)";    
+    $sql = "INSERT INTO machinedata (timestamp, digital, value, employee_idEmployee, machine_idMachine)
+              VALUES ('$timestamp', '$digital_entry', '$impulse', $employeeId, $machineId)";   
 
     if (!$machineconn->query($sql)) {
         exit("Fehler beim Einfügen der Maschinendaten: " . $machineconn->error);
@@ -227,19 +218,46 @@ function insertMachineData($machineconn, $timestamp, $digital_entry, $impulse, $
 }
 
 
-function startOrder($machineconn, $badge, $timestamp, $barcode) {   
+function startOrder($machineconn, $badge, $timestamp, $barcode, $terminal_id, $terminal_type) {   
     $employeeId = getBadgeId($machineconn, $badge);
 
-    if (!isEmployeeLoggedIn($machineconn, $employeeId)) {
-        return ["success" => false, "message" => "Der Mitarbeiter ist nicht an der Maschine angemeldet."];
+    if ($employeeId === false) {
+        return ["success" => false, "message" => "Ungültiges Badge."];
+    }
+
+    $machine_id = getMachineId($machineconn, $terminal_id, $terminal_type);
+    if (!$machine_id) {
+        return ["success" => false, "message" => "Maschine nicht gefunden oder ungültiger Maschinentyp."];
+    }
+
+    $checkEmployeeMachineSql = "SELECT COUNT(*) FROM employee_has_machine 
+                                WHERE employee_idEmployee = $employeeId 
+                                AND machine_idMachine = $machine_id 
+                                AND state = 'active'";
+    $checkEmployeeMachineResult = $machineconn->query($checkEmployeeMachineSql);
+    $isEmployeeOnMachine = $checkEmployeeMachineResult->fetch_row()[0];
+
+    if ($isEmployeeOnMachine == 0) {
+        return ["success" => false, "message" => "Der Mitarbeiter ist nicht an dieser Maschine angemeldet."];
+    }
+
+    $activeOrderCheckSql =  "SELECT COUNT(*) FROM `order` 
+                             WHERE ordernumber = '$barcode' 
+                             AND state = 'active' 
+                             AND employee_idEmployee = $employeeId";
+    $activeOrderCheckResult = $machineconn->query($activeOrderCheckSql);
+    $activeOrderCount = $activeOrderCheckResult->fetch_row()[0];
+
+    if ($activeOrderCount > 0) {
+        return ["success" => false, "message" => "Der Auftrag mit dieser Nummer ist bereits aktiv."];
     }
 
     if (isOrderNumberExists($machineconn, $barcode)) {
-        return ["success" => false, "message" => "Die Auftragsnummer ist bereits vorhanden."];
+        return ["success" => false, "message" => "Die Auftragsnummer ist bereits vorhanden, aber nicht aktiv."];
     }
 
-    $sql = "INSERT INTO `order` (startTime, ordernumber, employee_idEmployee) 
-            VALUES ('$timestamp', '$barcode', $employeeId)";
+    $sql = "INSERT INTO `order` (ordernumber, startTime, employee_idEmployee) 
+            VALUES ('$barcode', '$timestamp', $employeeId)"; 
 
     if ($machineconn->query($sql) === TRUE) {
         return ["success" => true, "message" => "Auftrag erfolgreich gestartet."];
@@ -249,21 +267,31 @@ function startOrder($machineconn, $badge, $timestamp, $barcode) {
 }
 
 
-
 function finishOrder($machineconn, $badge, $timestamp) {
     $employeeId = getBadgeId($machineconn, $badge);      
 
-    $sql = "UPDATE `order` 
-            SET endTime = '$timestamp', state = 'end' 
-            WHERE employee_idEmployee = $employeeId 
-            ORDER BY idOrder DESC LIMIT 1";
+    $selectSql = "SELECT idorder FROM `order` 
+                  WHERE employee_idEmployee = $employeeId 
+                  ORDER BY idorder DESC LIMIT 1";
     
-    if ($machineconn->query($sql) === TRUE) {
-        return true; 
+    $selectResult = $machineconn->query($selectSql);
+
+    if ($selectResult && $selectResult->num_rows > 0) {
+        $lastOrder = $selectResult->fetch_assoc();
+        $lastOrderId = $lastOrder['idorder'];
+        
+        $updateSql = "UPDATE `order` 
+                      SET endTime = '$timestamp', state = 'end' 
+                      WHERE idorder = $lastOrderId";
+        
+        if ($machineconn->query($updateSql) === TRUE) {
+            return ["success" => true, "message" => "Auftrag erfolgreich beendet."];
+        } else {
+            return ["success" => false, "message" => "Fehler beim Beenden des Auftrags: " . $machineconn->error];
+        }
     } else {
-        return false; 
+        return ["success" => false, "message" => "Kein aktiver Auftrag gefunden."];
     }
-    
 }
 
 
@@ -321,16 +349,28 @@ function updateMachineState($machineconn, $terminal_id, $terminal_type, $action)
 
 
 function getMachineAndEmployeeId($machineconn, $terminal_id, $terminal_type) {
-    $result = $machineconn->query("SELECT idMachine, employee_idEmployee FROM machine WHERE terminal_id = '$terminal_id' AND terminal_type = '$terminal_type'");
-
-    if ($result->num_rows == 0) {
-        exit("Fehler: Maschine mit der angegebenen Seriennummer und Terminaltyp wurde nicht gefunden.");
+    $machineResult = $machineconn->query("SELECT idMachine FROM machine WHERE terminal_id = '$terminal_id' AND terminal_type = '$terminal_type'");
+    
+    if ($machineResult->num_rows == 0) {
+        return false;
     }
 
-    $row = $result->fetch_assoc();
+    $machineRow = $machineResult->fetch_assoc();
+    $machineId = $machineRow['idMachine'];
+
+    $employeeResult = $machineconn->query("SELECT employee_idEmployee FROM employee_has_machine WHERE machine_idMachine = '$machineId' AND state = 'active'");
+
+    if ($employeeResult->num_rows == 0) {
+        return [
+            'idMachine' => $machineId,
+            'employee_idEmployee' => null 
+        ];
+    }
+
+    $employeeRow = $employeeResult->fetch_assoc();
     return [
-        'idMachine' => $row['idMachine'],
-        'employee_idEmployee' => $row['employee_idEmployee']
+        'idMachine' => $machineId,
+        'employee_idEmployee' => $employeeRow['employee_idEmployee']
     ];
 }
 
