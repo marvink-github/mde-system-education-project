@@ -48,7 +48,7 @@ curl -X POST "http://127.0.0.1/api/machine/post.php" \
      -d '{ "terminal_id": "3533", "terminal_type": "EVO 4.6 FlexKey"}'
 
 Alle Maschinen abrufen:
-curl -X GET "http://127.0.0.1/api/machine/get.php"
+curl -X GET "http://127.0.0.1/api/machine/get.php" 
 
 Eine spezifische Maschine abrufen:
 curl -X GET "http://127.0.0.1/api/machine/get.php?id=123"
