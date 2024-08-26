@@ -48,21 +48,23 @@ if ($result->num_rows > 0) {
     }
 
 } else {      
-    $sql = "INSERT INTO employee (userid) VALUES ('$userId')";
+    if ($badge) {
+        $checkBadgeSql = "SELECT * FROM authentication WHERE badge = '$badge'";
+        $badgeResult = $machineconn->query($checkBadgeSql);
 
-    if ($machineconn->query($sql)) {
-        $employeeId = $machineconn->insert_id;             
-        
-        if ($badge) {
-            $checkBadgeSql = "SELECT * FROM authentication WHERE badge = '$badge'";
-            $badgeResult = $machineconn->query($checkBadgeSql);
+        if ($badgeResult->num_rows > 0) {
+            http_response_code(409); 
+            echo json_encode(["message" => "Fehler: Badge bereits vorhanden für einen anderen Benutzer, Benutzer wurde nicht hinzugefügt."]);
+            $machineconn->close();
+            exit();
+        } else {
+            // Füge Benutzer in die employee-Tabelle ein
+            $sql = "INSERT INTO employee (userid) VALUES ('$userId')";
 
-            if ($badgeResult->num_rows > 0) {
-                http_response_code(409); 
-                echo json_encode(["message" => "Fehler: Badge bereits vorhanden für einen anderen Benutzer, Benutzer wurde hinzugefügt, Badge ignoriert."]);
-                $machineconn->close();
-                exit();
-            } else {
+            if ($machineconn->query($sql)) {
+                $employeeId = $machineconn->insert_id; 
+                
+                // Füge Badge in die authentication-Tabelle ein
                 $authSql = "INSERT INTO authentication (employee_idEmployee, badge) VALUES ($employeeId, '$badge')";
 
                 if ($machineconn->query($authSql)) {
@@ -73,16 +75,26 @@ if ($result->num_rows > 0) {
                     http_response_code(400);
                     echo json_encode(["message" => "Fehler beim Hinzufügen des Badges: " . $machineconn->error]);
                 }
+            } else {
+                http_response_code(400);
+                echo json_encode(["message" => "Fehler beim Hinzufügen des Mitarbeiters: " . $machineconn->error]);
             }
-        } else {
-            http_response_code(201);
-            echo json_encode(["message" => "Benutzer erfolgreich hinzugefügt, kein Badge angegeben.", "idEmployee" => $employeeId]);
         }
     } else {
-        http_response_code(400);
-        echo json_encode(["message" => "Fehler beim Hinzufügen des Mitarbeiters: " . $machineconn->error]);
+        // Füge Benutzer nur hinzu, wenn kein Badge angegeben ist und kein Konflikt besteht
+        $sql = "INSERT INTO employee (userid) VALUES ('$userId')";
+
+        if ($machineconn->query($sql)) {
+            $employeeId = $machineconn->insert_id; 
+            http_response_code(201);
+            echo json_encode(["message" => "Benutzer erfolgreich hinzugefügt, kein Badge angegeben.", "idEmployee" => $employeeId]);
+        } else {
+            http_response_code(400);
+            echo json_encode(["message" => "Fehler beim Hinzufügen des Mitarbeiters: " . $machineconn->error]);
+        }
     }
 }
 
 $machineconn->close();
 ?>
+
