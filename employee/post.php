@@ -2,9 +2,8 @@
 header("Content-Type: application/json");
 require_once __DIR__ . '/../connection.php'; 
 
-$input = json_decode(file_get_contents('php://input'), true);
-$userId = $input['userid'] ?? null;
-$badge = $input['badge'] ?? null; 
+$userId = $_POST['userid'] ?? null;
+$badge = $_POST['badge'] ?? null; 
 
 if (!$userId) {
     http_response_code(400);
@@ -69,7 +68,7 @@ if ($result->num_rows > 0) {
 
                 if ($machineconn->query($authSql)) {
                     http_response_code(201);
-                    echo json_encode(["message" => "Benutzer erfolgreich hinzugefügt und Badge hinzugefügt.", "idEmployee" => $employeeId, "userid" => $userId, "badge" => $badge]);
+                    echo json_encode(["message" => "Benutzer und Badge erfolgreich hinzugefügt.", "idEmployee" => $employeeId, "userid" => $userId, "badge" => $badge]);
                 } else {                  
                     $machineconn->query("DELETE FROM employee WHERE idEmployee = $employeeId");
                     http_response_code(400);

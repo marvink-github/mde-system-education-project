@@ -1,19 +1,5 @@
 Testing:
 
-REGISTRY:
-127.0.0.1/api/getdata.php?df_api=1&df_table=Daten&df_col_DT=2024-08-15T15%3A48%3A16&df_col_Badge=OIAHD134&df_col_Identifier=insert&df_col_T_ID=3533&df_col_T_Type=EVO%204.6%20FlexKey&df_col_User_ID=50
-127.0.0.1/api/getdata.php?df_api=1&df_table=Daten&df_col_DT=2024-08-15T15%3A48%3A16&df_col_Badge=AIDN143U&df_col_Identifier=insert&df_col_T_ID=3533&df_col_T_Type=EVO%204.6%20FlexKey&df_col_User_ID=60
-127.0.0.1/api/getdata.php?df_api=1&df_table=Daten&df_col_DT=2024-08-15T15%3A48%3A16&df_col_Badge=IAJD18AE&df_col_Identifier=insert&df_col_T_ID=3533&df_col_T_Type=EVO%204.6%20FlexKey&df_col_User_ID=70
-127.0.0.1/api/getdata.php?df_api=1&df_table=Daten&df_col_DT=2024-08-15T15%3A48%3A16&df_col_Badge=ALADIJ18&df_col_Identifier=insert&df_col_T_ID=3533&df_col_T_Type=EVO%204.6%20FlexKey&df_col_User_ID=80
-127.0.0.1/api/getdata.php?df_api=1&df_table=Daten&df_col_DT=2024-08-15T15%3A48%3A16&df_col_Badge=KKAIDEKD&df_col_Identifier=insert&df_col_T_ID=3533&df_col_T_Type=EVO%204.6%20FlexKey&df_col_User_ID=90
-
-DELETE badge vom user aber den user selbst nicht.
-127.0.0.1/api/getdata.php?df_api=1&df_table=Daten&df_col_DT=2024-08-15T15%3A48%3A16&df_col_Badge=OIAHD134&df_col_Identifier=delete&df_col_T_ID=3533&df_col_T_Type=EVO%204.6%20FlexKey&df_col_User_ID=50
-127.0.0.1/api/getdata.php?df_api=1&df_table=Daten&df_col_DT=2024-08-15T15%3A48%3A16&df_col_Badge=AIDN143U&df_col_Identifier=delete&df_col_T_ID=3533&df_col_T_Type=EVO%204.6%20FlexKey&df_col_User_ID=60
-127.0.0.1/api/getdata.php?df_api=1&df_table=Daten&df_col_DT=2024-08-15T15%3A48%3A16&df_col_Badge=IAJD18AE&df_col_Identifier=delete&df_col_T_ID=3533&df_col_T_Type=EVO%204.6%20FlexKey&df_col_User_ID=70
-127.0.0.1/api/getdata.php?df_api=1&df_table=Daten&df_col_DT=2024-08-15T15%3A48%3A16&df_col_Badge=ALADIJ18&df_col_Identifier=delete&df_col_T_ID=3533&df_col_T_Type=EVO%204.6%20FlexKey&df_col_User_ID=80
-127.0.0.1/api/getdata.php?df_api=1&df_table=Daten&df_col_DT=2024-08-15T15%3A48%3A16&df_col_Badge=KKAIDEKD&df_col_Identifier=delete&df_col_T_ID=3533&df_col_T_Type=EVO%204.6%20FlexKey&df_col_User_ID=90
-
 START Employee on Machine:
 127.0.0.1/api/getdata.php?df_api=1&df_table=Daten&df_col_DT=2024-08-15T15%3A48%3A16&df_col_Badge=OIAHD134&df_col_Identifier=start&df_col_T_ID=3533&df_col_T_Type=EVO%204.6%20FlexKey&df_col_User_ID=50
 127.0.0.1/api/getdata.php?df_api=1&df_table=Daten&df_col_DT=2024-08-15T15%3A48%3A16&df_col_Badge=AIDN143U&df_col_Identifier=start&df_col_T_ID=3533&df_col_T_Type=EVO%204.6%20FlexKey&df_col_User_ID=60
