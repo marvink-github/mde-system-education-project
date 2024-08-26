@@ -57,14 +57,12 @@ if ($result->num_rows > 0) {
             echo json_encode(["message" => "Fehler: Badge bereits vorhanden für einen anderen Benutzer, Benutzer wurde nicht hinzugefügt."]);
             $machineconn->close();
             exit();
-        } else {
-            // Füge Benutzer in die employee-Tabelle ein
+        } else {            
             $sql = "INSERT INTO employee (userid) VALUES ('$userId')";
 
             if ($machineconn->query($sql)) {
-                $employeeId = $machineconn->insert_id; 
+                $employeeId = $machineconn->insert_id;                 
                 
-                // Füge Badge in die authentication-Tabelle ein
                 $authSql = "INSERT INTO authentication (employee_idEmployee, badge) VALUES ($employeeId, '$badge')";
 
                 if ($machineconn->query($authSql)) {
