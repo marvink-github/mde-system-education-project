@@ -40,7 +40,7 @@ switch ($table) {
                 break;
         
             case 'start': 
-                startEmployeeOnMachine($machineconn, $terminal_id, $terminal_type, $badge);
+                startEmployeeOnMachine($machineconn, $terminal_id, $terminal_type, $badge, $timestamp);
                 break;
         
             case 'end':                

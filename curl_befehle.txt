@@ -3,7 +3,7 @@ Employee:
 
 curl -X POST "http://127.0.0.1/api/employee/post.php" \
      -H "Content-Type: application/json" \
-     -d '{"userid": "10"}'
+     -d '{"userid": "10", "badge": "aa8ad769dz7AD37"}'
 
 # Alle Daten noch von einem Employee per userid oder employeeid abfragen können mit JOINS?
 
@@ -56,7 +56,7 @@ curl -X GET "http://127.0.0.1/api/machine/get.php?id=123"
 Maschine Patchen, Machine Id muss gesetzt sein (die anderen Parameter sind optional)
 curl -X PATCH "http://127.0.0.1/api/machine/patch.php" \
      -H "Content-Type: application/json" \
-     -d '{ "id": 1, "terminal_id": "", ""terminal_type": "", "employee_id": "1"}' 
+     -d '{ "id": 2, "terminal_id": "3533", "terminal_type": "TestTerminal"}' 
 
 Maschine löschen nach id:
 curl -X DELETE "http://127.0.0.1/api/machine/delete.php?id=1"

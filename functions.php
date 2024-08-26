@@ -133,25 +133,46 @@ function deleteBadge($machineconn, $badge) {
     }
 }
 
-
-function startEmployeeOnMachine($machineconn, $terminal_id, $terminal_type, $badge) {
+function startEmployeeOnMachine($machineconn, $terminal_id, $terminal_type, $badge, $timestamp) {
     $employeeId = getBadgeId($machineconn, $badge);
+    $machine_id = getMachineId($machineconn, $terminal_id, $terminal_type);
 
-    $result = $machineconn->query("SELECT employee_idEmployee FROM machine WHERE terminal_id = '$terminal_id' AND terminal_type = '$terminal_type'");
-    
-    if ($result->num_rows == 0) {
+    if (!$machine_id) {
         return false;
     }
 
-    $sql = "UPDATE machine SET employee_idEmployee = $employeeId WHERE terminal_id = '$terminal_id' AND terminal_type = '$terminal_type'";
-    
+    // $startTime = date("Y-m-d H:i:s"); // vermutlich Zeitstempel aus dem Terminal sein!
+    $sql = "INSERT INTO machine_employee (machine_id, employee_id, start_time, state) 
+            VALUES ($machine_id, $employeeId, '$timestamp', 'start')";
+
     if (!$machineconn->query($sql)) {
-        logDB($machineconn, 'ERROR', 'Badge ist nicht registriert.');
+        logDB($machineconn, 'ERROR', 'Fehler beim Starten der Sitzung.');
         return false;
     }
+    
+    updateMachineState($machineconn, $terminal_id, $terminal_type, 'active');
 
-    updateMachineState($machineconn, $terminal_id, $terminal_type, 'active'); 
+    return true;
 }
+
+// function startEmployeeOnMachine($machineconn, $terminal_id, $terminal_type, $badge) {
+//     $employeeId = getBadgeId($machineconn, $badge);
+
+//     $result = $machineconn->query("SELECT employee_idEmployee FROM machine WHERE terminal_id = '$terminal_id' AND terminal_type = '$terminal_type'");
+    
+//     if ($result->num_rows == 0) {
+//         return false;
+//     }
+
+//     $sql = "UPDATE machine SET employee_idEmployee = $employeeId WHERE terminal_id = '$terminal_id' AND terminal_type = '$terminal_type'";
+    
+//     if (!$machineconn->query($sql)) {
+//         logDB($machineconn, 'ERROR', 'Badge ist nicht registriert.');
+//         return false;
+//     }
+
+//     updateMachineState($machineconn, $terminal_id, $terminal_type, 'active'); 
+// }
 
 function stopEmployeeOnMachine($machineconn, $terminal_id, $terminal_type, $badge) {
     $employeeId = getBadgeId($machineconn, $badge);
