@@ -44,7 +44,7 @@ switch ($table) {
                 break;
         
             case 'end':                
-                stopEmployeeOnMachine($machineconn, $terminal_id, $terminal_type, $badge);
+                stopEmployeeOnMachine($machineconn, $terminal_id, $terminal_type, $badge, $timestamp);
                 break;
                 
             case 'start_order':
