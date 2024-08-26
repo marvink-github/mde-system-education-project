@@ -2,8 +2,9 @@
 header("Content-Type: application/json");
 require_once __DIR__ . '/../connection.php'; 
 
-$userId = $_POST['userid'] ?? null;
-$badge = $_POST['badge'] ?? null; 
+$input = json_decode(file_get_contents('php://input'), true);
+$userId = $input['userid'] ?? null;
+$badge = $input['badge'] ?? null; 
 
 if (!$userId) {
     http_response_code(400);
@@ -27,7 +28,7 @@ if ($result->num_rows > 0) {
 
         if ($badgeResult->num_rows > 0) {        
             http_response_code(409); 
-            echo json_encode(["message" => "Fehler: Badge bereits vorhanden für einen anderen Benutzer."]);
+            echo json_encode(["message" => "Fehler: Badge bereits vergeben."]);
             $machineconn->close();
             exit();
         } else {            

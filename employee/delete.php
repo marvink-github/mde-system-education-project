@@ -40,7 +40,7 @@ if ($machineconn->query($sqlDeleteEmployee) === TRUE) {
     http_response_code(200);
     echo json_encode(["message" => "Mitarbeiter erfolgreich gelöscht."]);
 } else {
-    http_response_code(500);
+    http_response_code(400);
     echo json_encode(["message" => "Fehler beim Löschen des Mitarbeiters: " . $machineconn->error]);
 }
 
