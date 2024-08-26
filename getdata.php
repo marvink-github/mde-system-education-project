@@ -30,9 +30,8 @@ switch ($table) {
         // $projekt = $_GET ['df_col_Projekt'];           
               
         switch ($action) {
-            case 'insert':
-                $employeeId = getEmployeeId($machineconn, $userid);
-                registryBadge($machineconn, $userid, $badge, $employeeId);
+            case 'insert':                
+                registryBadge($machineconn, $userid, $badge);
                 break;
         
             case 'delete':
@@ -48,7 +47,7 @@ switch ($table) {
                 break;
                 
             case 'start_order':
-                startOrder($machineconn, $badge, $timestamp, $barcode);
+                startOrder($machineconn, $badge, $timestamp, $barcode, $terminal_id, $terminal_type);
                 break;
             
             case 'finish_order':
