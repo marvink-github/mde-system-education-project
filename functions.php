@@ -1,11 +1,5 @@
 <?php
 
-function createDirIfNotExists($dir, $mode = 0700) {
-    if (!is_dir($dir)) {
-        mkdir($dir, $mode, true);
-    }
-}
-
 
 function sendResponse($responseParams = [], $statuscode = 200) { 
     http_response_code($statuscode);
@@ -38,19 +32,6 @@ function logDB($machineconn, $logType, $logMessage) {
     
     if (!$result) {
         error_log("Fehler bei der Log-Anweisung: " . mysqli_error($machineconn));
-    }
-}
-
-
-function insertMachineIfNotExists($machineconn, $terminal_id, $terminal_type) {
-    $sql = "SELECT idMachine FROM machine WHERE terminal_id = '$terminal_id' AND terminal_type = '$terminal_type'";
-    $result = $machineconn->query($sql);
-
-    if ($result->num_rows == 0) {
-        $insert_sql = "INSERT INTO machine (terminal_id, terminal_type) VALUES ('$terminal_id', '$terminal_type')";
-        if (!$machineconn->query($insert_sql)) {
-            return false;
-        }
     }
 }
 
@@ -93,7 +74,7 @@ function insertEmployee($machineconn, $userid) {
 
 
 function getBadgeId($machineconn, $badge) {
-    $sql = $machineconn->query("SELECT employee_idEmployee FROM authentification WHERE badge = '$badge'");
+    $sql = $machineconn->query("SELECT employee_idEmployee FROM authentication WHERE badge = '$badge'");
 
     if (!$sql) {
         return false;
@@ -109,7 +90,7 @@ function getBadgeId($machineconn, $badge) {
 
 
 function insertBadge($machineconn, $badge, $employeeId) {
-    $sql = "INSERT INTO authentification (badge, employee_idEmployee) VALUES ('$badge', $employeeId)";
+    $sql = "INSERT INTO authentication (badge, employee_idEmployee) VALUES ('$badge', $employeeId)";
     if (!$machineconn->query($sql)) {
         exit("Fehler beim Einfügen des Badges: " . $machineconn->error);
     }
@@ -117,7 +98,7 @@ function insertBadge($machineconn, $badge, $employeeId) {
 
 
 function updateBadge($machineconn, $badge, $employeeId) {
-    $sql = "UPDATE authentification SET employee_idEmployee = $employeeId WHERE badge = '$badge'";
+    $sql = "UPDATE authentication SET employee_idEmployee = $employeeId WHERE badge = '$badge'";
     
     if (!$machineconn->query($sql)) {
         exit("Fehler beim Aktualisieren des Badges: " . $machineconn->error);
@@ -126,7 +107,7 @@ function updateBadge($machineconn, $badge, $employeeId) {
 
 
 function deleteBadge($machineconn, $badge) {
-    $sql = "DELETE FROM authentification WHERE badge = '$badge'";
+    $sql = "DELETE FROM authentication WHERE badge = '$badge'";
     
     if (!$machineconn->query($sql)) {
         exit("Fehler beim Löschen des Badges: " . $machineconn->error);
@@ -320,17 +301,6 @@ function getMachineAndEmployeeId($machineconn, $terminal_id, $terminal_type) {
         'idMachine' => $row['idMachine'],
         'employee_idEmployee' => $row['employee_idEmployee']
     ];
-}
-
-
-function deleteEmployee($machineconn, $employeeId) {
-    $sql = "DELETE FROM employee WHERE idEmployee = $employeeId";
-
-    if (!$machineconn->query($sql)) {
-        return false;
-    }
-
-    return true;
 }
 
 ?>
