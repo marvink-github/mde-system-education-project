@@ -28,13 +28,13 @@ function sendResponse($responseParams = [], $statuscode = 200) {
 
 
 function logDB($machineconn, $logType, $logMessage) {
-    // Extra für $_GET 
+    // Extra für alle $_GET 
     if (is_array($logMessage)) {
         $logMessage = http_build_query($logMessage);
     }
     
-    $logSql = "INSERT INTO log (log_type, log_message) VALUES ('$logType', '$logMessage')";
-    $result = mysqli_query($machineconn, $logSql);
+    $sql = "INSERT INTO log (log_type, log_message) VALUES ('$logType', '$logMessage')";
+    $result = $machineconn->query($sql);
     
     if (!$result) {
         error_log("Fehler bei der Log-Anweisung: " . mysqli_error($machineconn));
