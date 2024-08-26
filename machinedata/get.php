@@ -27,7 +27,7 @@ if ($from && $to) {
     $sql .= " AND timestamp <= '$to'";
 }
 
-if ($userId) {
+if ($employeeId) {
     $sql .= " AND employee_idEmployee = '$employeeId'"; 
 }
 
