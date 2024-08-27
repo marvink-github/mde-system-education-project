@@ -16,7 +16,6 @@ $page = $_GET['page'] ?? 1;
 $limit = $_GET['limit'] ?? 200;
 
 $offset = ($page - 1) * $limit;
-// WHERE 1=1 auch um page1 sozusagen zu initalisieren
 $sql = "SELECT * FROM machinedata WHERE 1=1"; // Start mit einer immer wahren Bedingung, damit z.B. from && to nicht mit WHERE angehängt werden muss, sondern mit AND.
 
 if ($from && $to) {
