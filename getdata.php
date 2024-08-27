@@ -75,33 +75,36 @@ switch ($table) {
         $terminal_type = $_GET['df_col_T_Type']; 
         $d_entry_count = $_GET['df_col_D_Entry_Counter']; // Umbennen in df_col_D_Entry_Count
         $d_entry_start = $_GET['df_col_D_Entry_StartStop']; 
-        $action = $_GET['df_col_Identifier'];
+        $action = $_GET['df_col_Identifier']; // in action umbenennen
         $value = $_GET['df_col_Value'];     
 
         switch($action){
             case 'start':
-                // Maschine wurde gestartet, Maschinendatensatz mit 'start' in value
-                // shift beginnt und in tabelle shift dann df_col_DT timestamp für startTime
-                // dig_entry = 3 prüfen und dann in shift die jeweilige idMachine angeben
-                // die aktuelle shift id mit in die kommenden maschinendatensätze schreiben  
                 handleStartAction($machineconn, $timestamp, $terminal_id, $d_entry_start);              
                 break; 
-            case 'startcount': // Wird evtl. immer 0 sein, wenn ja dann stopcount nehmen!
-                // Produktion wurde begonnen, Maschinendatensatz mit '1' in value
+
+            case 'startcount':                 
+                $machine_id = getMachineId($machineconn, $terminal_id, $d_entry_start);
+            
+                if ($machine_id) {
+                    handleMachineData($machineconn, $timestamp, $value, $machine_id);
+                } else {
+                    http_response_code(400);
+                    echo json_encode(["message" => "Maschine wurde nicht gefunden."]);
+                }
                 break;
+            
             case 'stop':
-                // Maschine wurde gestoppt, Maschinendatensatz mit 'stop' in value
-                // shift beenden und in tabelle shift dann df_col_DT timestamp für endTime
-                
+                $machine_id = getMachineId($machineconn, $terminal_id, $d_entry_start);
+            
+                if ($machine_id) {
+                    handleStopAction($machineconn, $timestamp, $machine_id);  
+                } else {
+                    http_response_code(400);
+                    echo json_encode(["message" => "Maschine wurde nicht gefunden."]);
+                }
+                break;
         }
-
-
-        // $ids = getMachineAndEmployeeId($machineconn, $terminal_id , $terminal_type);  
-        // $machineId = $ids['idMachine'];
-        // $employeeId = $ids['employee_idEmployee'];
-
-        // insertMachineData($machineconn, $timestamp, $digital_entry, $value, $machineId, $employeeId); 
-        break;
 
     case 'Einstellung':
         $data = [             

@@ -321,20 +321,17 @@ function isOrderNumberExists($machineconn, $barcode) {
 }
 
 
-function getMachineId($machineconn, $terminal_id, $terminal_type) {
-    $sql = "SELECT idMachine FROM machine WHERE terminal_id = '$terminal_id' AND terminal_type = '$terminal_type'";
-    $result = $machineconn->query($sql);
-    if (!$result) {        
+function getMachineId($machineconn, $terminal_id, $d_entry_start) {
+    $machineSql = "SELECT m.idMachine FROM machine AS m 
+                   JOIN device AS d ON m.device_idDevice = d.idDevice 
+                   WHERE d.terminal_id = '$terminal_id' AND m.d_entry_startstop = '$d_entry_start'";
+    $machineResult = $machineconn->query($machineSql);
+
+    if ($machineResult->num_rows > 0) {
+        return $machineResult->fetch_assoc()['idMachine'];
+    } else {
         return false;
     }
-
-    if ($result->num_rows == 0) {        
-        return false;
-    }
-
-    $machineRow = $result->fetch_assoc();
-    $machineId = $machineRow['idMachine'];
-    return $machineId;
 }
 
 
@@ -377,8 +374,7 @@ function getMachineAndEmployeeId($machineconn, $terminal_id, $terminal_type) {
 
 function handleStartAction($machineconn, $timestamp, $terminal_id, $d_entry_start) {
     // Überprüfen, ob die Maschine existiert und den richtigen Status hat
-    // Auf die machine-Tabelle zugegriffen, um die richtige idMachine zu finden
-    $machineSql = "SELECT m.idMachine, m.state FROM machine AS m 
+    $machineSql = "SELECT m.idMachine, m.state, d.idDevice FROM machine AS m 
                    JOIN device AS d ON m.device_idDevice = d.idDevice 
                    WHERE d.terminal_id = '$terminal_id' AND m.d_entry_startstop = '$d_entry_start'";
                    
@@ -386,7 +382,7 @@ function handleStartAction($machineconn, $timestamp, $terminal_id, $d_entry_star
 
     if ($machineResult->num_rows === 0) {
         http_response_code(400);
-        echo json_encode(["message" => "Maschine oder digitale Eingabe wurde nicht gefunden."]);
+        echo json_encode(["message" => "Maschine oder digitale Eingabe wurde nicht gefunden."], JSON_PRETTY_PRINT);
         return;
     }
 
@@ -394,35 +390,103 @@ function handleStartAction($machineconn, $timestamp, $terminal_id, $d_entry_star
 
     if ($machine['state'] === 'active') {
         http_response_code(400);
-        echo json_encode(["message" => "Maschine ist bereits aktiv."]);
+        echo json_encode(["message" => "Maschine ist bereits aktiv."], JSON_PRETTY_PRINT);
         return;
     }
 
+    // Überprüfen, ob bereits eine aktive Schicht existiert
+    $checkShiftSql = "SELECT idshift FROM shift 
+                      WHERE machine_idMachine = " . $machine['idMachine'] . " AND endTime IS NULL";
+
+    $shiftResult = $machineconn->query($checkShiftSql);
+
+    if ($shiftResult->num_rows > 0) {
+        http_response_code(400);
+        echo json_encode(["message" => "Eine aktive Schicht bei dieser Maschine existiert bereits."], JSON_PRETTY_PRINT);
+        return;
+    }
+
+    // Update machine status
     $updateMachineSql = "UPDATE machine SET state = 'active' WHERE idMachine = " . $machine['idMachine'];
     
-    if ($machineconn->query($updateMachineSql) === TRUE) {        
-        $shiftSql = "INSERT INTO shift (startTime, machine_idMachine) VALUES ('$timestamp', " . $machine['idMachine'] . ")";
+    if ($machineconn->query($updateMachineSql) === TRUE) {
+        // Update device status
+        $updateDeviceSql = "UPDATE device SET state = 'active' WHERE idDevice = " . $machine['idDevice'];
         
-        if ($machineconn->query($shiftSql) === TRUE) {
-            $idshift = $machineconn->insert_id;
-            http_response_code(200);
-            echo json_encode([
-                "message" => "Maschine erfolgreich gestartet.",
-                "idshift" => $idshift,
-                // "userid" => $userid // von Clientenseite
-                "machineId" => $machine['idMachine'],
-                "startTime" => $timestamp
-            ]);
+        if ($machineconn->query($updateDeviceSql) === TRUE) {
+            // Insert into shift table
+            $shiftSql = "INSERT INTO shift (startTime, machine_idMachine) VALUES ('$timestamp', " . $machine['idMachine'] . ")";
+            
+            if ($machineconn->query($shiftSql) === TRUE) {
+                $idshift = $machineconn->insert_id;
+                http_response_code(200);
+                echo json_encode([
+                    "message" => "Maschine und Device erfolgreich gestartet.",
+                    "idshift" => $idshift,
+                    "machineId" => $machine['idMachine'],
+                    "startTime" => $timestamp
+                ], JSON_PRETTY_PRINT);
+            } else {
+                http_response_code(400);
+                echo json_encode(["message" => "Fehler beim Starten der Schicht: " . $machineconn->error], JSON_PRETTY_PRINT);
+            }
         } else {
             http_response_code(400);
-            echo json_encode(["message" => "Fehler beim Starten der Schicht: " . $machineconn->error]);
+            echo json_encode(["message" => "Fehler beim Aktualisieren des Gerätestatus: " . $machineconn->error], JSON_PRETTY_PRINT);
         }
     } else {
         http_response_code(400);
-        echo json_encode(["message" => "Fehler beim Starten der Maschine: " . $machineconn->error]);
+        echo json_encode(["message" => "Fehler beim Starten der Maschine: " . $machineconn->error], JSON_PRETTY_PRINT);
     }
 }
 
+
+function handleMachineData($machineconn, $timestamp, $value, $machine_id) {
+    // Überprüfen, ob eine aktive Schicht existiert für diese Machine
+    $currentShiftSql = "SELECT idshift FROM shift WHERE machine_idMachine = $machine_id AND endTime IS NULL";
+    $currentShiftResult = $machineconn->query($currentShiftSql);
+
+    if ($currentShiftResult->num_rows > 0) {
+        $shift = $currentShiftResult->fetch_assoc();
+        $shift_id = $shift['idshift'];
+
+        // Maschinendaten speichern
+        $machineDataSql = "INSERT INTO machinedata (timestamp, value, shift_idshift) 
+                           VALUES ('$timestamp', '$value', '$shift_id')";
+        
+        if ($machineconn->query($machineDataSql) === TRUE) {
+            http_response_code(200);
+            echo json_encode(["message" => "Maschinendaten erfolgreich gespeichert."]);
+        } else {
+            http_response_code(400);
+            echo json_encode(["message" => "Fehler beim Speichern der Maschinendaten: " . $machineconn->error]);
+        }
+    } else {
+        http_response_code(400);
+        echo json_encode(["message" => "Keine aktive Schicht für diese Maschine gefunden."]);
+    }
+}
+
+
+function handleStopAction($machineconn, $timestamp, $machine_id) {
+
+    $updateMachineSql = "UPDATE machine SET state = 'stop' WHERE idMachine = $machine_id";
+
+    if ($machineconn->query($updateMachineSql) === TRUE) {
+        $updateShiftSql = "UPDATE shift SET endTime = '$timestamp' WHERE machine_idMachine = $machine_id AND endTime IS NULL";
+
+        if ($machineconn->query($updateShiftSql) === TRUE) {
+            http_response_code(200);
+            echo json_encode(["message" => "Maschine erfolgreich gestoppt und Schicht beendet."]);
+        } else {
+            http_response_code(400);
+            echo json_encode(["message" => "Fehler beim Beenden der Schicht: " . $machineconn->error]);
+        }
+    } else {
+        http_response_code(400);
+        echo json_encode(["message" => "Fehler beim Stoppen der Maschine: " . $machineconn->error]);
+    }
+}
 
 
 ?>
