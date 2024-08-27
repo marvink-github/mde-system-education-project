@@ -3,7 +3,7 @@
 $machinehost = "localhost"; 
 $machineusername = "root"; 
 $machinepassword = "root"; 
-$machinedb = "machinedb_v2";
+$machinedb = "machinedb_v3";
 
 $machineconn = mysqli_connect($machinehost, $machineusername, $machinepassword, $machinedb);
 

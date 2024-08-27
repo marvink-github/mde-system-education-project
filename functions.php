@@ -374,4 +374,55 @@ function getMachineAndEmployeeId($machineconn, $terminal_id, $terminal_type) {
     ];
 }
 
+
+function handleStartAction($machineconn, $timestamp, $terminal_id, $d_entry_start) {
+    // Überprüfen, ob die Maschine existiert und den richtigen Status hat
+    // Auf die machine-Tabelle zugegriffen, um die richtige idMachine zu finden
+    $machineSql = "SELECT m.idMachine, m.state FROM machine AS m 
+                   JOIN device AS d ON m.device_idDevice = d.idDevice 
+                   WHERE d.terminal_id = '$terminal_id' AND m.d_entry_startstop = '$d_entry_start'";
+                   
+    $machineResult = $machineconn->query($machineSql);
+
+    if ($machineResult->num_rows === 0) {
+        http_response_code(400);
+        echo json_encode(["message" => "Maschine oder digitale Eingabe wurde nicht gefunden."]);
+        return;
+    }
+
+    $machine = $machineResult->fetch_assoc();
+
+    if ($machine['state'] === 'active') {
+        http_response_code(400);
+        echo json_encode(["message" => "Maschine ist bereits aktiv."]);
+        return;
+    }
+
+    $updateMachineSql = "UPDATE machine SET state = 'active' WHERE idMachine = " . $machine['idMachine'];
+    
+    if ($machineconn->query($updateMachineSql) === TRUE) {        
+        $shiftSql = "INSERT INTO shift (startTime, machine_idMachine) VALUES ('$timestamp', " . $machine['idMachine'] . ")";
+        
+        if ($machineconn->query($shiftSql) === TRUE) {
+            $idshift = $machineconn->insert_id;
+            http_response_code(200);
+            echo json_encode([
+                "message" => "Maschine erfolgreich gestartet.",
+                "idshift" => $idshift,
+                // "userid" => $userid // von Clientenseite
+                "machineId" => $machine['idMachine'],
+                "startTime" => $timestamp
+            ]);
+        } else {
+            http_response_code(400);
+            echo json_encode(["message" => "Fehler beim Starten der Schicht: " . $machineconn->error]);
+        }
+    } else {
+        http_response_code(400);
+        echo json_encode(["message" => "Fehler beim Starten der Maschine: " . $machineconn->error]);
+    }
+}
+
+
+
 ?>
