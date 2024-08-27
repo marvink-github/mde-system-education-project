@@ -78,8 +78,7 @@ if ($result->num_rows > 0) {
                 echo json_encode(["message" => "Fehler beim Hinzufügen des Mitarbeiters: " . $machineconn->error]);
             }
         }
-    } else {
-        // Füge Benutzer nur hinzu, wenn kein Badge angegeben ist und kein Konflikt besteht
+    } else {        
         $sql = "INSERT INTO employee (userid) VALUES ('$userId')";
 
         if ($machineconn->query($sql)) {
