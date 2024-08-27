@@ -319,7 +319,7 @@ function handleStartAction($machineconn, $timestamp, $terminal_id, $d_entry_star
     $machineStateResult = $machineconn->query($machineStateSql);
     $machine = $machineStateResult->fetch_assoc();
 
-    if ($machine['state'] === 'active') {
+    if ($machine['state'] === 'start') {
         http_response_code(400);
         echo json_encode(["message" => "Maschine ist bereits aktiv."], JSON_PRETTY_PRINT);
         return;
@@ -336,7 +336,7 @@ function handleStartAction($machineconn, $timestamp, $terminal_id, $d_entry_star
     }
 
     // Update machine status
-    $updateMachineSql = "UPDATE machine SET state = 'active' WHERE idMachine = $machine_id";
+    $updateMachineSql = "UPDATE machine SET state = 'start' WHERE idMachine = $machine_id";
 
     if ($machineconn->query($updateMachineSql) === TRUE) {
         // Update device status
@@ -350,7 +350,7 @@ function handleStartAction($machineconn, $timestamp, $terminal_id, $d_entry_star
                 $idshift = $machineconn->insert_id;
                 http_response_code(200);
                 echo json_encode([
-                    "message" => "Maschine und Device erfolgreich gestartet.",
+                    "message" => "Maschine und Schicht erfolgreich gestartet.",
                     "idshift" => $idshift,
                     "machineId" => $machine_id,
                     "startTime" => $timestamp
@@ -418,7 +418,7 @@ function handleMachineData($machineconn, $timestamp, $terminal_id, $value, $d_en
         }
     } else {
         http_response_code(400);
-        echo json_encode(["message" => "Keine aktive Schicht für diese Maschine gefunden."], JSON_PRETTY_PRINT);
+        echo json_encode(["message" => "Keine aktive Schicht fuer diese Maschine gefunden."], JSON_PRETTY_PRINT);
     }
 }
 

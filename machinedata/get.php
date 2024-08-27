@@ -12,11 +12,12 @@ require_once __DIR__ . '/../connection.php';
 $from = $_GET['from'] ?? null;
 $to = $_GET['to'] ?? null;
 $userid = $_GET['userid'] ?? null;
+$shift = $_GET['shift'] ?? null; 
 $page = $_GET['page'] ?? 1;
 $limit = $_GET['limit'] ?? 200;
 
 $offset = ($page - 1) * $limit;
-$sql = "SELECT * FROM machinedata WHERE 1=1"; // Start mit einer immer wahren Bedingung, damit z.B. from && to nicht mit WHERE angehängt werden muss, sondern mit AND.
+$sql = "SELECT * FROM machinedata WHERE 1=1"; 
 
 if ($from && $to) {
     $sql .= " AND timestamp BETWEEN '$from' AND '$to'";
@@ -28,6 +29,10 @@ if ($from && $to) {
 
 if ($userid) {
     $sql .= " AND userid = '$userid'"; 
+}
+
+if ($shift) {
+    $sql .= " AND shift_idshift = '$shift'";
 }
 
 $sql .= " LIMIT $limit OFFSET $offset";
@@ -46,7 +51,7 @@ while ($row = $result->fetch_assoc()) {
     $data[] = $row;
 }
 
-echo json_encode($data);
+echo json_encode($data, JSON_PRETTY_PRINT);
 
 $machineconn->close();
 ?>

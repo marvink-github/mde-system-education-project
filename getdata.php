@@ -72,18 +72,21 @@ switch ($table) {
     case 'MDE':   
         $timestamp = $_GET['df_col_DT']; 
         $terminal_id = $_GET['df_col_T_ID']; 
-        $terminal_type = $_GET['df_col_T_Type']; 
+        // $terminal_type = $_GET['df_col_T_Type']; Brauchen wir nicht
         $d_entry_count = $_GET['df_col_D_Counter'] ?? null; 
         $d_entry_startstop = $_GET['df_col_D_StartStop'] ?? null; 
         $action = $_GET['df_col_Identifier']; 
         $value = $_GET['df_col_Value'] ?? null;   
 
         switch($action){
-            case 'start':                
+            case 'start':     
+                // Reicht nicht eigentlich die terminal_id? Wahrscheinlich nur wenn sie enzigartig ist und das war sie glaub ich nicht          
                 handleStartAction($machineconn, $timestamp, $terminal_id, $d_entry_startstop);
-                break;
-        
-            case 'startcount':                 
+                break;        
+            
+            case 'count':      
+                // Falls die Value immer null sein sollte beim Terminaltest
+                // -> Im Setup Counter_D3_Start auf gestoppte Maschine setzen und dann sollten die korrekten Werte übertragen werden.     
                 handleMachineData($machineconn, $timestamp, $terminal_id, $value, $d_entry_count);
                 break;
             

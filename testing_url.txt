@@ -5,7 +5,7 @@ start:
 http://127.0.0.1/api/getdata.php?df_api=1&df_table=MDE&df_col_DT=2024-08-27%2016:00:00&df_col_T_ID=3533&df_col_T_Type=EVO%204.6%20FlexKey&df_col_D_StartStop=4&df_col_Identifier=start
 
 count: 
-http://127.0.0.1/api/getdata.php?df_api=1&df_table=MDE&df_col_DT=2024-08-27%2016:00:00&df_col_T_ID=3533&df_col_T_Type=EVO%204.6%20FlexKey&df_col_D_Counter=3&df_col_Identifier=startcount&df_col_Value=1
+http://127.0.0.1/api/getdata.php?df_api=1&df_table=MDE&df_col_DT=2024-08-27%2016:00:00&df_col_T_ID=3533&df_col_T_Type=EVO%204.6%20FlexKey&df_col_D_Counter=3&df_col_Identifier=count&df_col_Value=1
 
 stop: 
 http://127.0.0.1/api/getdata.php?df_api=1&df_table=MDE&df_col_DT=2024-08-27%2016:00:00&df_col_T_ID=3533&df_col_T_Type=EVO%204.6%20FlexKey&df_col_D_StartStop=4&df_col_Identifier=stop
