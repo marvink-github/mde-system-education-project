@@ -1,42 +1,11 @@
-Testing:
 
-START Employee on Machine:
-127.0.0.1/api/getdata.php?df_api=1&df_table=Daten&df_col_DT=2024-08-15T15%3A48%3A16&df_col_Badge=OIAHD134&df_col_Identifier=start&df_col_T_ID=3533&df_col_T_Type=EVO%204.6%20FlexKey&df_col_User_ID=50
-127.0.0.1/api/getdata.php?df_api=1&df_table=Daten&df_col_DT=2024-08-15T15%3A48%3A16&df_col_Badge=AIDN143U&df_col_Identifier=start&df_col_T_ID=3533&df_col_T_Type=EVO%204.6%20FlexKey&df_col_User_ID=60
-127.0.0.1/api/getdata.php?df_api=1&df_table=Daten&df_col_DT=2024-08-15T15%3A48%3A16&df_col_Badge=IAJD18AE&df_col_Identifier=start&df_col_T_ID=3533&df_col_T_Type=EVO%204.6%20FlexKey&df_col_User_ID=70
-127.0.0.1/api/getdata.php?df_api=1&df_table=Daten&df_col_DT=2024-08-15T15%3A48%3A16&df_col_Badge=ALADIJ18&df_col_Identifier=start&df_col_T_ID=3533&df_col_T_Type=EVO%204.6%20FlexKey&df_col_User_ID=80
-127.0.0.1/api/getdata.php?df_api=1&df_table=Daten&df_col_DT=2024-08-15T15%3A48%3A16&df_col_Badge=232C416A&df_col_Identifier=start&df_col_T_ID=3533&df_col_T_Type=EVO%204.6%20FlexKey&df_col_User_ID=90
+MDE actions:
 
-STOP Employee on Machine:
-127.0.0.1/api/getdata.php?df_api=1&df_table=Daten&df_col_DT=2024-08-15T15%3A48%3A16&df_col_Badge=OIAHD134&df_col_Identifier=end&df_col_T_ID=3533&df_col_T_Type=EVO%204.6%20FlexKey&df_col_User_ID=50
-127.0.0.1/api/getdata.php?df_api=1&df_table=Daten&df_col_DT=2024-08-15T15%3A48%3A16&df_col_Badge=AIDN143U&df_col_Identifier=end&df_col_T_ID=3533&df_col_T_Type=EVO%204.6%20FlexKey&df_col_User_ID=60
-127.0.0.1/api/getdata.php?df_api=1&df_table=Daten&df_col_DT=2024-08-15T15%3A48%3A16&df_col_Badge=IAJD18AE&df_col_Identifier=end&df_col_T_ID=3533&df_col_T_Type=EVO%204.6%20FlexKey&df_col_User_ID=70
-127.0.0.1/api/getdata.php?df_api=1&df_table=Daten&df_col_DT=2024-08-15T15%3A48%3A16&df_col_Badge=ALADIJ18&df_col_Identifier=end&df_col_T_ID=3533&df_col_T_Type=EVO%204.6%20FlexKey&df_col_User_ID=80
-127.0.0.1/api/getdata.php?df_api=1&df_table=Daten&df_col_DT=2024-08-15T15%3A48%3A16&df_col_Badge=KKAIDEKD&df_col_Identifier=end&df_col_T_ID=3533&df_col_T_Type=EVO%204.6%20FlexKey&df_col_User_ID=90
-127.0.0.1/api/getdata.php?df_api=1&df_table=Daten&df_col_DT=2024-08-15T15%3A48%3A16&df_col_Badge=232C416A&df_col_Identifier=end&df_col_T_ID=3533&df_col_T_Type=EVO%204.6%20FlexKey&df_col_User_ID=896
+start:
+http://127.0.0.1/api/getdata.php?df_api=1&df_table=MDE&df_col_DT=2024-08-27%2016:00:00&df_col_T_ID=3533&df_col_T_Type=EVO%204.6%20FlexKey&df_col_D_StartStop=4&df_col_Identifier=start
 
-Auftrag beginnen:
-127.0.0.1/api/getdata.php?df_api=1&df_table=Daten&df_col_DT=2024-08-22T11%3A52%3A46&df_col_Badge=232C416A&df_col_Identifier=start_order&df_col_T_ID=3533&df_col_T_Type=EVO%204.6%20FlexKey&df_col_QR_Code=271HAUD1378
+count: 
+http://127.0.0.1/api/getdata.php?df_api=1&df_table=MDE&df_col_DT=2024-08-27%2016:00:00&df_col_T_ID=3533&df_col_T_Type=EVO%204.6%20FlexKey&df_col_D_Counter=3&df_col_Identifier=startcount&df_col_Value=1
 
-Auftrag beenden:
-127.0.0.1/api/getdata.php?df_api=1&df_table=Daten&df_col_DT=2024-08-22T11%3A52%3A46&df_col_Badge=232C416A&df_col_Identifier=finish_order&df_col_T_ID=3533&df_col_T_Type=EVO%204.6%20FlexKey&df_col_QR_Code=271HAUD1378
-
-MDE:
-
-Zähler:
-127.0.0.1/api/getdata.php?df_api=1&df_table=MDE&df_col_DT=2024-08-19T14%3A06%3A04&df_col_T_ID=3533&df_col_T_Type=EVO%204.6%20FlexKey&df_col_D_Entry=1&df_col_Identifier=count&df_col_Value=1
-
-Zähler mit Start/Stop per Timeout:
-127.0.0.1/api/getdata.php?df_api=1&df_table=MDE&df_col_DT=2024-08-17T15%3A06%3A04&df_col_T_ID=3533&df_col_T_Type=EVO%204.6%20FlexKey&df_col_D_Entry=1&df_col_Identifier=timeout&df_col_Value=120
-
-Zähler mit Startstop:
-
-   Start:
-   127.0.0.1/api/getdata.php?df_api=1&df_table=MDE&df_col_DT=2024-08-17T15%3A06%3A04&df_col_T_ID=3533&df_col_T_Type=EVO%204.6%20FlexKey&df_col_D_Entry=3&df_col_Identifier=start&df_col_Value=0
-
-   Stop:
-   127.0.0.1/api/getdata.php?df_api=1&df_table=MDE&df_col_DT=2024-08-16T17%3A29%3A52&df_col_T_ID=3533&df_col_T_Type=EVO%204.6%20FlexKey&df_col_D_Entry=3&df_col_Identifier=stop&df_col_Value=50
-
-
-
-
+stop: 
+http://127.0.0.1/api/getdata.php?df_api=1&df_table=MDE&df_col_DT=2024-08-27%2016:00:00&df_col_T_ID=3533&df_col_T_Type=EVO%204.6%20FlexKey&df_col_D_StartStop=4&df_col_Identifier=stop

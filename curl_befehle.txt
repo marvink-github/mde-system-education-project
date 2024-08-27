@@ -1,25 +1,6 @@
-
-Employee:
-
-curl -X POST "http://127.0.0.1/api/employee/post.php" \
-     -H "Content-Type: application/json" \
-     -d '{"userid": "10", "badge": "aa8ad769dz7AD37"}'
-
-# Alle Daten noch von einem Employee per userid oder employeeid abfragen können mit JOINS?
-
-Alle employeeId und userid anzeigen:
-curl -X GET "http://127.0.0.1/api/employee/get.php"
-
-employeeId herausfinden über userId:
-curl -X GET "http://127.0.0.1/api/employee/get.php?userid=80"
-
-userid herausfinden über employeeId:
-curl -X GET "http://127.0.0.1/api/employee/get.php?id=2"
-
-###############################################################################################################
-
 Machinedata:
 
+// NOCH ANPASSEN FÜR NEUE STURKTUR
 from=2024-01-01T00:00:00: Startdatum des Zeitraums.
 to=2024-01-31T23:59:59: Enddatum des Zeitraums.
 employeeId=3: Filtert nach einer bestimmten idEmployee.
@@ -45,32 +26,51 @@ Machine:
 Maschine erstellen:
 curl -X POST "http://127.0.0.1/api/machine/post.php" \
      -H "Content-Type: application/json" \
-     -d '{ "terminal_id": "3533", "terminal_type": "EVO 4.6 FlexKey"}'
+     -d '{ "name": "Testmachine 1", "d_entry_startstop": "4", "d_entry_counter": "3", "device_idDevice": "1"}'
+
+curl -X POST "http://127.0.0.1/api/machine/post.php" \
+     -H "Content-Type: application/json" \
+     -d '{ "name": "Testmachine 2", "d_entry_startstop": "2", "d_entry_counter": "1", "device_idDevice": "1"}'  
 
 Alle Maschinen abrufen:
 curl -X GET "http://127.0.0.1/api/machine/get.php" 
 
 Eine spezifische Maschine abrufen:
-curl -X GET "http://127.0.0.1/api/machine/get.php?id=123"
+curl -X GET "http://127.0.0.1/api/machine/get.php?id=1"
 
 Maschine Patchen, Machine Id muss gesetzt sein (die anderen Parameter sind optional)
 curl -X PATCH "http://127.0.0.1/api/machine/patch.php" \
      -H "Content-Type: application/json" \
-     -d '{ "id": 2, "terminal_id": "3533", "terminal_type": "TestTerminal"}' 
+     -d '{ "id": 1, "name": "Testmachine 2", "d_entry_startstop": "2", "d_entry_counter": "1", "device_idDevice": "1" }'
 
 Maschine löschen nach id:
 curl -X DELETE "http://127.0.0.1/api/machine/delete.php?id=1"
 
-##################################################################################################################
-
-Order:
-
-##################################################################################################################
-
-Authentication:
 
 ##################################################################################################################
 
 Logs:
+
+##################################################################################################################
+
+Shfit:
+
+##################################################################################################################
+
+Device:
+
+Device erstellen:
+curl -X POST "http://127.0.0.1/api/device/post.php" \
+     -H "Content-Type: application/json" \
+     -d '{ "terminal_id": "3533", "terminal_type": "EVO 4.6 FlexKey"}'
+
+Alle Devices abrufen:
+curl -X GET "http://127.0.0.1/api/device/get.php" 
+
+Ein spezifisches Device abrufen:
+curl -X GET "http://127.0.0.1/api/device/get.php?id=1"
+
+Device löschen nach id:
+curl -X DELETE "http://127.0.0.1/api/device/delete.php?id=1"
 
 ##################################################################################################################

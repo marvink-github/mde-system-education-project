@@ -31,19 +31,19 @@ switch ($table) {
               
         switch ($action) {
             case 'insert':                
-                registryBadge($machineconn, $userid, $badge);
+                //registryBadge($machineconn, $userid, $badge);
                 break;
         
             case 'delete':
-                deleteBadge($machineconn, $badge);
+                //deleteBadge($machineconn, $badge);
                 break;
         
             case 'start': 
-                startEmployeeOnMachine($machineconn, $terminal_id, $terminal_type, $badge, $timestamp);
+                //startEmployeeOnMachine($machineconn, $terminal_id, $terminal_type, $badge, $timestamp);
                 break;
         
             case 'end':                
-                stopEmployeeOnMachine($machineconn, $terminal_id, $terminal_type, $badge, $timestamp);
+                //stopEmployeeOnMachine($machineconn, $terminal_id, $terminal_type, $badge, $timestamp);
                 break; 
                 
             case 'start_order':
@@ -52,7 +52,7 @@ switch ($table) {
                 // startTime setzen und state ist default auf 'start'
                 // idOrder mit machinedata verküpfen
                 // brauchen erstmal nur barcode und timestamp
-                startOrder($machineconn, $badge, $timestamp, $barcode, $terminal_id, $terminal_type);
+                //startOrder($machineconn, $badge, $timestamp, $barcode, $terminal_id, $terminal_type);
                 break;
             
             case 'finish_order':
@@ -61,7 +61,7 @@ switch ($table) {
                 // Wenn order abgeschlossen ist, soll die id aus den zukünftige Machinedata entfernt werden.
                 // barcode vergleichen, wenn vorhanden dann auftrag abschließen                
                 // Maybe stückzahl hinzufügen, man kann auftrag erst abschließen wenn diese erfüllt worden sind.
-                finishOrder($machineconn, $badge, $timestamp);
+                //finishOrder($machineconn, $badge, $timestamp);
                 break;
 
             default:
@@ -73,38 +73,28 @@ switch ($table) {
         $timestamp = $_GET['df_col_DT']; 
         $terminal_id = $_GET['df_col_T_ID']; 
         $terminal_type = $_GET['df_col_T_Type']; 
-        $d_entry_count = $_GET['df_col_D_Entry_Counter']; // Umbennen in df_col_D_Entry_Count
-        $d_entry_start = $_GET['df_col_D_Entry_StartStop']; 
-        $action = $_GET['df_col_Identifier']; // in action umbenennen
-        $value = $_GET['df_col_Value'];     
+        $d_entry_count = $_GET['df_col_D_Counter'] ?? null; 
+        $d_entry_startstop = $_GET['df_col_D_StartStop'] ?? null; 
+        $action = $_GET['df_col_Identifier']; 
+        $value = $_GET['df_col_Value'] ?? null;   
 
         switch($action){
-            case 'start':
-                handleStartAction($machineconn, $timestamp, $terminal_id, $d_entry_start);              
-                break; 
-
+            case 'start':                
+                handleStartAction($machineconn, $timestamp, $terminal_id, $d_entry_startstop);
+                break;
+        
             case 'startcount':                 
-                $machine_id = getMachineId($machineconn, $terminal_id, $d_entry_start);
-            
-                if ($machine_id) {
-                    handleMachineData($machineconn, $timestamp, $value, $machine_id);
-                } else {
-                    http_response_code(400);
-                    echo json_encode(["message" => "Maschine wurde nicht gefunden."]);
-                }
+                handleMachineData($machineconn, $timestamp, $terminal_id, $value, $d_entry_count);
                 break;
             
-            case 'stop':
-                $machine_id = getMachineId($machineconn, $terminal_id, $d_entry_start);
-            
-                if ($machine_id) {
-                    handleStopAction($machineconn, $timestamp, $machine_id);  
-                } else {
-                    http_response_code(400);
-                    echo json_encode(["message" => "Maschine wurde nicht gefunden."]);
-                }
+            case 'stop':                             
+                handleStopAction($machineconn, $timestamp, $terminal_id, $d_entry_startstop);                  
                 break;
+
+            default:
+                exit;
         }
+        break;
 
     case 'Einstellung':
         $data = [             
