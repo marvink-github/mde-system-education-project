@@ -1,6 +1,5 @@
 <?php 
 
-header("Content-Type: application/json");
 require_once __DIR__ . '/../connection.php';
 
 $machineId = $_GET['id'] ?? null;

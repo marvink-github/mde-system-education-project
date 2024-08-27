@@ -1,8 +1,6 @@
 <?php
 require_once __DIR__ . '/../connection.php';
 
-header("Content-Type: application/json");
-
 if (isset($_GET['id'])) {
     $id = $machineconn->real_escape_string($_GET['id']);
 

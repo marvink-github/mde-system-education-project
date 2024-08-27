@@ -1,8 +1,6 @@
 <?php
 require_once __DIR__ . '/../connection.php';
 
-header("Content-Type: application/json");
-
 // Nur um bestimmte user Datensätze zu löschen, sollte aber eigentlich über die employee tabelle passieren, 
 // dort wird dann die userid gelöscht mitcascade sollten alle datensätze von dem employee gelöscht werden
 if (isset($_GET['userid'])) {
