@@ -21,7 +21,6 @@ function sendResponse($responseParams = [], $statuscode = 200) {
 
 
 function logDB($machineconn, $logType, $logMessage) {
-    // Extra für alle $_GET 
     if (is_array($logMessage)) {
         $logMessage = http_build_query($logMessage);
     }
@@ -119,24 +118,6 @@ function deleteBadge($machineconn, $badge) {
     }
 }
 
-// function startEmployeeOnMachine($machineconn, $terminal_id, $terminal_type, $badge) {
-//     $employeeId = getBadgeId($machineconn, $badge);
-
-//     $result = $machineconn->query("SELECT employee_idEmployee FROM machine WHERE terminal_id = '$terminal_id' AND terminal_type = '$terminal_type'");
-    
-//     if ($result->num_rows == 0) {
-//         return false;
-//     }
-
-//     $sql = "UPDATE machine SET employee_idEmployee = $employeeId WHERE terminal_id = '$terminal_id' AND terminal_type = '$terminal_type'";
-    
-//     if (!$machineconn->query($sql)) {
-//         logDB($machineconn, 'ERROR', 'Badge ist nicht registriert.');
-//         return false;
-//     }
-
-//     updateMachineState($machineconn, $terminal_id, $terminal_type, 'active'); 
-// }
 
 function stopEmployeeOnMachine($machineconn, $terminal_id, $terminal_type, $badge, $timestamp) {
     $employeeId = getBadgeId($machineconn, $badge);
@@ -314,7 +295,6 @@ function handleStartAction($machineconn, $timestamp, $terminal_id, $d_entry_star
         return;
     }
 
-    // Überprüfen, ob die Maschine aktiv ist
     $machineStateSql = "SELECT state, (SELECT idDevice FROM device WHERE idDevice = (SELECT device_idDevice FROM machine WHERE idMachine = $machine_id)) AS idDevice FROM machine WHERE idMachine = $machine_id";
     $machineStateResult = $machineconn->query($machineStateSql);
     $machine = $machineStateResult->fetch_assoc();
@@ -325,7 +305,6 @@ function handleStartAction($machineconn, $timestamp, $terminal_id, $d_entry_star
         return;
     }
 
-    // Überprüfen, ob bereits eine aktive Schicht existiert
     $checkShiftSql = "SELECT idshift FROM shift WHERE machine_idMachine = $machine_id AND endTime IS NULL";
     $shiftResult = $machineconn->query($checkShiftSql);
 
@@ -335,15 +314,12 @@ function handleStartAction($machineconn, $timestamp, $terminal_id, $d_entry_star
         return;
     }
 
-    // Update machine status
     $updateMachineSql = "UPDATE machine SET state = 'start' WHERE idMachine = $machine_id";
 
     if ($machineconn->query($updateMachineSql) === TRUE) {
-        // Update device status
         $updateDeviceSql = "UPDATE device SET state = 'active' WHERE idDevice = " . $machine['idDevice'];
 
         if ($machineconn->query($updateDeviceSql) === TRUE) {
-            // Insert into shift table
             $shiftSql = "INSERT INTO shift (startTime, machine_idMachine) VALUES ('$timestamp', $machine_id)";
 
             if ($machineconn->query($shiftSql) === TRUE) {
@@ -379,7 +355,6 @@ function handleMachineData($machineconn, $timestamp, $terminal_id, $value, $d_en
         return;
     }
 
-    // Überprüfen, ob eine aktive Schicht existiert für diese Maschine
     $currentShiftSql = "SELECT idshift FROM shift WHERE machine_idMachine = $machine_id AND endTime IS NULL";
     $currentShiftResult = $machineconn->query($currentShiftSql);
 
@@ -387,21 +362,18 @@ function handleMachineData($machineconn, $timestamp, $terminal_id, $value, $d_en
         $shift = $currentShiftResult->fetch_assoc();
         $shift_id = $shift['idshift'];
 
-        // Überprüfen, ob der d_entry_count für die Maschine korrekt ist
         $countSql = "SELECT d_entry_counter FROM machine WHERE idMachine = $machine_id";
         $countResult = $machineconn->query($countSql);
 
         if ($countResult->num_rows > 0) {
             $machine = $countResult->fetch_assoc();
 
-            // Überprüfen, ob der übergebene d_entry_count mit dem in der Datenbank übereinstimmt
             if ($machine['d_entry_counter'] != $d_entry_count) {
                 http_response_code(400);
                 echo json_encode(["message" => "d_entry_count stimmt nicht mit der Maschine überein."], JSON_PRETTY_PRINT);
                 return;
             }
 
-            // Maschinendaten speichern
             $machineDataSql = "INSERT INTO machinedata (timestamp, value, shift_idshift) 
                                VALUES ('$timestamp', '$value', '$shift_id')";
             
@@ -432,11 +404,9 @@ function handleStopAction($machineconn, $timestamp, $terminal_id, $d_entry_start
         return;
     }
 
-    // Update der Maschine auf "stop"
     $updateMachineSql = "UPDATE machine SET state = 'stop' WHERE idMachine = $machine_id";
 
     if ($machineconn->query($updateMachineSql) === TRUE) {
-        // Update der Schicht mit dem Endzeitstempel
         $updateShiftSql = "UPDATE shift SET endTime = '$timestamp' WHERE machine_idMachine = $machine_id AND endTime IS NULL";
 
         if ($machineconn->query($updateShiftSql) === TRUE) {

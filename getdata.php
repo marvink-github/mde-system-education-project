@@ -19,68 +19,31 @@ if (empty($table)) exit;
 
 switch ($table) {
     case 'Daten':
-        $timestamp = $_GET['df_col_DT']; 
-        $badge = $_GET['df_col_Badge']; 
-        $action = $_GET['df_col_Identifier'];
-        $terminal_id = $_GET['df_col_T_ID'];
-        $terminal_type = $_GET['df_col_T_Type'];
-        $userid = $_GET['df_col_User_ID'] ?? null;
-        $barcode = $_GET['df_col_QR_Code'] ?? null; // Muss noch im Terminal in barcode umbenannt werden!!! df_col_Barcode
-        // $inputtype = $_GET['df_col_Inputtyp']; 
-        // $projekt = $_GET ['df_col_Projekt'];           
-              
-        switch ($action) {
-            case 'insert':                
-                //registryBadge($machineconn, $userid, $badge);
-                break;
-        
-            case 'delete':
-                //deleteBadge($machineconn, $badge);
-                break;
-        
-            case 'start': 
-                //startEmployeeOnMachine($machineconn, $terminal_id, $terminal_type, $badge, $timestamp);
-                break;
-        
-            case 'end':                
-                //stopEmployeeOnMachine($machineconn, $terminal_id, $terminal_type, $badge, $timestamp);
-                break; 
-                
-            case 'start_order':
-                // Starten (Nicht notwendig)
-                // ordernumber der order Tabelle hinzufügen 
-                // startTime setzen und state ist default auf 'start'
-                // idOrder mit machinedata verküpfen
-                // brauchen erstmal nur barcode und timestamp
-                //startOrder($machineconn, $badge, $timestamp, $barcode, $terminal_id, $terminal_type);
-                break;
-            
-            case 'finish_order':
-                // Beenden (Nicht notwendig)
-                // endTime setzen und state auf 'finished' setzen
-                // Wenn order abgeschlossen ist, soll die id aus den zukünftige Machinedata entfernt werden.
-                // barcode vergleichen, wenn vorhanden dann auftrag abschließen                
-                // Maybe stückzahl hinzufügen, man kann auftrag erst abschließen wenn diese erfüllt worden sind.
-                //finishOrder($machineconn, $badge, $timestamp);
-                break;
-
-            default:
-                exit;
-        }
+        $data = [             
+            $_GET['df_col_DT'] ?? null,
+            $_GET['df_col_Badge'] ?? null,
+            $_GET['df_col_Identifier'] ?? null,
+            $_GET['df_col_T_ID'] ?? null,
+            $_GET['df_col_T_Type'] ?? null,
+            $_GET['df_col_User_ID'] ?? null,
+            $_GET['df_col_QR_Code'] ?? null,
+            $_GET['df_col_Inputtyp'] ?? null,
+            $_GET ['df_col_Projekt'] ?? null
+        ];       
+        logDB($machineconn, 'Daten', $data);
         break;
 
     case 'MDE':   
         $timestamp = $_GET['df_col_DT']; 
         $terminal_id = $_GET['df_col_T_ID']; 
-        // $terminal_type = $_GET['df_col_T_Type']; Brauchen wir nicht
+        $terminal_type = $_GET['df_col_T_Type'] ?? null;
         $d_entry_count = $_GET['df_col_D_Counter'] ?? null; 
         $d_entry_startstop = $_GET['df_col_D_StartStop'] ?? null; 
         $action = $_GET['df_col_Identifier']; 
         $value = $_GET['df_col_Value'] ?? null;   
 
         switch($action){
-            case 'start':     
-                // Reicht nicht eigentlich die terminal_id? Wahrscheinlich nur wenn sie enzigartig ist und das war sie glaub ich nicht          
+            case 'start':        
                 handleStartAction($machineconn, $timestamp, $terminal_id, $d_entry_startstop);
                 break;        
             
