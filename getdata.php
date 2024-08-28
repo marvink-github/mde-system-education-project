@@ -10,7 +10,7 @@ if (!isset($_GET['df_api']) || $_GET['df_api'] != 1) {
     logDB($machineconn, 'ERROR', 'df_api ist ungleich 1');
 };
 
-logDB($machineconn, 'GET', $_GET); 
+// logDB($machineconn, 'GET', $_GET); 
 
 $table = $_GET['df_table'] ?? null;
 
