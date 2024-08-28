@@ -12,12 +12,24 @@ require_once __DIR__ . '/../connection.php';
 $from = $_GET['from'] ?? null;
 $to = $_GET['to'] ?? null;
 $userid = $_GET['userid'] ?? null;
-// $order = $_GET['order'] ?? null; Lösung finden!!!
+$order = $_GET['orderid'] ?? null; 
 $shift = $_GET['shift'] ?? null; 
 $page = $_GET['page'] ?? 1;
 $limit = $_GET['limit'] ?? 200;
 
 $offset = ($page - 1) * $limit;
+
+if ($userid) {
+    $userCheckSql = "SELECT userid FROM machinedata WHERE userid = '$userid' LIMIT 1"; 
+    $userCheckResult = $machineconn->query($userCheckSql);
+    
+    if ($userCheckResult->num_rows == 0) {
+        http_response_code(404);
+        echo json_encode(["message" => "Benutzer mit dieser ID existiert nicht in machinedata."], JSON_PRETTY_PRINT);
+        exit();
+    }
+}
+
 $sql = "SELECT * FROM machinedata WHERE 1=1"; 
 
 if ($from && $to) {
@@ -42,7 +54,7 @@ $result = $machineconn->query($sql);
 
 if (!$result) {
     http_response_code(400);
-    echo json_encode(["message" => "Datenbank query fehlgeschlagen: " . $machineconn->error]);
+    echo json_encode(["message" => "Datenbankabfrage fehlgeschlagen: " . $machineconn->error]);
     exit();
 }
 
