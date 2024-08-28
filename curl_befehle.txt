@@ -49,14 +49,18 @@ curl -X PATCH "http://127.0.0.1/api/machine/patch.php" \
 Maschine löschen nach id:
 curl -X DELETE "http://127.0.0.1/api/machine/delete.php?id=1"
 
-
 ##################################################################################################################
 
-Logs:
+Shift:
 
-##################################################################################################################
+Eine bestimmte Schicht nach shiftId:
+curl -X GET "127.0.0.1/api/shift/get.php?shiftid=1"
 
-Shfit:
+Eine bestimmte Schicht nach machineId:
+curl -X GET "127.0.0.1/api/shift/get.php?machineid=1"
+
+Eine bestimmte Schicht nach machineId und shiftId:
+curl -X GET "127.0.0.1/api/shift/get.php?shiftid=1&machineid=1"
 
 ##################################################################################################################
 
@@ -65,15 +69,30 @@ Device:
 Device erstellen:
 curl -X POST "http://127.0.0.1/api/device/post.php" \
      -H "Content-Type: application/json" \
-     -d '{ "terminal_id": "3533", "terminal_type": "EVO 4.6 FlexKey"}'
+     -d '{ "id": "3533", "type": "EVO 4.6 FlexKey"}'
 
 Alle Devices abrufen:
 curl -X GET "http://127.0.0.1/api/device/get.php" 
 
-Ein spezifisches Device abrufen:
+Ein bestimmtes Device abrufen:
 curl -X GET "http://127.0.0.1/api/device/get.php?id=1"
 
-Device löschen nach id:
+Device löschen nur nach idDevice:
 curl -X DELETE "http://127.0.0.1/api/device/delete.php?id=1"
 
 ##################################################################################################################
+
+Log:
+
+Alle Logs ohne Filter (default page=1 und limit=200):
+curl -X GET "http://127.0.0.1/api/log/get.php?"
+
+Logs eines bestimmten Typs:
+curl -X GET "http://127.0.0.1/api/log/get.php?type=ERROR"
+
+Logs innerhalb eines bestimmten Zeitraums:
+curl -X GET "http://127.0.0.1/api/log/get.php?from=2024-08-27T00:00:00&to=2024-08-28T23:59:59&page=1&limit=100"
+
+##################################################################################################################
+
+
