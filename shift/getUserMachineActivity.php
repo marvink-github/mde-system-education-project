@@ -15,7 +15,7 @@ if (!$userid || !$machine_id) {
 $sql = "SELECT idShift, machine_idMachine AS idMachine, startTime, endTime 
         FROM shift 
         WHERE machine_idMachine = '$machine_id' AND EXISTS (
-            SELECT 1 FROM machinedata WHERE shift_idShift = shift.idShift AND userid = '$userid'
+        SELECT 1 FROM machinedata WHERE shift_idShift = shift.idShift AND userid = '$userid'
         )";
 
 if ($from) {
@@ -56,4 +56,4 @@ if (empty($data)) {
 }
 
 $machineconn->close();
-?>
+

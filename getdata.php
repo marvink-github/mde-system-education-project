@@ -10,7 +10,7 @@ if (!isset($_GET['df_api']) || $_GET['df_api'] != 1) {
     logDB($machineconn, 'ERROR', 'df_api ist ungleich 1');
 };
 
-// logDB($machineconn, 'GET', $_GET); 
+logDB($machineconn, 'GET', $_GET); 
 
 $table = $_GET['df_table'] ?? null;
 
@@ -46,9 +46,7 @@ switch ($table) {
                 handleStartAction($machineconn, $timestamp, $terminal_id, $d_entry_startstop);
                 break;        
             
-            case 'count':      
-                // Falls die Value immer null sein sollte beim Terminaltest
-                // -> Im Setup Counter_D3_Start auf gestoppte Maschine setzen und dann sollten die korrekten Werte übertragen werden.     
+            case 'count':  
                 handleMachineData($machineconn, $timestamp, $terminal_id, $value, $d_entry_count);
                 break;
             
@@ -107,4 +105,3 @@ $machineconn->close();
  
 echo 'df_api=1';
 
-?>

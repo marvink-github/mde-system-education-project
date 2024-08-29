@@ -10,6 +10,3 @@ $machineconn = mysqli_connect($machinehost, $machineusername, $machinepassword, 
 if(mysqli_connect_errno()) {
     die("Verbindung fehlgeschlagen: " . mysqli_connect_error());
 }
-
-?>
-

@@ -320,22 +320,23 @@ function handleStartAction($machineconn, $timestamp, $terminal_id, $d_entry_star
 
         if ($machineconn->query($shiftSql) === TRUE) {
             logDB($machineconn, 'start', 'Erfolg: Maschine und Schicht erfolgreich gestartet.');
-            return true;
         } else {
             logDB($machineconn, 'start', 'Fehler beim Starten der Schicht: ' . $machineconn->error);
+            return; 
         }
     } else {
         logDB($machineconn, 'start', 'Fehler beim Starten der Maschine: ' . $machineconn->error);
+        return; 
     }
 }
+
 
 
 function handleMachineData($machineconn, $timestamp, $terminal_id, $value, $d_entry_count) {
     $machine_id = getMachineIdByDCount($machineconn, $terminal_id, $d_entry_count);
 
     if (!$machine_id) {
-        logDB($machineconn, 'count', 'Fehler: Maschine wurde nicht gefunden.');
-        return;
+        logDB($machineconn, 'count', 'Fehler: Maschine wurde nicht gefunden. machine_id: ' . $machine_id);
     }
 
     $currentShiftSql = "SELECT idshift FROM shift WHERE machine_idMachine = $machine_id AND endTime IS NULL";
@@ -353,7 +354,6 @@ function handleMachineData($machineconn, $timestamp, $terminal_id, $value, $d_en
 
             if ($machine['d_entry_counter'] != $d_entry_count) {
                 logDB($machineconn, 'count', 'Fehler: d_entry_count stimmt nicht mit der Maschine überein.');
-                return;
             }
 
             $userid = $machine['userid']; 
@@ -379,7 +379,6 @@ function handleStopAction($machineconn, $timestamp, $terminal_id, $d_entry_start
 
     if (!$machine_id) {
         logDB($machineconn, 'stop', 'Fehler: Maschine wurde nicht gefunden.');
-        return;
     }
 
     $updateMachineSql = "UPDATE machine SET state = 'stop', userid = NULL WHERE idMachine = $machine_id";

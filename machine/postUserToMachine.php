@@ -32,9 +32,8 @@ if ($machineconn->query($updateMachineSql) === TRUE) {
     ], JSON_PRETTY_PRINT);
 } else {
     http_response_code(400);
-    echo json_encode(["message" => "Fehler beim Aktualisieren der Maschinentabelle: " . $machineconn->error], JSON_PRETTY_PRINT);
+    echo json_encode(["message" => "Fehler beim Aktualisieren der Maschinen: " . $machineconn->error], JSON_PRETTY_PRINT);
 }
 
 $machineconn->close();
 
-?>

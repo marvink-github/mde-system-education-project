@@ -34,6 +34,11 @@ curl -X GET "http://127.0.0.1/api/machinedata/get.php"
 
 Machine:
 
+User in Maschine Posten:
+curl -X POST "http://127.0.0.1/api/machine/postUserToMachine.php"
+     -H "Content-Type: application/json" \
+     -d '{ "userid": "123", "machineid": "1"}'
+
 Maschine erstellen:
 curl -X POST "http://127.0.0.1/api/machine/post.php" \
      -H "Content-Type: application/json" \
@@ -60,6 +65,9 @@ curl -X DELETE "http://127.0.0.1/api/machine/delete.php?id=1"
 ##################################################################################################################
 
 Shift:
+
+User Maschinenaktivität: Pflichtfeld: userid & machineid, Optional: from, to
+curl -X GET "127.0.0.1/api/shift/getUserMachineActivity.php"
 
 Eine bestimmte Schicht nach shiftId:
 curl -X GET "127.0.0.1/api/shift/get.php?shiftid=1"
