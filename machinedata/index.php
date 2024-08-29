@@ -8,7 +8,7 @@ $requestMethod = $_SERVER['REQUEST_METHOD'];
 
 switch ($requestMethod) {
     case 'GET':
-        require __DIR__ . '/get.php';
+        require __DIR__ . '/getMachinedata.php';
         break;
 
     case 'POST':
@@ -28,4 +28,4 @@ switch ($requestMethod) {
         echo json_encode(["message" => "Method Not Allowed"]);
         break;
 }
-?>
+

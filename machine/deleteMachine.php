@@ -29,4 +29,4 @@ if ($machineconn->query($deleteSql) === TRUE) {
 }
 
 $machineconn->close();
-?>
+

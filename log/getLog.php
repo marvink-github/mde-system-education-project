@@ -53,4 +53,3 @@ if (empty($data)) {
 }
 
 $machineconn->close();
-?>

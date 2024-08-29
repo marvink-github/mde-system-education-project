@@ -51,4 +51,4 @@ if ($machineconn->query($sql) === TRUE) {
 }
 
 $machineconn->close();
-?>
+

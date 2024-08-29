@@ -35,4 +35,4 @@ if ($result) {
 }
 
 $machineconn->close();
-?>
+

@@ -396,5 +396,3 @@ function handleStopAction($machineconn, $timestamp, $terminal_id, $d_entry_start
     }
 }
 
-
-?>

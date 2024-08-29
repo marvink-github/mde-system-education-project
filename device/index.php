@@ -8,19 +8,19 @@ $requestMethod = $_SERVER['REQUEST_METHOD'];
 
 switch ($requestMethod) {
     case 'GET':
-        require __DIR__ . '/get.php';
+        require __DIR__ . '/getDevice.php';
         break;
 
     case 'POST':
-        require __DIR__ . '/post.php';
+        require __DIR__ . '/postDevice.php';
         break;
 
     case 'PATCH':
-        require __DIR__ . '/patch.php';
+        require __DIR__ . '/patchDevice.php';
         break;
 
     case 'DELETE':
-        require __DIR__ . '/delete.php';
+        require __DIR__ . '/deleteDevice.php';
         break;
 
     default:
@@ -28,4 +28,4 @@ switch ($requestMethod) {
         echo json_encode(["message" => "Method Not Allowed"]);
         break;
 }
-?>
+

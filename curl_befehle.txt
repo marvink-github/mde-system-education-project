@@ -15,20 +15,24 @@ Machinedata:
 
 orderid=1 muss noch implementiert werden...
 
-Beispiel 1: Mit from, to, userid, page und limit:
+Mit from, to, userid, page und limit:
 curl -X GET "http://127.0.0.1/api/machinedata/get.php?from=2024-01-01T00:00:00&to=2024-01-31T23:59:59&userid=1&orderid=&page=1&limit=50"
 
-Beispiel 2: Nur from und to:
+Nur from und to:
 curl -X GET "http://127.0.0.1/api/machinedata/get.php?from=2024-01-01T00:00:00&to=2024-01-31T23:59:59"
 
-Beispiel 3: Nur nach userid
+Nur nach userid
 curl -X GET "http://127.0.0.1/api/machinedata/get.php?userid=1"
 
-Beispiel 4: Nur nach orderid
+Nur nach orderid
 curl -X GET "http://127.0.0.1/api/machinedata/get.php?orderid=1"
 
-Beispiel 5: Ohne Parameter (Standardwerte page = 1 + limit = 200)
+Ohne Parameter (Standardwerte page = 1 + limit = 200)
 curl -X GET "http://127.0.0.1/api/machinedata/get.php"
+
+Order erstellen:
+
+
 
 ################################################################################################################
 
