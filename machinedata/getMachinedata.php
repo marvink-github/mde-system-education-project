@@ -19,17 +19,6 @@ $limit = $_GET['limit'] ?? 200;
 
 $offset = ($page - 1) * $limit;
 
-if ($userid) {
-    $userCheckSql = "SELECT userid FROM machinedata WHERE userid = '$userid' LIMIT 1"; 
-    $userCheckResult = $machineconn->query($userCheckSql);
-    
-    if ($userCheckResult->num_rows == 0) {
-        http_response_code(404);
-        echo json_encode(["message" => "Benutzer mit dieser ID existiert nicht in machinedata."], JSON_PRETTY_PRINT);
-        exit();
-    }
-}
-
 $sql = "SELECT * FROM machinedata WHERE 1=1"; 
 
 if ($from && $to) {

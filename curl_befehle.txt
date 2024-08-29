@@ -16,22 +16,29 @@ Machinedata:
 orderid=1 muss noch implementiert werden...
 
 Mit from, to, userid, page und limit:
-curl -X GET "http://127.0.0.1/api/machinedata/get.php?from=2024-01-01T00:00:00&to=2024-01-31T23:59:59&userid=1&orderid=&page=1&limit=50"
+curl -X GET "http://127.0.0.1/api/machinedata/getMachinedata.php?from=2024-01-01T00:00:00&to=2024-01-31T23:59:59&userid=1&orderid=&page=1&limit=50"
 
 Nur from und to:
-curl -X GET "http://127.0.0.1/api/machinedata/get.php?from=2024-01-01T00:00:00&to=2024-01-31T23:59:59"
+curl -X GET "http://127.0.0.1/api/machinedata/getMachinedata.php?from=2024-01-01T00:00:00&to=2024-01-31T23:59:59"
 
 Nur nach userid
-curl -X GET "http://127.0.0.1/api/machinedata/get.php?userid=1"
+curl -X GET "http://127.0.0.1/api/machinedata/getMachinedata.php?userid=1"
 
 Nur nach orderid
-curl -X GET "http://127.0.0.1/api/machinedata/get.php?orderid=1"
+curl -X GET "http://127.0.0.1/api/machinedata/getMachinedata.php?orderid=1"
 
 Ohne Parameter (Standardwerte page = 1 + limit = 200)
-curl -X GET "http://127.0.0.1/api/machinedata/get.php"
+curl -X GET "http://127.0.0.1/api/machinedata/getMachinedata.php"
 
 Order erstellen:
+curl -X POST "http://127.0.0.1/api/machinedata/order/postStartOrder.php"
+     -H "Content-Type: application/json" \
+     -d '{ "userid": "123", "machineid": "1", "orderid": "d712934h1d"}'
 
+Order beenden:
+curl -X POST "http://127.0.0.1/api/machinedata/order/postCompleteOrder.php"
+     -H "Content-Type: application/json" \
+     -d '{ "userid": "123", "machineid": "1", "orderid": "d712934h1d"}'
 
 
 ################################################################################################################
@@ -43,28 +50,33 @@ curl -X POST "http://127.0.0.1/api/machine/postUserToMachine.php"
      -H "Content-Type: application/json" \
      -d '{ "userid": "123", "machineid": "1"}'
 
+User in Maschine Posten inkl. Auftragsnummer:
+curl -X POST "http://127.0.0.1/api/machine/postUserToMachine.php"
+     -H "Content-Type: application/json" \
+     -d '{ "userid": "123", "machineid": "1", "order": "d108237z1hj"}'
+
 Maschine erstellen:
-curl -X POST "http://127.0.0.1/api/machine/post.php" \
+curl -X POST "http://127.0.0.1/api/machine/postMachine.php" \
      -H "Content-Type: application/json" \
      -d '{ "name": "Testmachine 1", "d_entry_startstop": "4", "d_entry_counter": "3", "device_idDevice": "1"}'
 
-curl -X POST "http://127.0.0.1/api/machine/post.php" \
+curl -X POST "http://127.0.0.1/api/machine/postMachine.php" \
      -H "Content-Type: application/json" \
      -d '{ "name": "Testmachine 2", "d_entry_startstop": "2", "d_entry_counter": "1", "device_idDevice": "1"}'  
 
 Alle Maschinen abrufen:
-curl -X GET "http://127.0.0.1/api/machine/get.php" 
+curl -X GET "http://127.0.0.1/api/machine/getMachine.php" 
 
 Eine spezifische Maschine abrufen:
-curl -X GET "http://127.0.0.1/api/machine/get.php?id=1"
+curl -X GET "http://127.0.0.1/api/machine/getMachine.php?id=1"
 
 Maschine Patchen, Machine Id muss gesetzt sein (die anderen Parameter sind optional)
-curl -X PATCH "http://127.0.0.1/api/machine/patch.php" \
+curl -X PATCH "http://127.0.0.1/api/machine/patchMachine.php" \
      -H "Content-Type: application/json" \
      -d '{ "id": 1, "name": "Testmachine 2", "d_entry_startstop": "2", "d_entry_counter": "1", "device_idDevice": "1" }'
 
 Maschine löschen nach id:
-curl -X DELETE "http://127.0.0.1/api/machine/delete.php?id=1"
+curl -X DELETE "http://127.0.0.1/api/machine/deleteMachine.php?id=1"
 
 ##################################################################################################################
 
@@ -74,44 +86,44 @@ User Maschinenaktivität: Pflichtfeld: userid & machineid, Optional: from, to
 curl -X GET "127.0.0.1/api/shift/getUserMachineActivity.php"
 
 Eine bestimmte Schicht nach shiftId:
-curl -X GET "127.0.0.1/api/shift/get.php?shiftid=1"
+curl -X GET "127.0.0.1/api/shift/getShift.php?shiftid=1"
 
 Eine bestimmte Schicht nach machineId:
-curl -X GET "127.0.0.1/api/shift/get.php?machineid=1"
+curl -X GET "127.0.0.1/api/shift/getShift.php?machineid=1"
 
 Eine bestimmte Schicht nach machineId und shiftId:
-curl -X GET "127.0.0.1/api/shift/get.php?shiftid=1&machineid=1"
+curl -X GET "127.0.0.1/api/shift/getShift.php?shiftid=1&machineid=1"
 
 ##################################################################################################################
 
 Device:
 
 Device erstellen:
-curl -X POST "http://127.0.0.1/api/device/post.php" \
+curl -X POST "http://127.0.0.1/api/device/postDevice.php" \
      -H "Content-Type: application/json" \
      -d '{ "id": "3533", "type": "EVO 4.6 FlexKey"}'
 
 Alle Devices abrufen:
-curl -X GET "http://127.0.0.1/api/device/get.php" 
+curl -X GET "http://127.0.0.1/api/device/getDevice.php" 
 
 Ein bestimmtes Device abrufen:
-curl -X GET "http://127.0.0.1/api/device/get.php?id=1"
+curl -X GET "http://127.0.0.1/api/device/getDevice.php?id=1"
 
 Device löschen nur nach idDevice:
-curl -X DELETE "http://127.0.0.1/api/device/delete.php?id=1"
+curl -X DELETE "http://127.0.0.1/api/device/deleteDevice.php?id=1"
 
 ##################################################################################################################
 
 Log:
 
 Alle Logs ohne Filter (default page=1 und limit=200):
-curl -X GET "http://127.0.0.1/api/log/get.php?"
+curl -X GET "http://127.0.0.1/api/log/getLog.php?"
 
 Logs eines bestimmten Typs:
-curl -X GET "http://127.0.0.1/api/log/get.php?type=ERROR"
+curl -X GET "http://127.0.0.1/api/log/getLog.php?type=ERROR"
 
 Logs innerhalb eines bestimmten Zeitraums:
-curl -X GET "http://127.0.0.1/api/log/get.php?from=2024-08-27T00:00:00&to=2024-08-28T23:59:59&page=1&limit=100"
+curl -X GET "http://127.0.0.1/api/log/getLog.php?from=2024-08-27T00:00:00&to=2024-08-28T23:59:59&page=1&limit=100"
 
 ##################################################################################################################
 

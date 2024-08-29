@@ -10,7 +10,7 @@ if (!isset($_GET['df_api']) || $_GET['df_api'] != 1) {
     logDB($machineconn, 'ERROR', 'df_api ist ungleich 1');
 };
 
-logDB($machineconn, 'GET', $_GET); 
+// logDB($machineconn, 'GET', $_GET); 
 
 $table = $_GET['df_table'] ?? null;
 
@@ -46,7 +46,7 @@ switch ($table) {
                 handleStartAction($machineconn, $timestamp, $terminal_id, $d_entry_startstop);
                 break;        
             
-            case 'count':  
+            case 'count':                 
                 handleMachineData($machineconn, $timestamp, $terminal_id, $value, $d_entry_count);
                 break;
             
@@ -76,7 +76,7 @@ switch ($table) {
             $_GET['df_col_T_Typ'] ?? null,
             $_GET['df_col_Count'] ?? null,
         ];
-        logDB($machineconn, 'Alive', $data);
+        //logDB($machineconn, 'Alive', $data);
         break;
 
     case 'System':
