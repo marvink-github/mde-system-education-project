@@ -12,7 +12,7 @@ switch ($requestMethod) {
         break;
 
     case 'POST':
-        require __DIR__ . '/post.php';
+        require __DIR__ . '/postMachinedata.php';
         break;
 
     case 'PATCH':

@@ -30,15 +30,10 @@ curl -X GET "http://127.0.0.1/api/machinedata/getMachinedata.php?orderid=1"
 Ohne Parameter (Standardwerte page = 1 + limit = 200)
 curl -X GET "http://127.0.0.1/api/machinedata/getMachinedata.php"
 
-Order erstellen:
-curl -X POST "http://127.0.0.1/api/machinedata/order/postStartOrder.php"
+Machinedata POST: (timestamp, value und idshift müssen vorhanden sein) 
+curl -X POST "http://127.0.0.1/api/machinedata/postMachinedata.php"
      -H "Content-Type: application/json" \
-     -d '{ "userid": "123", "machineid": "1", "orderid": "d712934h1d"}'
-
-Order beenden:
-curl -X POST "http://127.0.0.1/api/machinedata/order/postCompleteOrder.php"
-     -H "Content-Type: application/json" \
-     -d '{ "userid": "123", "machineid": "1", "orderid": "d712934h1d"}'
+     -d '{ "timestamp": "2024-08-29 18:30:00", "value": "1", "idshift": "52", "userid": "141", "order": "dj19734z1h"}'
 
 
 ################################################################################################################

@@ -12,7 +12,7 @@ require_once __DIR__ . '/../connection.php';
 $from = $_GET['from'] ?? null;
 $to = $_GET['to'] ?? null;
 $userid = $_GET['userid'] ?? null;
-$order = $_GET['orderid'] ?? null; 
+$orderid = $_GET['orderid'] ?? null;  
 $shift = $_GET['shift'] ?? null; 
 $page = $_GET['page'] ?? 1;
 $limit = $_GET['limit'] ?? 200;
@@ -31,6 +31,10 @@ if ($from && $to) {
 
 if ($userid) {
     $sql .= " AND userid = '$userid'"; 
+}
+
+if ($orderid) {
+    $sql .= " AND `order` = '$orderid'"; 
 }
 
 if ($shift) {
@@ -56,4 +60,3 @@ while ($row = $result->fetch_assoc()) {
 echo json_encode($data, JSON_PRETTY_PRINT);
 
 $machineconn->close();
-
