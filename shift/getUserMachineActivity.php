@@ -5,6 +5,7 @@ $userid = $_GET['userid'] ?? null;
 $machine_id = $_GET['machineid'] ?? null;
 $from = $_GET['from'] ?? null;
 $to = $_GET['to'] ?? null;
+$order = $_GET['order'] ?? null;
 
 if (!$userid || !$machine_id) {
     http_response_code(400);
@@ -12,11 +13,15 @@ if (!$userid || !$machine_id) {
     exit();
 }
 
-$sql = "SELECT idShift, machine_idMachine AS idMachine, startTime, endTime 
+$sql = "SELECT idShift, machine_idMachine AS idMachine, startTime, endTime, `order` AS order_id 
         FROM shift 
-        WHERE machine_idMachine = '$machine_id' AND EXISTS (
-        SELECT 1 FROM machinedata WHERE shift_idShift = shift.idShift AND userid = '$userid'
-        )";
+        LEFT JOIN machinedata ON shift.idShift = machinedata.shift_idShift 
+        WHERE machine_idMachine = '$machine_id' 
+        AND machinedata.userid = '$userid'";
+
+if ($order) {
+    $sql .= " AND machinedata.`order` = '$order'"; 
+}
 
 if ($from) {
     $sql .= " AND startTime >= '$from'";
@@ -40,9 +45,10 @@ $data = [];
 
 while ($row = $result->fetch_assoc()) {
     $data[] = [
-        'machineid' => $row['idMachine'],
-        'shiftid' => $row['idShift'],    
+        'shiftid' => $row['idShift'], 
+        'machineid' => $row['idMachine'],   
         'userid' => $userid,   
+        'orderid' => $row['order_id'], 
         'startTime' => $row['startTime'],
         'endTime' => $row['endTime']
     ];
@@ -56,4 +62,3 @@ if (empty($data)) {
 }
 
 $machineconn->close();
-

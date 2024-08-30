@@ -77,7 +77,7 @@ function handleStartAction($machineconn, $timestamp, $terminal_id, $d_entry_star
         $shiftSql = "INSERT INTO shift (startTime, machine_idMachine) VALUES ('$timestamp', $machine_id)";
 
         if ($machineconn->query($shiftSql) === TRUE) {
-            logDB($machineconn, 'start', 'Erfolg: Maschine und Schicht erfolgreich gestartet.');
+            logDB($machineconn, 'start', 'success: Maschine und Schicht gestartet.');
         } else {
             logDB($machineconn, 'start', 'Fehler beim Starten der Schicht: ' . $machineconn->error);
             return; 
@@ -117,12 +117,11 @@ function handleMachineData($machineconn, $timestamp, $terminal_id, $value, $d_en
             $userid = $machine['userid'] ?? null; 
             $orderid = $machine['order'] ?? null;
 
-            // Korrektur der SQL-Abfrage mit Backticks
             $machineDataSql = "INSERT INTO machinedata (timestamp, value, shift_idshift, userid, `order`)
                                VALUES ('$timestamp', '$value', '$shift_id', '$userid', '$orderid')";
             
             if ($machineconn->query($machineDataSql) === TRUE) {
-                logDB($machineconn, 'count', 'Erfolg: Maschinendaten erfolgreich gespeichert.');
+                logDB($machineconn, 'count', 'success: Maschinendaten gespeichert.');
             } else {
                 logDB($machineconn, 'count', 'Fehler beim Speichern der Maschinendaten: ' . $machineconn->error);
             }
@@ -149,7 +148,7 @@ function handleStopAction($machineconn, $timestamp, $terminal_id, $d_entry_start
         $updateShiftSql = "UPDATE shift SET endTime = '$timestamp' WHERE machine_idMachine = $machine_id AND endTime IS NULL";
 
         if ($machineconn->query($updateShiftSql) === TRUE) {
-            logDB($machineconn, 'stop', 'Erfolg: Maschine erfolgreich gestoppt und Schicht beendet.');
+            logDB($machineconn, 'stop', 'success: Maschine gestoppt und Schicht beendet.');
         } else {
             logDB($machineconn, 'stop', 'Fehler beim Beenden der Schicht: ' . $machineconn->error);
         }

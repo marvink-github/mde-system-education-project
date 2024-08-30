@@ -3,14 +3,14 @@ require_once("../connection.php");
 
 $data = json_decode(file_get_contents("php://input"), true);
 
-if (!isset($data['machineid']) || !isset($data['userid'])) {
+if (!isset($data['machineid'])) {
     http_response_code(400);
-    echo json_encode(["message" => "Fehlende erforderliche Felder: machineid und userid erforderlich."], JSON_PRETTY_PRINT);
+    echo json_encode(["message" => "Fehlendes erforderliches Feld: machineid erforderlich."], JSON_PRETTY_PRINT);
     exit();
 }
 
 $machine_id = $data['machineid'];
-$userid = $data['userid'];
+$userid = $data['userid'] ?? null; 
 $order = $data['order'] ?? null;
 
 $sqlCheck = "SELECT * FROM machine WHERE idMachine = '$machine_id'";
@@ -22,25 +22,34 @@ if ($resultCheck->num_rows == 0) {
     exit();
 }
 
-// Hier wird `order` in Backticks gesetzt
-$updateMachineSql = "UPDATE machine SET userid = '$userid'";
+$updateMachineSql = "UPDATE machine SET";
 
-if ($order !== null) {
-    $updateMachineSql .= ", `order` = '$order'"; // Backticks um `order`
+$updates = [];
+if ($userid !== null) {
+    $updates[] = "userid = '$userid'";
 }
-$updateMachineSql .= " WHERE idMachine = '$machine_id'";
+if ($order !== null) {
+    $updates[] = "`order` = '$order'"; 
+}
 
-if ($machineconn->query($updateMachineSql) === TRUE) {
-    http_response_code(200);
-    echo json_encode([
-        "message" => "User-ID erfolgreich aktualisiert." . ($order ? " Order-ID erfolgreich aktualisiert." : ""),
-        "machineId" => $machine_id,
-        "userid" => $userid,
-        "order" => $order
-    ], JSON_PRETTY_PRINT);
+if (!empty($updates)) {
+    $updateMachineSql .= " " . implode(", ", $updates) . " WHERE idMachine = '$machine_id'";
+
+    if ($machineconn->query($updateMachineSql) === TRUE) {
+        http_response_code(200);
+        echo json_encode([
+            "message" => "Maschineninformationen erfolgreich aktualisiert.",
+            "machineId" => $machine_id,
+            "userid" => $userid,
+            "order" => $order
+        ], JSON_PRETTY_PRINT);
+    } else {
+        http_response_code(400);
+        echo json_encode(["message" => "Fehler beim Aktualisieren der Maschinen: " . $machineconn->error], JSON_PRETTY_PRINT);
+    }
 } else {
     http_response_code(400);
-    echo json_encode(["message" => "Fehler beim Aktualisieren der Maschinen: " . $machineconn->error], JSON_PRETTY_PRINT);
+    echo json_encode(["message" => "Keine Änderungen angegeben."], JSON_PRETTY_PRINT);
 }
 
 $machineconn->close();
