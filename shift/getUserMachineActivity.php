@@ -56,7 +56,7 @@ while ($row = $result->fetch_assoc()) {
 
 if (empty($data)) {
     http_response_code(400);
-    echo json_encode(["message" => "Keine Schichten für diesen Benutzer und diese Maschine gefunden."], JSON_PRETTY_PRINT);
+    echo json_encode(["message" => "Keine Schichten bei diesem Benutzer und dieser Maschine gefunden."], JSON_PRETTY_PRINT);
 } else {
     echo json_encode($data, JSON_PRETTY_PRINT);
 }
