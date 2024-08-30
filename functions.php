@@ -143,7 +143,7 @@ function handleStopAction($machineconn, $timestamp, $terminal_id, $d_entry_start
         return; 
     }
 
-    $updateMachineSql = "UPDATE machine SET state = 'stop', userid = NULL, order = NULL WHERE idMachine = $machine_id";
+    $updateMachineSql = "UPDATE machine SET state = 'stop', userid = NULL, `order` = NULL WHERE idMachine = $machine_id";
 
     if ($machineconn->query($updateMachineSql) === TRUE) {
         $updateShiftSql = "UPDATE shift SET endTime = '$timestamp' WHERE machine_idMachine = $machine_id AND endTime IS NULL";
