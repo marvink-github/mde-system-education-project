@@ -172,7 +172,7 @@ function handleStopAction($machineconn, $timestamp, $terminal_id, $d_entry_start
 }
 
 
-function handleScannerAction($machineconn, $timestamp, $terminal_id, $terminal_type, $userid, $value, $order) {
+function handleScannerAction($machineconn, $timestamp, $terminal_id, $terminal_type, $userid, $value, $barcode) {
     $deviceStateSql = "SELECT state FROM device WHERE terminal_id = '$terminal_id' AND terminal_type = '$terminal_type'";
     $deviceStateResult = $machineconn->query($deviceStateSql);
 
@@ -185,7 +185,7 @@ function handleScannerAction($machineconn, $timestamp, $terminal_id, $terminal_t
         }
 
         $scannerDataSql = "INSERT INTO machinedata (timestamp, userid, value, `order`) 
-                           VALUES ('$timestamp', '$userid', '$value', '$order')";
+                           VALUES ('$timestamp', '$userid', '$value', '$barcode')";
         
         if ($machineconn->query($scannerDataSql) === TRUE) {
             logDB($machineconn, 'scanner', "success: Scandaten gespeichert. DeviceTime: $timestamp");
