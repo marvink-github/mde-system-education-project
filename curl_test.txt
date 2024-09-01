@@ -90,7 +90,7 @@ curl -X GET "http://127.0.0.1/api/machine/getMachine.php?id=1"
 Maschine Patchen, Machine Id muss gesetzt sein (die anderen Parameter sind optional)
 curl -X PATCH "http://127.0.0.1/api/machine/patchMachine.php" \
      -H "Content-Type: application/json" \
-     -d '{ "id": 1, "name": "Testmachine 2", "d_entry_startstop": "2", "d_entry_counter": "1", "device_idDevice": "1" }'
+     -d '{"machineid": "1", "name": "New Name", "userid": "813"}'
 
 Maschine löschen nach id:
 curl -X DELETE "http://127.0.0.1/api/machine/deleteMachine.php?id=1"
@@ -146,13 +146,14 @@ curl -X GET "http://127.0.0.1/api/log/getLog.php?from=2024-08-27T00:00:00&to=202
 
 Barcode:
 
-Alle eingescannten Barcodes:  Optional: userid, orderid, value(barcode), 
-curl -X GET "http://127.0.0.1/api/barcode/getBarcodeCount.php?userid=d8j131dh1&value=123456789&orderid=dd72da"
+Alle eingescannten Barcodes userid und barcode:  Optional: orderid 
+http://127.0.0.1/api/barcode/getBarcodeCount.php?userid=ad81d19j&barcode=123456789
 
 Order einem Barcode hinzufügen:
 curl -X POST "http://127.0.0.1/api/barcode/updateBarcodeWithOrder.php" \
      -H "Content-Type: application/json" \
      -d '{"barcode": "123456789", "orderid": "148791a"}'
+
 
 
 

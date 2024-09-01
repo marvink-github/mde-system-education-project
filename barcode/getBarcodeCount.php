@@ -1,39 +1,40 @@
 <?php
-require_once("../connection.php"); 
+require_once("../connection.php");
+
+$value = $machineconn->real_escape_string(trim($_GET['barcode'] ?? null));
+
+if (!$value) {
+    http_response_code(400);
+    echo json_encode(["message" => "barcode required."], JSON_PRETTY_PRINT);
+    exit();
+}
 
 $userid = $machineconn->real_escape_string(trim($_GET['userid'] ?? null));
 $orderid = $machineconn->real_escape_string(trim($_GET['orderid'] ?? null));
-$value = $machineconn->real_escape_string(trim($_GET['value'] ?? null)); 
 
-$sql = "SELECT COUNT(*) AS total FROM machinedata WHERE 1=1"; 
-
-if ($userid) {
-    $sql .= " AND userid = '$userid'";
-}
-
-if ($orderid) {
-    $sql .= " AND `order` = '$orderid'";
-}
-
-if ($value) {
-    $sql .= " AND value = '$value'"; 
-}
-
+$sql = "SELECT * FROM machinedata WHERE value = '$value'";
 $result = $machineconn->query($sql);
 
-if ($result) {
-    $row = $result->fetch_assoc();    
+if ($result && $row = $result->fetch_assoc()) {
+    // Wenn `userid` oder `orderid` nicht angegeben wurden, werden die Werte aus der Datenbank verwendet
+    if (!$userid) {
+        $userid = $row['userid'] ?? '';
+    }
+
+    if (!$orderid) {
+        $orderid = $row['order'] ?? '';
+    }
+
     echo json_encode([
-        "status" => "success", 
-        "userid" => $userid ?? null,
-        "orderid" => $orderid ?? null,
-        "value" => $value ?? null, 
-        "total" => (int)$row['total'] 
+        "status" => "success",
+        "userid" => $userid,
+        "orderid" => $orderid,
+        "barcode" => $value,
+        "total" => (int)$result->num_rows
     ], JSON_PRETTY_PRINT);
 } else {
-    http_response_code(400); 
-    echo json_encode(["message" => "Fehler beim Abrufen der Daten."], JSON_PRETTY_PRINT);
+    http_response_code(400);
+    echo json_encode(["message" => "No entry found for this barcode in machinedata."], JSON_PRETTY_PRINT);
 }
 
 $machineconn->close();
-

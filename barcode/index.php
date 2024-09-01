@@ -13,11 +13,10 @@ switch ($requestMethod) {
 
     case 'POST':
         require __DIR__ . '/postOrderToBarcode.php';
-        require __DIR__ . '/updateBarcodeWithOrder.php';
         break;
 
     case 'PATCH':
-        require __DIR__ . '/patchBarcode.php';
+        require __DIR__ . '/patchUserToBarcode.php';
         break;
 
     case 'DELETE':

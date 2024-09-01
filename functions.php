@@ -109,7 +109,7 @@ function handleStartAction($machineconn, $timestamp, $terminal_id, $d_entry_star
 }
 
 function handleMachineData($machineconn, $timestamp, $terminal_id, $value, $d_entry_counter) {
-    $machine_id = getMachineIdByAction($machineconn, $terminal_id, 'd_entry_count', $d_entry_counter);
+    $machine_id = getMachineIdByAction($machineconn, $terminal_id, 'd_entry_counter', $d_entry_counter);
 
     if (!$machine_id) {
         logDB($machineconn, 'count', "error: Machine not found. machine_id: $machine_id. DeviceTime: $timestamp");

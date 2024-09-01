@@ -1,26 +1,42 @@
 <?php
-require_once("../connection.php"); 
+require_once("../connection.php");
 
 $data = json_decode(file_get_contents("php://input"), true);
 
-if (!isset($data['id'])) {
-    http_response_code(400); 
-    echo json_encode(["message" => "Fehlende erforderliche Felder."], JSON_PRETTY_PRINT);
+$machine_id = $machineconn->real_escape_string(trim($data['machineid'] ?? $_GET['machineid'] ?? null));
+
+if (!$machine_id) {
+    http_response_code(400);
+    echo json_encode(["message" => "machineid required."], JSON_PRETTY_PRINT);
     exit();
 }
 
-$id = $machineconn->real_escape_string(trim($data['id']));
+$userid = $machineconn->real_escape_string(trim($data['userid'] ?? null)); 
+$order = $machineconn->real_escape_string(trim($data['orderid'] ?? null));
 
-$checkSql = "SELECT * FROM machine WHERE idMachine = '$id'";
-$checkResult = $machineconn->query($checkSql);
+$sqlCheck = "SELECT * FROM machine WHERE idMachine = '$machine_id'";
+$resultCheck = $machineconn->query($sqlCheck);
 
-if ($checkResult->num_rows === 0) {
-    http_response_code(404);
-    echo json_encode(["message" => "Maschine nicht gefunden."], JSON_PRETTY_PRINT);
+if ($resultCheck->num_rows == 0) {
+    http_response_code(400);
+    echo json_encode(["message" => "Machine not found."], JSON_PRETTY_PRINT);
+    exit();
+}
+
+if (empty($userid) && empty($order) && empty($data['name']) && empty($data['d_entry_startstop']) && empty($data['d_entry_counter']) && empty($data['device_idDevice'])) {
+    http_response_code(400);
+    echo json_encode(["message" => "At least one of userid, orderid, name, d_entry_startstop, d_entry_counter, or device_idDevice is required."], JSON_PRETTY_PRINT);
     exit();
 }
 
 $updateFields = [];
+
+if (!empty($userid)) {
+    $updateFields[] = "userid = '$userid'";
+}
+if (!empty($order)) {
+    $updateFields[] = "`order` = '$order'";
+}
 if (isset($data['name'])) {
     $updateFields[] = "name = '" . $machineconn->real_escape_string(trim($data['name'])) . "'";
 }
@@ -34,21 +50,32 @@ if (isset($data['device_idDevice'])) {
     $updateFields[] = "device_idDevice = '" . $machineconn->real_escape_string(trim($data['device_idDevice'])) . "'";
 }
 
-if (empty($updateFields)) {
-    http_response_code(400);
-    echo json_encode(["message" => "Keine Felder zum Aktualisieren angegeben."], JSON_PRETTY_PRINT);
-    exit();
-}
+if (!empty($updateFields)) {
+    $updateMachineSql = "UPDATE machine SET " . implode(", ", $updateFields) . " WHERE idMachine = '$machine_id'";
 
-$sql = "UPDATE machine SET " . implode(", ", $updateFields) . " WHERE idMachine = '$id'";
+    if ($machineconn->query($updateMachineSql) === TRUE) {
+        // Daten nach dem Update erneut abfragen
+        $resultCheckUpdated = $machineconn->query($sqlCheck); // Das ursprüngliche SELECT-Statement verwenden
+        $updatedData = $resultCheckUpdated->fetch_assoc(); // Daten abrufen
 
-if ($machineconn->query($sql) === TRUE) {
-    http_response_code(200); 
-    echo json_encode(["message" => "Maschine erfolgreich aktualisiert."], JSON_PRETTY_PRINT);
+        http_response_code(200);
+        echo json_encode([
+            "message" => "Machineinformation successfully patched.",
+            "machineId" => $machine_id,
+            "userid" => $updatedData['userid'] ?? null,
+            "order" => $updatedData['order'] ?? null,
+            "name" => $updatedData['name'] ?? null,
+            "d_entry_startstop" => $updatedData['d_entry_startstop'] ?? null,
+            "d_entry_counter" => $updatedData['d_entry_counter'] ?? null,
+            "device_idDevice" => $updatedData['device_idDevice'] ?? null
+        ], JSON_PRETTY_PRINT);
+    } else {
+        http_response_code(400);
+        echo json_encode(["message" => "Error updating machinedata: " . $machineconn->error], JSON_PRETTY_PRINT);
+    }
 } else {
-    http_response_code(400); 
-    echo json_encode(["message" => "Fehler beim Aktualisieren der Maschine: " . $machineconn->error], JSON_PRETTY_PRINT);
+    http_response_code(400);
+    echo json_encode(["message" => "No changes specified."], JSON_PRETTY_PRINT);
 }
 
 $machineconn->close();
-
