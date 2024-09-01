@@ -13,7 +13,7 @@ switch ($requestMethod) {
 
     case 'POST':
         require __DIR__ . '/postNewMachine.php';
-        require __DIR__ . '/postUserOrderToMachine.php';
+        require __DIR__ . '/postToMachine.php';
         break;
 
     case 'PATCH':

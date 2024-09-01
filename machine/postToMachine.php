@@ -5,13 +5,13 @@ $data = json_decode(file_get_contents("php://input"), true);
 
 if (!isset($data['machineid'])) {
     http_response_code(400);
-    echo json_encode(["message" => "Fehlendes erforderliches Feld: machineid erforderlich."], JSON_PRETTY_PRINT);
+    echo json_encode(["message" => "machineid erforderlich."], JSON_PRETTY_PRINT);
     exit();
 }
 
 $machine_id = $data['machineid'];
 $userid = $data['userid'] ?? null; 
-$order = $data['order'] ?? null;
+$order = $data['orderid'] ?? null;
 
 $sqlCheck = "SELECT * FROM machine WHERE idMachine = '$machine_id'";
 $resultCheck = $machineconn->query($sqlCheck);
@@ -22,10 +22,16 @@ if ($resultCheck->num_rows == 0) {
     exit();
 }
 
+if (empty($userid) && empty($order)) {
+    http_response_code(400);
+    echo json_encode(["message" => "Mindestens userid oder orderid ist erforderlich."], JSON_PRETTY_PRINT);
+    exit();
+}
+
 $updateMachineSql = "UPDATE machine SET";
 
 $updates = [];
-if ($userid !== null) {
+if ($userid !== null && !empty($userid)) {
     $updates[] = "userid = '$userid'";
 }
 if ($order !== null) {
@@ -41,7 +47,7 @@ if (!empty($updates)) {
             "message" => "Maschineninformationen erfolgreich aktualisiert.",
             "machineId" => $machine_id,
             "userid" => $userid,
-            "order" => $order
+            "orderid" => $order
         ], JSON_PRETTY_PRINT);
     } else {
         http_response_code(400);
@@ -53,3 +59,4 @@ if (!empty($updates)) {
 }
 
 $machineconn->close();
+?>

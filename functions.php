@@ -96,6 +96,21 @@ function handleMachineData($machineconn, $timestamp, $terminal_id, $value, $d_en
         return; 
     }
 
+    $stateCheckSql = "SELECT state FROM machine WHERE idMachine = $machine_id";
+    $stateCheckResult = $machineconn->query($stateCheckSql);
+
+    if ($stateCheckResult->num_rows > 0) {
+        $machine = $stateCheckResult->fetch_assoc();
+
+        if ($machine['state'] === 'stop') {
+            logDB($machineconn, 'count', 'Fehler: Maschine ist nicht aktiv (State: stop). idMachine: ' . $machine_id);
+            return;
+        }
+    } else {
+        logDB($machineconn, 'count', 'Fehler: Maschine wurde nicht gefunden.');
+        return;
+    }
+
     $currentShiftSql = "SELECT idshift FROM shift WHERE machine_idMachine = $machine_id AND endTime IS NULL";
     $currentShiftResult = $machineconn->query($currentShiftSql);
 
@@ -103,7 +118,7 @@ function handleMachineData($machineconn, $timestamp, $terminal_id, $value, $d_en
         $shift = $currentShiftResult->fetch_assoc();
         $shift_id = $shift['idshift'];
 
-        $countSql = "SELECT d_entry_counter, userid, `order` FROM machine WHERE idMachine = $machine_id"; // `order` wichtig!
+        $countSql = "SELECT d_entry_counter, userid, `order` FROM machine WHERE idMachine = $machine_id"; 
         $countResult = $machineconn->query($countSql);
 
         if ($countResult->num_rows > 0) {
@@ -114,7 +129,7 @@ function handleMachineData($machineconn, $timestamp, $terminal_id, $value, $d_en
                 return; 
             }
 
-            $userid = $machine['userid'] ?? null; 
+            $userid = $machine['userid'] ?? 'anonym'; 
             $orderid = $machine['order'] ?? null;
 
             $machineDataSql = "INSERT INTO machinedata (timestamp, value, shift_idshift, userid, `order`)
@@ -132,7 +147,6 @@ function handleMachineData($machineconn, $timestamp, $terminal_id, $value, $d_en
         logDB($machineconn, 'count', 'Fehler: Keine aktive Schicht an dieser Maschine gefunden.');
     }
 }
-
 
 function handleStopAction($machineconn, $timestamp, $terminal_id, $d_entry_startstop) {
     $machine_id = getMachineIdByDStartStop($machineconn, $terminal_id, $d_entry_startstop);
