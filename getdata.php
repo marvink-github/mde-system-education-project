@@ -36,7 +36,7 @@ switch ($table) {
         $timestamp = $machineconn->real_escape_string($_GET['df_col_DT']); 
         $terminal_id = $machineconn->real_escape_string($_GET['df_col_T_ID']); 
         $terminal_type = $machineconn->real_escape_string($_GET['df_col_T_Type'] ?? null);
-        $d_entry_count = $machineconn->real_escape_string($_GET['df_col_D_Counter'] ?? null); 
+        $d_entry_counter = $machineconn->real_escape_string($_GET['df_col_D_Counter'] ?? null); 
         $d_entry_startstop = $machineconn->real_escape_string($_GET['df_col_D_StartStop'] ?? null); 
         $action = $machineconn->real_escape_string($_GET['df_col_Identifier']); 
         $value = $machineconn->real_escape_string($_GET['df_col_Value'] ?? null);        
@@ -48,7 +48,7 @@ switch ($table) {
                 break;        
             
             case 'count':                 
-                handleMachineData($machineconn, $timestamp, $terminal_id, $value, $d_entry_count);
+                handleMachineData($machineconn, $timestamp, $terminal_id, $value, $d_entry_counter);
                 break;
             
             case 'stop':                             
