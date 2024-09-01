@@ -1,5 +1,6 @@
 Actions vom Terminal:
 
+Maschine 1:
 start Maschine + Schicht (Datensatz wird erzeugt wenn Hebel/Taste/Knopf auf An/Start gesetzt wird):
 curl -X GET "http://127.0.0.1/api/getdata.php?df_api=1&df_table=MDE&df_col_DT=2024-08-27%2008:00:00&df_col_T_ID=3533&df_col_T_Type=EVO%204.6%20FlexKey&df_col_D_StartStop=4&df_col_Identifier=start"
 
@@ -8,6 +9,19 @@ curl -X GET "http://127.0.0.1/api/getdata.php?df_api=1&df_table=MDE&df_col_DT=20
 
 stop Maschine aus + Schicht zu Ende: (Datensatz wird erzeugt wenn Hebel/Taste/Knopf auf Aus/Stop gesetzt wird)
 curl -X GET "http://127.0.0.1/api/getdata.php?df_api=1&df_table=MDE&df_col_DT=2024-08-27%2016:00:00&df_col_T_ID=3533&df_col_T_Type=EVO%204.6%20FlexKey&df_col_D_StartStop=4&df_col_Identifier=stop"
+
+################################################################################################################
+
+Maschine 2:
+start Maschine + Schicht (Datensatz wird erzeugt wenn Hebel/Taste/Knopf auf An/Start gesetzt wird):
+http://127.0.0.1/api/getdata.php?df_api=1&df_table=MDE&df_col_DT=2024-08-27%2008:00:00&df_col_T_ID=3533&df_col_T_Type=EVO%204.6%20FlexKey&df_col_D_StartStop=2&df_col_Identifier=start
+
+count die einer Schicht zugeteilt werden: (Datensatz wird übertragen sobald ein Impulse der Maschine erzeugt wird)
+http://127.0.0.1/api/getdata.php?df_api=1&df_table=MDE&df_col_DT=2024-08-27%2016:00:00&df_col_T_ID=3533&df_col_T_Type=EVO%204.6%20FlexKey&df_col_D_Counter=1&df_col_Identifier=count&df_col_Value=1
+
+stop Maschine aus + Schicht zu Ende: (Datensatz wird erzeugt wenn Hebel/Taste/Knopf auf Aus/Stop gesetzt wird)
+curl -X GET "http://127.0.0.1/api/getdata.php?df_api=1&df_table=MDE&df_col_DT=2024-08-27%2016:00:00&df_col_T_ID=3533&df_col_T_Type=EVO%204.6%20FlexKey&df_col_D_StartStop=4&df_col_Identifier=stop"
+
 
 #################################################################################################################
 
@@ -41,12 +55,12 @@ curl -X POST "http://127.0.0.1/api/machinedata/postMachinedata.php"
 Machine:
 
 User in Maschine Posten:
-curl -X POST "http://127.0.0.1/api/machine/postUserToMachine.php"
+curl -X POST "http://127.0.0.1/api/machine/postUserOrderToMachine.php"
      -H "Content-Type: application/json" \
      -d '{ "userid": "123", "machineid": "1"}'
 
 User in Maschine Posten inkl. Auftragsnummer:
-curl -X POST "http://127.0.0.1/api/machine/postUserToMachine.php"
+curl -X POST "http://127.0.0.1/api/machine/postUserOrderToMachine.php"
      -H "Content-Type: application/json" \
      -d '{ "userid": "123", "machineid": "1", "order": "d108237z1hj"}'
 
