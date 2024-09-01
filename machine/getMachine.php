@@ -1,9 +1,9 @@
 <?php
 require_once("../connection.php"); 
 
-$machine_id = $machineconn->real_escape_string($_GET['machineid'] ?? null);
-$userid = $machineconn->real_escape_string($_GET['userid'] ?? null);
-$state = $machineconn->real_escape_string($_GET['state'] ?? null);
+$machine_id = $machineconn->real_escape_string(trim($_GET['machineid'] ?? null));
+$userid = $machineconn->real_escape_string(trim($_GET['userid'] ?? null));
+$state = $machineconn->real_escape_string(trim($_GET['state'] ?? null));
 
 $sql = "SELECT * FROM machine WHERE 1=1"; 
 

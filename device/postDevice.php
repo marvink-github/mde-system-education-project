@@ -9,8 +9,8 @@ if (!isset($data['id']) || !isset($data['type'])) {
     exit();
 }
 
-$terminal_id = $machineconn->real_escape_string($data['id']);
-$terminal_type = $machineconn->real_escape_string($data['type']);
+$terminal_id = $machineconn->real_escape_string(trim($data['id']));
+$terminal_type = $machineconn->real_escape_string(trim($data['type']));
 
 $checkSql = "SELECT * FROM device WHERE terminal_id = '$terminal_id' AND terminal_type = '$terminal_type'";
 $checkResult = $machineconn->query($checkSql);

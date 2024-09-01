@@ -1,10 +1,9 @@
 <?php
 require_once("../connection.php"); 
-require_once("../functions.php");
 
-$userid = trim($machineconn->real_escape_string($_GET['userid'] ?? null));
-$orderid = trim($machineconn->real_escape_string($_GET['orderid'] ?? null));
-$value = trim($machineconn->real_escape_string($_GET['value'] ?? null)); 
+$userid = $machineconn->real_escape_string(trim($_GET['userid'] ?? null));
+$orderid = $machineconn->real_escape_string(trim($_GET['orderid'] ?? null));
+$value = $machineconn->real_escape_string(trim($_GET['value'] ?? null)); 
 
 $sql = "SELECT COUNT(*) AS total FROM machinedata WHERE 1=1"; 
 

@@ -176,7 +176,7 @@ function handleStopAction($machineconn, $timestamp, $terminal_id, $d_entry_start
         return; 
     }
 
-    // Hier ändern falls wir nicht mehr wollen das user id und state bei Maschinenstop auf NULL und stop gesetzt wird
+    // Hier ändern falls wir nicht mehr wollen das userid auf NULL und state auf stop gesetzt werden soll.
     $updateMachineSql = "UPDATE machine SET state = 'stop', userid = NULL, `order` = NULL WHERE idMachine = $machine_id";
 
     if ($machineconn->query($updateMachineSql) === TRUE) {

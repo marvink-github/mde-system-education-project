@@ -9,8 +9,8 @@ if (!isset($data['barcode']) || !isset($data['orderid'])) {
     exit();
 }
 
-$barcode = $machineconn->real_escape_string($data['barcode']);
-$orderid = $machineconn->real_escape_string($data['orderid']);
+$barcode = $machineconn->real_escape_string(trim($data['barcode']));
+$orderid = $machineconn->real_escape_string(trim($data['orderid']));
 
 $sqlCheck = "SELECT * FROM machinedata WHERE value = '$barcode'";
 $resultCheck = $machineconn->query($sqlCheck);

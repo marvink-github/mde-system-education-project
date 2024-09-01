@@ -9,13 +9,13 @@ require_once __DIR__ . '/../connection.php';
 //     exit();
 // }
 
-$from = $machineconn->real_escape_string($_GET['from'] ?? null);
-$to = $machineconn->real_escape_string($_GET['to'] ?? null);
-$userid = $machineconn->real_escape_string($_GET['userid'] ?? null);
-$orderid = $machineconn->real_escape_string($_GET['orderid'] ?? null);  
-$shift = $machineconn->real_escape_string($_GET['shift'] ?? null); 
-$page = $machineconn->real_escape_string($_GET['page'] ?? 1);
-$limit = $machineconn->real_escape_string($_GET['limit'] ?? 200);
+$from = $machineconn->real_escape_string(trim($_GET['from'] ?? null));
+$to = $machineconn->real_escape_string(trim($_GET['to'] ?? null));
+$userid = $machineconn->real_escape_string(trim($_GET['userid'] ?? null));
+$orderid = $machineconn->real_escape_string(trim($_GET['orderid'] ?? null));  
+$shift = $machineconn->real_escape_string(trim($_GET['shift'] ?? null)); 
+$page = $machineconn->real_escape_string(trim($_GET['page'] ?? 1));
+$limit = $machineconn->real_escape_string(trim($_GET['limit'] ?? 200));
 
 $offset = ($page - 1) * $limit;
 

@@ -1,9 +1,9 @@
 <?php
 require_once("../connection.php");
 
-$orderid = $machineconn->real_escape_string($_GET['orderid'] ?? null);
-$userid = $machineconn->real_escape_string($_GET['userid'] ?? null);
-$machine_id = $machineconn->real_escape_string($_GET['machineid'] ?? null);
+$orderid = $machineconn->real_escape_string(trim($_GET['orderid'] ?? null));
+$userid = $machineconn->real_escape_string(trim($_GET['userid'] ?? null));
+$machine_id = $machineconn->real_escape_string(trim($_GET['machineid'] ?? null));
 
 if (!$orderid) {
     http_response_code(400);

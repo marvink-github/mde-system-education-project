@@ -2,7 +2,7 @@
 
 require_once("../connection.php");
 
-$idDevice = $machineconn->real_escape_string($_GET['id'] ?? null);
+$idDevice = $machineconn->real_escape_string(trim($_GET['id'] ?? null));
 
 if ($idDevice) {
     $sql = "SELECT * FROM device WHERE idDevice = '$idDevice'";

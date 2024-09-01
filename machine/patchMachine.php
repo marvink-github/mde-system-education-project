@@ -9,7 +9,7 @@ if (!isset($data['id'])) {
     exit();
 }
 
-$id = $machineconn->real_escape_string($data['id']);
+$id = $machineconn->real_escape_string(trim($data['id']));
 
 $checkSql = "SELECT * FROM machine WHERE idMachine = '$id'";
 $checkResult = $machineconn->query($checkSql);
@@ -22,16 +22,16 @@ if ($checkResult->num_rows === 0) {
 
 $updateFields = [];
 if (isset($data['name'])) {
-    $updateFields[] = "name = '" . $machineconn->real_escape_string($data['name']) . "'";
+    $updateFields[] = "name = '" . $machineconn->real_escape_string(trim($data['name'])) . "'";
 }
 if (isset($data['d_entry_startstop'])) {
-    $updateFields[] = "d_entry_startstop = '" . $machineconn->real_escape_string($data['d_entry_startstop']) . "'";
+    $updateFields[] = "d_entry_startstop = '" . $machineconn->real_escape_string(trim($data['d_entry_startstop'])) . "'";
 }
 if (isset($data['d_entry_counter'])) {
-    $updateFields[] = "d_entry_counter = '" . $machineconn->real_escape_string($data['d_entry_counter']) . "'";
+    $updateFields[] = "d_entry_counter = '" . $machineconn->real_escape_string(trim($data['d_entry_counter'])) . "'";
 }
 if (isset($data['device_idDevice'])) {
-    $updateFields[] = "device_idDevice = '" . $machineconn->real_escape_string($data['device_idDevice']) . "'";
+    $updateFields[] = "device_idDevice = '" . $machineconn->real_escape_string(trim($data['device_idDevice'])) . "'";
 }
 
 if (empty($updateFields)) {

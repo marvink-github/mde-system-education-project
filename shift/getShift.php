@@ -1,8 +1,8 @@
 <?php
 require_once("../connection.php");
 
-$idShift = $machineconn->real_escape_string($_GET['shiftid'] ?? null);
-$machineId = $machineconn->real_escape_string($_GET['machineid'] ?? null);
+$idShift = $machineconn->real_escape_string(trim($_GET['shiftid'] ?? null));
+$machineId = $machineconn->real_escape_string(trim($_GET['machineid'] ?? null));
 
 $sql = "SELECT * FROM shift"; 
 $conditions = [];
