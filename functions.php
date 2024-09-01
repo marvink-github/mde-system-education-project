@@ -50,7 +50,7 @@ function handleStartAction($machineconn, $timestamp, $terminal_id, $d_entry_star
     $machine_id = getMachineIdByDStartStop($machineconn, $terminal_id, $d_entry_startstop);
 
     if ($machine_id === null) {
-        logDB($machineconn, 'start', 'Fehler: Maschine oder digitale Eingabe wurde nicht gefunden.');
+        logDB($machineconn, 'start', "Fehler: Maschine oder digitale Eingabe wurde nicht gefunden. DeviceTime: $timestamp");
         return; 
     }
 
@@ -59,7 +59,7 @@ function handleStartAction($machineconn, $timestamp, $terminal_id, $d_entry_star
     $machine = $machineStateResult->fetch_assoc();
 
     if ($machine['state'] === 'start') {
-        logDB($machineconn, 'start', 'Fehler: Maschine ist bereits aktiv.');
+        logDB($machineconn, 'start', "Fehler: Maschine ist bereits aktiv. DeviceTime: $timestamp");
         return; 
     }
 
@@ -67,7 +67,7 @@ function handleStartAction($machineconn, $timestamp, $terminal_id, $d_entry_star
     $shiftResult = $machineconn->query($checkShiftSql);
 
     if ($shiftResult->num_rows > 0) {
-        logDB($machineconn, 'start', 'Fehler: Eine aktive Schicht bei dieser Maschine existiert bereits.');
+        logDB($machineconn, 'start', "Fehler: Eine aktive Schicht bei dieser Maschine existiert bereits. DeviceTime: $timestamp");
         return; 
     }
 
@@ -77,13 +77,13 @@ function handleStartAction($machineconn, $timestamp, $terminal_id, $d_entry_star
         $shiftSql = "INSERT INTO shift (startTime, machine_idMachine) VALUES ('$timestamp', $machine_id)";
 
         if ($machineconn->query($shiftSql) === TRUE) {
-            logDB($machineconn, 'start', 'success: Maschine und Schicht gestartet.');
+            logDB($machineconn, 'start', "success: Maschine und Schicht gestartet. DeviceTime: $timestamp");
         } else {
-            logDB($machineconn, 'start', 'Fehler beim Starten der Schicht: ' . $machineconn->error);
+            logDB($machineconn, 'start', "Fehler beim Starten der Schicht: $machineconn->error. DeviceTime: $timestamp");
             return; 
         }
     } else {
-        logDB($machineconn, 'start', 'Fehler beim Starten der Maschine: ' . $machineconn->error);
+        logDB($machineconn, 'start', "Fehler beim Starten der Maschine: $machineconn->error. DeviceTime: $timestamp");
         return; 
     }
 }
@@ -92,7 +92,7 @@ function handleMachineData($machineconn, $timestamp, $terminal_id, $value, $d_en
     $machine_id = getMachineIdByDCount($machineconn, $terminal_id, $d_entry_count);
 
     if (!$machine_id) {
-        logDB($machineconn, 'count', 'Fehler: Maschine wurde nicht gefunden. machine_id: ' . $machine_id);
+        logDB($machineconn, 'count', "Fehler: Maschine wurde nicht gefunden. machine_id: $machine_id. DeviceTime: $timestamp");
         return; 
     }
 
@@ -103,11 +103,11 @@ function handleMachineData($machineconn, $timestamp, $terminal_id, $value, $d_en
         $machine = $stateCheckResult->fetch_assoc();
 
         if ($machine['state'] === 'stop') {
-            logDB($machineconn, 'count', 'Fehler: Maschine ist nicht aktiv (State: stop). idMachine: ' . $machine_id);
+            logDB($machineconn, 'count', "Fehler: Maschine ist nicht aktiv (State: stop). idMachine: $machine_id. DeviceTime: $timestamp");
             return;
         }
     } else {
-        logDB($machineconn, 'count', 'Fehler: Maschine wurde nicht gefunden.');
+        logDB($machineconn, 'count', "Fehler: Maschine wurde nicht gefunden. DeviceTime: $timestamp");
         return;
     }
 
@@ -125,7 +125,7 @@ function handleMachineData($machineconn, $timestamp, $terminal_id, $value, $d_en
             $machine = $countResult->fetch_assoc();
 
             if ($machine['d_entry_counter'] != $d_entry_count) {
-                logDB($machineconn, 'count', 'Fehler: d_entry_count stimmt nicht mit der Maschine überein.');
+                logDB($machineconn, 'count', "Fehler: d_entry_count stimmt nicht mit der Maschine überein. DeviceTime: $timestamp");
                 return; 
             }
 
@@ -136,15 +136,15 @@ function handleMachineData($machineconn, $timestamp, $terminal_id, $value, $d_en
                                VALUES ('$timestamp', '$value', '$shift_id', '$userid', '$orderid')";
             
             if ($machineconn->query($machineDataSql) === TRUE) {
-                logDB($machineconn, 'count', 'success: Maschinendaten gespeichert.');
+                logDB($machineconn, 'count', "success: Maschinendaten gespeichert. DeviceTime: $timestamp");
             } else {
-                logDB($machineconn, 'count', 'Fehler beim Speichern der Maschinendaten: ' . $machineconn->error);
+                logDB($machineconn, 'count', "Fehler beim Speichern der Maschinendaten: $machineconn->error. DeviceTime: $timestamp");
             }
         } else {
-            logDB($machineconn, 'count', 'Fehler: Maschine wurde nicht gefunden.');
+            logDB($machineconn, 'count', "Fehler: Maschine wurde nicht gefunden. DeviceTime: $timestamp");
         }
     } else {
-        logDB($machineconn, 'count', 'Fehler: Keine aktive Schicht an dieser Maschine gefunden.');
+        logDB($machineconn, 'count', "Fehler: Keine aktive Schicht an dieser Maschine gefunden. DeviceTime: $timestamp");
     }
 }
 
@@ -152,7 +152,7 @@ function handleStopAction($machineconn, $timestamp, $terminal_id, $d_entry_start
     $machine_id = getMachineIdByDStartStop($machineconn, $terminal_id, $d_entry_startstop);
 
     if (!$machine_id) {
-        logDB($machineconn, 'stop', 'Fehler: Maschine wurde nicht gefunden.');
+        logDB($machineconn, 'stop', "Fehler: Maschine wurde nicht gefunden. DeviceTime: $timestamp");
         return; 
     }
 
@@ -162,13 +162,38 @@ function handleStopAction($machineconn, $timestamp, $terminal_id, $d_entry_start
         $updateShiftSql = "UPDATE shift SET endTime = '$timestamp' WHERE machine_idMachine = $machine_id AND endTime IS NULL";
 
         if ($machineconn->query($updateShiftSql) === TRUE) {
-            logDB($machineconn, 'stop', 'success: Maschine gestoppt und Schicht beendet.');
+            logDB($machineconn, 'stop', "success: Maschine gestoppt und Schicht beendet. DeviceTime: $timestamp");
         } else {
-            logDB($machineconn, 'stop', 'Fehler beim Beenden der Schicht: ' . $machineconn->error);
+            logDB($machineconn, 'stop', "Fehler beim Beenden der Schicht: $machineconn->error. DeviceTime: $timestamp");
         }
     } else {
-        logDB($machineconn, 'stop', 'Fehler beim Stoppen der Maschine: ' . $machineconn->error);
+        logDB($machineconn, 'stop', "Fehler beim Stoppen der Maschine: $machineconn->error. DeviceTime: $timestamp");
     }
 }
 
+
+function handleScannerAction($machineconn, $timestamp, $terminal_id, $terminal_type, $userid, $value, $order) {
+    $deviceStateSql = "SELECT state FROM device WHERE terminal_id = '$terminal_id' AND terminal_type = '$terminal_type'";
+    $deviceStateResult = $machineconn->query($deviceStateSql);
+
+    if ($deviceStateResult->num_rows > 0) {
+        $deviceState = $deviceStateResult->fetch_assoc();
+
+        if ($deviceState['state'] !== 'active') {
+            logDB($machineconn, 'scanner', "Fehler: Gerät ist nicht aktiv. DeviceTime: $timestamp");
+            return;
+        }
+
+        $scannerDataSql = "INSERT INTO machinedata (timestamp, userid, value, `order`) 
+                           VALUES ('$timestamp', '$userid', '$value', '$order')";
+        
+        if ($machineconn->query($scannerDataSql) === TRUE) {
+            logDB($machineconn, 'scanner', "success: Scandaten gespeichert. DeviceTime: $timestamp");
+        } else {
+            logDB($machineconn, 'scanner', "Fehler beim Speichern der Scandaten: $machineconn->error. DeviceTime: $timestamp");
+        }
+    } else {
+        logDB($machineconn, 'scanner', "Fehler: Gerät nicht gefunden für Terminal-ID: $terminal_id und Typ: $terminal_type. DeviceTime: $timestamp");
+    }
+}
 
