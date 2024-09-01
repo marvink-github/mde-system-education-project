@@ -16,7 +16,6 @@ $sql = "SELECT * FROM machinedata WHERE value = '$value'";
 $result = $machineconn->query($sql);
 
 if ($result && $row = $result->fetch_assoc()) {
-    // Wenn `userid` oder `orderid` nicht angegeben wurden, werden die Werte aus der Datenbank verwendet
     if (!$userid) {
         $userid = $row['userid'] ?? '';
     }

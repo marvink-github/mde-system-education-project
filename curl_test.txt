@@ -147,9 +147,9 @@ curl -X GET "http://127.0.0.1/api/log/getLog.php?from=2024-08-27T00:00:00&to=202
 Barcode:
 
 Alle eingescannten Barcodes userid und barcode:  Optional: orderid 
-http://127.0.0.1/api/barcode/getBarcodeCount.php?userid=ad81d19j&barcode=123456789
+http://127.0.0.1/api/barcode/getBarcodeSum.php?userid=ad81d19j&barcode=123456789
 
-Order einem Barcode hinzufügen:
-curl -X POST "http://127.0.0.1/api/barcode/updateBarcodeWithOrder.php" \
+Barcodedatensatz patchen mit userid/orderid: Optional: orderid oder userid
+curl -X PATCH "http://127.0.0.1/api/barcode/patchBarcode.php" \
      -H "Content-Type: application/json" \
-     -d '{"barcode": "123456789", "orderid": "148791a"}'
+     -d '{"barcode": "123456789", "userid": "h9cj", "orderid": "j1d01jd1"}'

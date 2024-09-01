@@ -8,7 +8,7 @@ $requestMethod = $_SERVER['REQUEST_METHOD'];
 
 switch ($requestMethod) {
     case 'GET':
-        require __DIR__ . '/getBarcodeCount.php';
+        require __DIR__ . '/getBarcodeSum.php';
         break;
 
     case 'POST':
@@ -16,7 +16,7 @@ switch ($requestMethod) {
         break;
 
     case 'PATCH':
-        require __DIR__ . '/patchUserToBarcode.php';
+        require __DIR__ . '/patchBarcode.php';
         break;
 
     case 'DELETE':

@@ -5,13 +5,19 @@ $data = json_decode(file_get_contents("php://input"), true);
 
 if (!isset($data['barcode'])) {
     http_response_code(400);
-    echo json_encode(["message" => "Barcode required."], JSON_PRETTY_PRINT);
+    echo json_encode(["message" => "barcode required."], JSON_PRETTY_PRINT);
     exit();
 }
 
 $barcode = $machineconn->real_escape_string(trim($data['barcode']));
 $userid = isset($data['userid']) ? $machineconn->real_escape_string(trim($data['userid'])) : null;
-$orderid = isset($data['orderid']) ? $machineconn->real_escape_string(trim($data['orderid'])) : null;
+$orderid = isset($data['order']) ? $machineconn->real_escape_string(trim($data['order'])) : null;
+
+if (empty($userid) && empty($orderid)) {
+    http_response_code(400);
+    echo json_encode(["message" => "userid or orderid is required."], JSON_PRETTY_PRINT);
+    exit();
+}
 
 $sqlCheck = "SELECT * FROM machinedata WHERE value = '$barcode'";
 $resultCheck = $machineconn->query($sqlCheck);
@@ -42,7 +48,7 @@ if ($machineconn->query($sqlUpdate) === TRUE) {
         "message" => "Data successfully updated in machinedata.",
         "barcode" => $barcode,
         "userid" => $userid ?? $currentUserId, 
-        "orderid" => $orderid ?? $currentOrderId
+        "order" => $orderid ?? $currentOrderId
     ], JSON_PRETTY_PRINT);
 } else {
     http_response_code(400);
