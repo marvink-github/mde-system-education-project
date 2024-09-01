@@ -47,11 +47,13 @@ curl -X POST "http://127.0.0.1/api/machinedata/postMachinedata.php"
      -H "Content-Type: application/json" \
      -d '{ "timestamp": "2024-08-29 18:30:00", "value": "1", "idshift": "52", "userid": "141", "order": "dj19734z1h"}'
 
-Welcher User hat Order begonnen: (Wenn keine userid vorhanden ist, den ersten Eintrag unabhängig von der userid suchen)
+Welcher User hat Auftrag begonnen: (Wenn keine userid angegeben ist, den ersten Eintrag mit anonym)
 curl -X GET "127.0.0.1/api/machinedata/getFirstOrder.php?orderid=d108237z1hj&userid=123"
 
-Welcher User hat Auftrag beendet:
+Welcher User hat Auftrag beendet: (Wenn keine userid angegeben ist, den ersten Eintrag mit anonym)
 curl -X GET "127.0.0.1/api/machinedata/getLastOrder.php?orderid=d108237z1hj"
+
+Summe von Values von einem Auftrag: ()
 
 
 ################################################################################################################
@@ -95,8 +97,8 @@ curl -X DELETE "http://127.0.0.1/api/machine/deleteMachine.php?id=1"
 
 Shift:
 
-User Maschinenaktivität: Pflichtfeld: userid & machineid, Optional: from, to
-curl -X GET "127.0.0.1/api/shift/getUserMachineActivity.php"
+User Maschinenaktivität: Pflichtfeld: userid & machineid & orderid, Optional: from, to
+127.0.0.1/api/shift/getUserShiftActivity.php?userid=123&machineid=1&order=d108237z1hj
 
 Eine bestimmte Schicht nach shiftId:
 curl -X GET "127.0.0.1/api/shift/getShift.php?shiftid=1"

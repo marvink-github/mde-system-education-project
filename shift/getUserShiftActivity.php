@@ -5,7 +5,7 @@ $userid = $_GET['userid'] ?? null;
 $machine_id = $_GET['machineid'] ?? null;
 $from = $_GET['from'] ?? null;
 $to = $_GET['to'] ?? null;
-$order = $_GET['order'] ?? null;
+$order = $_GET['orderid'] ?? null;
 
 if (!$userid) {
     http_response_code(400);
@@ -40,6 +40,10 @@ if ($from) {
 
 if ($to) {
     $sql .= " AND (shift.endTime <= '$to' OR shift.endTime IS NULL)";
+}
+
+if ($order) {
+    $sql .= " AND machinedata.`order` = '$order'";
 }
 
 $sql .= " GROUP BY machinedata.`order`, shift.idShift"; 
