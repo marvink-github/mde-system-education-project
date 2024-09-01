@@ -1,7 +1,7 @@
 <?php
 require_once("../connection.php");
 
-$idShift = $_GET['shiftid'] ?? null;
+$idShift = $machineconn->real_escape_string($_GET['shiftid'] ?? null);
 
 if (!$idShift) {
     http_response_code(400);

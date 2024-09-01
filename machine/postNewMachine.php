@@ -9,10 +9,10 @@ if (!isset($data['name']) || !isset($data['d_entry_startstop']) || !isset($data[
     exit();
 }
 
-$name = $data['name'];
-$d_entry_startstop = $data['d_entry_startstop'];
-$d_entry_counter = $data['d_entry_counter'];
-$device_idDevice = $data['device_idDevice'];
+$name = $machineconn->real_escape_string($data['name']);
+$d_entry_startstop = $machineconn->real_escape_string($data['d_entry_startstop']);
+$d_entry_counter = $machineconn->real_escape_string($data['d_entry_counter']);
+$device_idDevice = $machineconn->real_escape_string($data['device_idDevice']);
 
 $checkSql = "SELECT * FROM machine WHERE name = '$name' OR d_entry_startstop = '$d_entry_startstop' OR d_entry_counter = '$d_entry_counter'";
 $checkResult = $machineconn->query($checkSql);

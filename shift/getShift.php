@@ -1,12 +1,10 @@
 <?php
 require_once("../connection.php");
 
-$idShift = $_GET['shiftid'] ?? null;
-$machineId = $_GET['machineid'] ?? null;
+$idShift = $machineconn->real_escape_string($_GET['shiftid'] ?? null);
+$machineId = $machineconn->real_escape_string($_GET['machineid'] ?? null);
 
 $sql = "SELECT * FROM shift"; 
-
-// Bedingungen für die Abfrage hinzufügen
 $conditions = [];
 
 if ($idShift) {
@@ -36,11 +34,10 @@ while ($row = $result->fetch_assoc()) {
 }
 
 if (empty($data)) {
-    http_response_code(404);
+    http_response_code(400);
     echo json_encode(["message" => "Keine Schichten gefunden."], JSON_PRETTY_PRINT);
 } else {
     echo json_encode($data, JSON_PRETTY_PRINT);
 }
 
 $machineconn->close();
-

@@ -9,7 +9,7 @@ if (!isset($data['id'])) {
     exit();
 }
 
-$id = $data['id'];
+$id = $machineconn->real_escape_string($data['id']);
 
 $checkSql = "SELECT * FROM machine WHERE idMachine = '$id'";
 $checkResult = $machineconn->query($checkSql);

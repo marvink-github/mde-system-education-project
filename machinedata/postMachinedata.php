@@ -10,11 +10,11 @@ if (!isset($data['timestamp']) || !isset($data['value']) || !isset($data['idshif
     exit();
 }
 
-$timestamp = $data['timestamp'];
-$value = $data['value'];
-$idshift = $data['idshift'];
-$userid = $data['userid'] ?? null;
-$order = $data['order'] ?? null;  
+$timestamp = $machineconn->real_escape_string($data['timestamp']);
+$value = $machineconn->real_escape_string($data['value']);
+$idshift = $machineconn->real_escape_string($data['idshift']);
+$userid = isset($data['userid']) ? $machineconn->real_escape_string($data['userid']) : null;
+$order = isset($data['order']) ? $machineconn->real_escape_string($data['order']) : null;
 
 $sql = "INSERT INTO machinedata (timestamp, value, userid, shift_idshift, `order`) 
         VALUES ('$timestamp', '$value', '$userid', '$idshift', ";

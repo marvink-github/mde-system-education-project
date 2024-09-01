@@ -9,9 +9,9 @@ if (!isset($data['machineid'])) {
     exit();
 }
 
-$machine_id = $data['machineid'];
-$userid = $data['userid'] ?? null; 
-$order = $data['orderid'] ?? null;
+$machine_id = $machineconn->real_escape_string($data['machineid']);
+$userid = $machineconn->real_escape_string($data['userid'] ?? null); 
+$order = $machineconn->real_escape_string($data['orderid'] ?? null);
 
 $sqlCheck = "SELECT * FROM machine WHERE idMachine = '$machine_id'";
 $resultCheck = $machineconn->query($sqlCheck);
