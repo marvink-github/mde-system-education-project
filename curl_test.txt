@@ -1,4 +1,4 @@
-Actions vom Terminal:
+Actions von den Maschinen:
 
 Maschine 1:
 start Maschine + Schicht (Datensatz wird erzeugt wenn Hebel/Taste/Knopf auf An/Start gesetzt wird):
@@ -24,6 +24,8 @@ curl -X GET "http://127.0.0.1/api/getdata.php?df_api=1&df_table=MDE&df_col_DT=20
 
 
 #################################################################################################################
+
+REST API Anfragemöglichkeiten
 
 Machinedata:
 

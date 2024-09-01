@@ -12,34 +12,34 @@ if (!isset($_GET['df_api']) || $_GET['df_api'] != 1) {
 
 // logDB($machineconn, 'GET', $_GET); 
 
-$table = $_GET['df_table'] ?? null;
+$table = $machineconn->real_escape_string($_GET['df_table'] ?? null);
 
 if (empty($table)) exit;
 
 switch ($table) {
     case 'Daten':
         $data = [             
-            $_GET['df_col_DT'] ?? null,
-            $_GET['df_col_Badge'] ?? null,
-            $_GET['df_col_Identifier'] ?? null,
-            $_GET['df_col_T_ID'] ?? null,
-            $_GET['df_col_T_Type'] ?? null,
-            $_GET['df_col_User_ID'] ?? null,
-            $_GET['df_col_QR_Code'] ?? null,
-            $_GET['df_col_Inputtyp'] ?? null,
-            $_GET ['df_col_Projekt'] ?? null
+            $machineconn->real_escape_string($_GET['df_col_DT'] ?? null),
+            $machineconn->real_escape_string($_GET['df_col_Badge'] ?? null),
+            $machineconn->real_escape_string($_GET['df_col_Identifier'] ?? null),
+            $machineconn->real_escape_string($_GET['df_col_T_ID'] ?? null),
+            $machineconn->real_escape_string($_GET['df_col_T_Type'] ?? null),
+            $machineconn->real_escape_string($_GET['df_col_User_ID'] ?? null),
+            $machineconn->real_escape_string($_GET['df_col_QR_Code'] ?? null),
+            $machineconn->real_escape_string($_GET['df_col_Inputtyp'] ?? null),
+            $machineconn->real_escape_string($_GET['df_col_Projekt'] ?? null)
         ];       
         logDB($machineconn, 'Daten', $data);
         break;
 
     case 'MDE':   
-        $timestamp = $_GET['df_col_DT']; 
-        $terminal_id = $_GET['df_col_T_ID']; 
-        $terminal_type = $_GET['df_col_T_Type'] ?? null;
-        $d_entry_count = $_GET['df_col_D_Counter'] ?? null; 
-        $d_entry_startstop = $_GET['df_col_D_StartStop'] ?? null; 
-        $action = $_GET['df_col_Identifier']; 
-        $value = $_GET['df_col_Value'] ?? null;   
+        $timestamp = $machineconn->real_escape_string($_GET['df_col_DT']); 
+        $terminal_id = $machineconn->real_escape_string($_GET['df_col_T_ID']); 
+        $terminal_type = $machineconn->real_escape_string($_GET['df_col_T_Type'] ?? null);
+        $d_entry_count = $machineconn->real_escape_string($_GET['df_col_D_Counter'] ?? null); 
+        $d_entry_startstop = $machineconn->real_escape_string($_GET['df_col_D_StartStop'] ?? null); 
+        $action = $machineconn->real_escape_string($_GET['df_col_Identifier']); 
+        $value = $machineconn->real_escape_string($_GET['df_col_Value'] ?? null);   
 
         switch($action){
             case 'start':        
@@ -61,38 +61,38 @@ switch ($table) {
 
     case 'Einstellung':
         $data = [             
-            $_GET['df_col_DU'] ?? null,
-            $_GET['df_col_Wartung'] ?? null,
-            $_GET['df_col_T_ID'] ?? null,
-            $_GET['df_col_T_Typ'] ?? null,
+            $machineconn->real_escape_string($_GET['df_col_DU'] ?? null),
+            $machineconn->real_escape_string($_GET['df_col_Wartung'] ?? null),
+            $machineconn->real_escape_string($_GET['df_col_T_ID'] ?? null),
+            $machineconn->real_escape_string($_GET['df_col_T_Typ'] ?? null),
         ];
         logDB($machineconn, 'Einstellung', $data);
         break;
 
     case 'Alive':
         $data = [            
-            $_GET['df_col_Alive_DU'] ?? null,
-            $_GET['df_col_T_ID'] ?? null,
-            $_GET['df_col_T_Typ'] ?? null,
-            $_GET['df_col_Count'] ?? null,
+            $machineconn->real_escape_string($_GET['df_col_Alive_DU'] ?? null),
+            $machineconn->real_escape_string($_GET['df_col_T_ID'] ?? null),
+            $machineconn->real_escape_string($_GET['df_col_T_Typ'] ?? null),
+            $machineconn->real_escape_string($_GET['df_col_Count'] ?? null),
         ];
         //logDB($machineconn, 'Alive', $data);
         break;
 
     case 'System':
         $data = [              
-            $_GET['df_col_DU'] ?? null,
-            $_GET['df_col_T_ID'] ?? null,
-            $_GET['df_col_T_Typ'] ?? null,
-            $_GET['df_col_Typ'] ?? null,
-            $_GET['df_col_Typ_Desc'] ?? null,
-            $_GET['df_col_Gruppe'] ?? null,
-            $_GET['df_col_Gruppe_Desc'] ?? null,
-            $_GET['df_col_Grund'] ?? null,
-            $_GET['df_col_Grund_Desc'] ?? null,
-            $_GET['df_col_Detail_1'] ?? null,
-            $_GET['df_col_Detail_2'] ?? null,
-            $_GET['df_col_Detail_3'] ?? null,
+            $machineconn->real_escape_string($_GET['df_col_DU'] ?? null),
+            $machineconn->real_escape_string($_GET['df_col_T_ID'] ?? null),
+            $machineconn->real_escape_string($_GET['df_col_T_Typ'] ?? null),
+            $machineconn->real_escape_string($_GET['df_col_Typ'] ?? null),
+            $machineconn->real_escape_string($_GET['df_col_Typ_Desc'] ?? null),
+            $machineconn->real_escape_string($_GET['df_col_Gruppe'] ?? null),
+            $machineconn->real_escape_string($_GET['df_col_Gruppe_Desc'] ?? null),
+            $machineconn->real_escape_string($_GET['df_col_Grund'] ?? null),
+            $machineconn->real_escape_string($_GET['df_col_Grund_Desc'] ?? null),
+            $machineconn->real_escape_string($_GET['df_col_Detail_1'] ?? null),
+            $machineconn->real_escape_string($_GET['df_col_Detail_2'] ?? null),
+            $machineconn->real_escape_string($_GET['df_col_Detail_3'] ?? null),
         ];
         logDB($machineconn, 'System', $data);
         break;
@@ -104,4 +104,3 @@ switch ($table) {
 $machineconn->close();
  
 echo 'df_api=1';
-
