@@ -18,10 +18,7 @@ if ($orderid) {
 $result = $machineconn->query($sql);
 
 if ($result) {
-    $row = $result->fetch_assoc();
-
-    logDB($machineconn, 'success', "Barcode: $orderid wurde eingescannt.");
-
+    $row = $result->fetch_assoc();    
     echo json_encode([
         "status" => "success", 
         "total" => (int)$row['total'] 

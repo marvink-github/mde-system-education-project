@@ -172,7 +172,7 @@ function handleStopAction($machineconn, $timestamp, $terminal_id, $d_entry_start
 }
 
 
-function handleScannerAction($machineconn, $timestamp, $terminal_id, $terminal_type, $userid, $value, $barcode) {
+function handleScannerAction($machineconn, $timestamp, $terminal_id, $terminal_type, $badge, $value, $barcode) {
     $deviceStateSql = "SELECT state FROM device WHERE terminal_id = '$terminal_id' AND terminal_type = '$terminal_type'";
     $deviceStateResult = $machineconn->query($deviceStateSql);
 
@@ -180,20 +180,20 @@ function handleScannerAction($machineconn, $timestamp, $terminal_id, $terminal_t
         $deviceState = $deviceStateResult->fetch_assoc();
 
         if ($deviceState['state'] !== 'active') {
-            logDB($machineconn, 'scanner', "Fehler: Gerät ist nicht aktiv. DeviceTime: $timestamp");
+            logDB($machineconn, 'scanner', "Fehler: Device ist nicht active. DeviceTime: $timestamp");
             return;
         }
 
         $scannerDataSql = "INSERT INTO machinedata (timestamp, userid, value, `order`) 
-                           VALUES ('$timestamp', '$userid', '$value', '$barcode')";
+                           VALUES ('$timestamp', '$badge', '$value', '$barcode')";
         
         if ($machineconn->query($scannerDataSql) === TRUE) {
-            logDB($machineconn, 'scanner', "success: Scandaten gespeichert. DeviceTime: $timestamp");
+            logDB($machineconn, 'scanner', "Barcode $barcode eingescannt von $badge. DeviceTime: $timestamp");
         } else {
             logDB($machineconn, 'scanner', "Fehler beim Speichern der Scandaten: $machineconn->error. DeviceTime: $timestamp");
         }
     } else {
-        logDB($machineconn, 'scanner', "Fehler: Gerät nicht gefunden für Terminal-ID: $terminal_id und Typ: $terminal_type. DeviceTime: $timestamp");
+        logDB($machineconn, 'scanner', "Fehler: Device nicht gefunden für Terminal-ID: $terminal_id und Typ: $terminal_type. DeviceTime: $timestamp");
     }
 }
 

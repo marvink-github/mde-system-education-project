@@ -41,7 +41,7 @@ switch ($table) {
         $action = $machineconn->real_escape_string($_GET['df_col_Identifier']); 
         $value = $machineconn->real_escape_string($_GET['df_col_Value'] ?? null); 
         $barcode = $machineconn->real_escape_string($_GET['df_col_Barcode'] ?? null);
-        $userid = $machineconn->real_escape_string($_GET['df_col_Badge'] ?? null);
+        $badge = $machineconn->real_escape_string($_GET['df_col_Badge'] ?? null);
 
         switch($action){
             case 'start':        
@@ -56,7 +56,7 @@ switch ($table) {
                 handleStopAction($machineconn, $timestamp, $terminal_id, $d_entry_startstop);                  
                 break;
             case 'scanner':
-                handleScannerAction($machineconn, $timestamp, $terminal_id, $terminal_type, $userid, $value, $barcode);
+                handleScannerAction($machineconn, $timestamp, $terminal_id, $terminal_type, $badge, $value, $barcode);
                 break;
 
             default:
