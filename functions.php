@@ -172,7 +172,7 @@ function handleStopAction($machineconn, $timestamp, $terminal_id, $d_entry_start
 }
 
 
-function handleScannerAction($machineconn, $timestamp, $terminal_id, $terminal_type, $badge, $barcode) {
+function handleScannerAction($machineconn, $timestamp, $terminal_id, $terminal_type, $badge, $value) {
     $deviceStateSql = "SELECT state FROM device WHERE terminal_id = '$terminal_id' AND terminal_type = '$terminal_type'";
     $deviceStateResult = $machineconn->query($deviceStateSql);
 
@@ -185,10 +185,10 @@ function handleScannerAction($machineconn, $timestamp, $terminal_id, $terminal_t
         }
 
         $scannerDataSql = "INSERT INTO machinedata (timestamp, userid, value) 
-                           VALUES ('$timestamp', '$badge', '$barcode')";
+                           VALUES ('$timestamp', '$badge', '$value')";
         
         if ($machineconn->query($scannerDataSql) === TRUE) {
-            logDB($machineconn, 'scanner', "Barcode $barcode wurde eingescannt von $badge. DeviceTime: $timestamp");
+            logDB($machineconn, 'scanner', "Barcode $value wurde eingescannt von $badge. DeviceTime: $timestamp");
         } else {
             logDB($machineconn, 'scanner', "Fehler beim Speichern der Scandaten: $machineconn->error. DeviceTime: $timestamp");
         }

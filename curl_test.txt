@@ -144,4 +144,14 @@ curl -X GET "http://127.0.0.1/api/log/getLog.php?from=2024-08-27T00:00:00&to=202
 
 ##################################################################################################################
 
+Barcode:
+
+Alle eingescannten Barcodes zählen:
+curl -X GET "http://127.0.0.1/api/barcode/getBarcodeCount.php?orderid=123456789"
+
+Eine Order einem Barcode hinzufügen:
+curl -X POST "http://127.0.0.1/api/barcode/updateBarcodeWithOrder.php" \
+     -H "Content-Type: application/json" \
+     -d '{"barcode": "123456789", "orderid": "148791a"}'
+
 
