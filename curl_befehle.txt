@@ -47,6 +47,12 @@ curl -X POST "http://127.0.0.1/api/machinedata/postMachinedata.php"
      -H "Content-Type: application/json" \
      -d '{ "timestamp": "2024-08-29 18:30:00", "value": "1", "idshift": "52", "userid": "141", "order": "dj19734z1h"}'
 
+Welcher User hat Order begonnen: (Wenn keine userid vorhanden ist, den ersten Eintrag unabhängig von der userid suchen)
+curl -X GET "127.0.0.1/api/machinedata/getFirstOrder.php?orderid=d108237z1hj&userid=123"
+
+Welcher User hat Auftrag beendet:
+curl -X GET "127.0.0.1/api/machinedata/getLastOrder.php?orderid=d108237z1hj"
+
 
 ################################################################################################################
 

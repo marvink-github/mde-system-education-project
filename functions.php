@@ -103,7 +103,7 @@ function handleMachineData($machineconn, $timestamp, $terminal_id, $value, $d_en
         $shift = $currentShiftResult->fetch_assoc();
         $shift_id = $shift['idshift'];
 
-        $countSql = "SELECT d_entry_counter, userid, `order` FROM machine WHERE idMachine = $machine_id"; // `order` hinzugefügt
+        $countSql = "SELECT d_entry_counter, userid, `order` FROM machine WHERE idMachine = $machine_id"; // `order` wichtig!
         $countResult = $machineconn->query($countSql);
 
         if ($countResult->num_rows > 0) {

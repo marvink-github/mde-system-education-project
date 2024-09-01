@@ -7,9 +7,9 @@ $from = $_GET['from'] ?? null;
 $to = $_GET['to'] ?? null;
 $order = $_GET['order'] ?? null;
 
-if (!$userid || !$machine_id) {
+if (!$userid) {
     http_response_code(400);
-    echo json_encode(["message" => "userid und machineid sind erforderlich."], JSON_PRETTY_PRINT);
+    echo json_encode(["message" => "userid ist erforderlich."], JSON_PRETTY_PRINT);
     exit();
 }
 
@@ -28,12 +28,10 @@ $sql = "SELECT
         ON 
             shift.idShift = machinedata.shift_idShift 
         WHERE 
-            shift.machine_idMachine = '$machine_id' 
-        AND 
-            machinedata.userid = '$userid'";
+            machinedata.userid = '$userid'"; 
 
-if ($order) {
-    $sql .= " AND machinedata.`order` = '$order'"; 
+if ($machine_id) {
+    $sql .= " AND shift.machine_idMachine = '$machine_id'"; 
 }
 
 if ($from) {
@@ -44,7 +42,7 @@ if ($to) {
     $sql .= " AND (shift.endTime <= '$to' OR shift.endTime IS NULL)";
 }
 
-$sql .= " GROUP BY machinedata.`order`, shift.idShift"; // Gruppierung nach orderid UND idShift
+$sql .= " GROUP BY machinedata.`order`, shift.idShift"; 
 $sql .= " ORDER BY shift.startTime ASC";
 
 $result = $machineconn->query($sql);
@@ -65,13 +63,13 @@ while ($row = $result->fetch_assoc()) {
         'orderid' => $row['orderid'], 
         'startTime' => $row['startTime'],
         'endTime' => $row['endTime'],
-        'total_value' => $row['total_value'] // Die Summe der Werte für diese Schicht und Order
+        'total_value' => $row['total_value'] 
     ];
 }
 
 if (empty($data)) {
     http_response_code(400);
-    echo json_encode(["message" => "Keine Schichten bei diesem Benutzer und dieser Maschine gefunden."], JSON_PRETTY_PRINT);
+    echo json_encode(["message" => "Keine Schichten bei diesem Benutzer gefunden."], JSON_PRETTY_PRINT);
 } else {
     echo json_encode($data, JSON_PRETTY_PRINT);
 }
