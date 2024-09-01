@@ -153,8 +153,3 @@ Order einem Barcode hinzufügen:
 curl -X POST "http://127.0.0.1/api/barcode/updateBarcodeWithOrder.php" \
      -H "Content-Type: application/json" \
      -d '{"barcode": "123456789", "orderid": "148791a"}'
-
-
-
-
-
