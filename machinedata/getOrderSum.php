@@ -12,18 +12,23 @@ if (!$orderid) {
 }
 
 $sql = "SELECT 
-            SUM(value) AS total_value
+            SUM(machinedata.value) AS total_value,
+            COUNT(machinedata.idMachinedata) AS data_count,
+            COUNT(DISTINCT machinedata.shift_idShift) AS shift_count,
+            machinedata.`order`
         FROM 
             machinedata 
+        LEFT JOIN 
+            shift ON machinedata.shift_idShift = shift.idShift
         WHERE 
-            `order` = '$orderid'";
+            machinedata.`order` = '$orderid'";
 
 if ($userid) {
-    $sql .= " AND userid = '$userid'";
+    $sql .= " AND machinedata.userid = '$userid'";
 }
 
 if ($machine_id) {
-    $sql .= " AND shift_idShift IN (SELECT idShift FROM shift WHERE machine_idMachine = '$machine_id')";
+    $sql .= " AND machinedata.shift_idShift IN (SELECT idShift FROM shift WHERE machine_idMachine = '$machine_id')";
 }
 
 $result = $machineconn->query($sql);
@@ -36,12 +41,15 @@ if (!$result) {
 
 $row = $result->fetch_assoc();
 
-if ($row['total_value'] === null) {
-    http_response_code(200);
-    echo json_encode(["total_value" => 0], JSON_PRETTY_PRINT); 
-} else {
-    echo json_encode(["total_value" => $row['total_value']], JSON_PRETTY_PRINT);
-}
+$data = [
+    'orderid' => $orderid,
+    'total_value' => $row['total_value'] ?? 0,
+    'data_count' => $row['data_count'] ?? 0, 
+    'shift_count' => $row['shift_count'] ?? 0
+];
+
+http_response_code(200);
+echo json_encode($data, JSON_PRETTY_PRINT);
 
 $machineconn->close();
 
