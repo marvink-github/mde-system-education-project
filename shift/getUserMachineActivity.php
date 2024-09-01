@@ -13,25 +13,39 @@ if (!$userid || !$machine_id) {
     exit();
 }
 
-$sql = "SELECT idShift, machine_idMachine AS idMachine, startTime, endTime, `order` AS order_id 
-        FROM shift 
-        LEFT JOIN machinedata ON shift.idShift = machinedata.shift_idShift 
-        WHERE machine_idMachine = '$machine_id' 
-        AND machinedata.userid = '$userid'";
+$sql = "SELECT 
+            shift.idShift AS shiftid, 
+            shift.machine_idMachine AS machineid, 
+            machinedata.userid, 
+            machinedata.`order` AS orderid,
+            shift.startTime, 
+            shift.endTime, 
+            SUM(machinedata.value) AS total_value
+        FROM 
+            shift 
+        LEFT JOIN 
+            machinedata 
+        ON 
+            shift.idShift = machinedata.shift_idShift 
+        WHERE 
+            shift.machine_idMachine = '$machine_id' 
+        AND 
+            machinedata.userid = '$userid'";
 
 if ($order) {
     $sql .= " AND machinedata.`order` = '$order'"; 
 }
 
 if ($from) {
-    $sql .= " AND startTime >= '$from'";
+    $sql .= " AND shift.startTime >= '$from'";
 }
 
 if ($to) {
-    $sql .= " AND (endTime <= '$to' OR endTime IS NULL)";
+    $sql .= " AND (shift.endTime <= '$to' OR shift.endTime IS NULL)";
 }
 
-$sql .= " ORDER BY startTime ASC";
+$sql .= " GROUP BY machinedata.`order`, shift.idShift"; // Gruppierung nach orderid UND idShift
+$sql .= " ORDER BY shift.startTime ASC";
 
 $result = $machineconn->query($sql);
 
@@ -45,12 +59,13 @@ $data = [];
 
 while ($row = $result->fetch_assoc()) {
     $data[] = [
-        'shiftid' => $row['idShift'], 
-        'machineid' => $row['idMachine'],   
-        'userid' => $userid,   
-        'orderid' => $row['order_id'], 
+        'shiftid' => $row['shiftid'], 
+        'machineid' => $row['machineid'],   
+        'userid' => $row['userid'],   
+        'orderid' => $row['orderid'], 
         'startTime' => $row['startTime'],
-        'endTime' => $row['endTime']
+        'endTime' => $row['endTime'],
+        'total_value' => $row['total_value'] // Die Summe der Werte für diese Schicht und Order
     ];
 }
 
@@ -62,3 +77,4 @@ if (empty($data)) {
 }
 
 $machineconn->close();
+
