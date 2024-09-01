@@ -53,8 +53,8 @@ curl -X GET "127.0.0.1/api/machinedata/getFirstOrder.php?orderid=d108237z1hj&use
 Welcher User hat Auftrag beendet: (Wenn keine userid angegeben ist, den ersten Eintrag mit anonym)
 curl -X GET "127.0.0.1/api/machinedata/getLastOrder.php?orderid=d108237z1hj"
 
-Summe von Values von einem Auftrag: ()
-
+Values von einem Auftrag mit orderid: (total_value, data_count, shift_count) Optional: userid, machineid
+curl -X GET "127.0.0.1/api/machinedata/getOrderCount.php?orderid=d108237z1hj"
 
 ################################################################################################################
 
