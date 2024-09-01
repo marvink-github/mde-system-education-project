@@ -14,20 +14,18 @@ curl -X GET "http://127.0.0.1/api/getdata.php?df_api=1&df_table=MDE&df_col_DT=20
 
 Maschine 2:
 start Maschine + Schicht (Datensatz wird erzeugt wenn Hebel/Taste/Knopf auf An/Start gesetzt wird):
-http://127.0.0.1/api/getdata.php?df_api=1&df_table=MDE&df_col_DT=2024-08-27%2008:00:00&df_col_T_ID=3533&df_col_T_Type=EVO%204.6%20FlexKey&df_col_D_StartStop=2&df_col_Identifier=start
+curl -X GET http://127.0.0.1/api/getdata.php?df_api=1&df_table=MDE&df_col_DT=2024-08-27%2008:00:00&df_col_T_ID=3533&df_col_T_Type=EVO%204.6%20FlexKey&df_col_D_StartStop=2&df_col_Identifier=start
 
 count die einer Schicht zugeteilt werden: (Datensatz wird übertragen sobald ein Impulse der Maschine erzeugt wird)
-http://127.0.0.1/api/getdata.php?df_api=1&df_table=MDE&df_col_DT=2024-08-27%2016:00:00&df_col_T_ID=3533&df_col_T_Type=EVO%204.6%20FlexKey&df_col_D_Counter=1&df_col_Identifier=count&df_col_Value=1
+curl -X GET http://127.0.0.1/api/getdata.php?df_api=1&df_table=MDE&df_col_DT=2024-08-27%2016:00:00&df_col_T_ID=3533&df_col_T_Type=EVO%204.6%20FlexKey&df_col_D_Counter=1&df_col_Identifier=count&df_col_Value=1
 
 stop Maschine aus + Schicht zu Ende: (Datensatz wird erzeugt wenn Hebel/Taste/Knopf auf Aus/Stop gesetzt wird)
-curl -X GET "http://127.0.0.1/api/getdata.php?df_api=1&df_table=MDE&df_col_DT=2024-08-27%2016:00:00&df_col_T_ID=3533&df_col_T_Type=EVO%204.6%20FlexKey&df_col_D_StartStop=4&df_col_Identifier=stop"
+curl -X GET "http://127.0.0.1/api/getdata.php?df_api=1&df_table=MDE&df_col_DT=2024-08-27%2016:00:00&df_col_T_ID=3533&df_col_T_Type=EVO%204.6%20FlexKey&df_col_D_StartStop=2&df_col_Identifier=stop"
 
 
 #################################################################################################################
 
 Machinedata:
-
-orderid=1 muss noch implementiert werden...
 
 Mit from, to, userid, page und limit:
 curl -X GET "http://127.0.0.1/api/machinedata/getMachinedata.php?from=2024-01-01T00:00:00&to=2024-01-31T23:59:59&userid=1&orderid=&page=1&limit=50"
