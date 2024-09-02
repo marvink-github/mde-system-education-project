@@ -176,21 +176,35 @@ function handleStopAction($machineconn, $timestamp, $terminal_id, $d_entry_start
         return; 
     }
 
-    // Hier ändern falls wir nicht mehr wollen das userid auf NULL und state auf stop gesetzt werden soll.
+    $machineDataSql = "SELECT userid, state FROM machine WHERE idMachine = $machine_id";
+    $machineDataResult = $machineconn->query($machineDataSql);
+    $machineData = $machineDataResult->fetch_assoc();
+
+    $useridExists = !empty($machineData['userid']);
+    
     $updateMachineSql = "UPDATE machine SET state = 'stop', userid = NULL, `order` = NULL WHERE idMachine = $machine_id";
 
     if ($machineconn->query($updateMachineSql) === TRUE) {
         $updateShiftSql = "UPDATE shift SET endTime = '$timestamp' WHERE machine_idMachine = $machine_id AND endTime IS NULL";
+        $shiftUpdated = $machineconn->query($updateShiftSql) === TRUE;
 
-        if ($machineconn->query($updateShiftSql) === TRUE) {
-            logDB($machineconn, 'stop', "success: Machine stopped and shift ended. DeviceTime: $timestamp");
+        if ($useridExists && $shiftUpdated) {
+            $logMessage = "success: Machine stopped, shiftid and userid removed. DeviceTime: $timestamp";
+        } elseif ($useridExists) {
+            $logMessage = "success: Machine stopped and userid removed. DeviceTime: $timestamp";
+        } elseif ($shiftUpdated) {
+            $logMessage = "success: Machine stopped and shiftid removed. DeviceTime: $timestamp";
         } else {
-            logDB($machineconn, 'stop', "error: Ending the shift: $machineconn->error. DeviceTime: $timestamp");
+            $logMessage = "success: Machine stopped. DeviceTime: $timestamp";
         }
+
+        logDB($machineconn, 'stop', $logMessage);
+
     } else {
         logDB($machineconn, 'stop', "error: Stopping the machine: $machineconn->error. DeviceTime: $timestamp");
     }
 }
+
 
 
 function handleScannerAction($machineconn, $timestamp, $terminal_id, $terminal_type, $badge, $value) {

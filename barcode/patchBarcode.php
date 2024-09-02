@@ -11,11 +11,11 @@ if (!isset($data['barcode'])) {
 
 $barcode = $machineconn->real_escape_string(trim($data['barcode']));
 $userid = isset($data['userid']) ? $machineconn->real_escape_string(trim($data['userid'])) : null;
-$orderid = isset($data['order']) ? $machineconn->real_escape_string(trim($data['order'])) : null;
+$orderid = isset($data['orderid']) ? $machineconn->real_escape_string(trim($data['orderid'])) : null;
 
 if (empty($userid) && empty($orderid)) {
     http_response_code(400);
-    echo json_encode(["message" => "userid or orderid is required."], JSON_PRETTY_PRINT);
+    echo json_encode(["message" => "userid is required."], JSON_PRETTY_PRINT);
     exit();
 }
 

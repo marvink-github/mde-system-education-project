@@ -63,14 +63,14 @@ curl -X GET "127.0.0.1/api/machinedata/getOrderCount.php?orderid=d108237z1hj"
 Machine:
 
 User in Maschine Posten:
-curl -X POST "http://127.0.0.1/api/machine/postUserOrderToMachine.php"
+curl -X POST "http://127.0.0.1/api/machine/patchMachine.php"
      -H "Content-Type: application/json" \
      -d '{ "userid": "123", "machineid": "1"}'
 
 User in Maschine Posten inkl. Auftragsnummer:
-curl -X POST "http://127.0.0.1/api/machine/postUserOrderToMachine.php"
+curl -X POST "http://127.0.0.1/api/machine/patchMachine.php"
      -H "Content-Type: application/json" \
-     -d '{ "userid": "123", "machineid": "1", "order": "d108237z1hj"}'
+     -d '{ "userid": "123", "machineid": "1", "orderid": "d108237z1hj"}'
 
 Maschine erstellen:
 curl -X POST "http://127.0.0.1/api/machine/postNewMachine.php" \
@@ -147,7 +147,7 @@ curl -X GET "http://127.0.0.1/api/log/getLog.php?from=2024-08-27T00:00:00&to=202
 Barcode:
 
 Alle eingescannten Barcodes userid und barcode:  Optional: orderid 
-http://127.0.0.1/api/barcode/getBarcodeSum.php?userid=ad81d19j&barcode=123456789
+curl -X GET http://127.0.0.1/api/barcode/getBarcodeSum.php?userid=ad81d19j&barcode=123456789
 
 Barcodedatensatz patchen mit userid/orderid: Optional: orderid oder userid
 curl -X PATCH "http://127.0.0.1/api/barcode/patchBarcode.php" \
