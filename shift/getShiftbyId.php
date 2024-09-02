@@ -4,12 +4,17 @@ require_once("../connection.php");
 $idShift = $machineconn->real_escape_string(trim($_GET['shiftid'] ?? null));
 $machineId = $machineconn->real_escape_string(trim($_GET['machineid'] ?? null));
 
+
+if (!$idShift) {
+    http_response_code(400);
+    echo json_encode(["message" => "shiftid is required."], JSON_PRETTY_PRINT);
+    exit();
+}
+
 $sql = "SELECT * FROM shift"; 
 $conditions = [];
 
-if ($idShift) {
-    $conditions[] = "idshift = '$idShift'";
-}
+$conditions[] = "idshift = '$idShift'"; 
 
 if ($machineId) {
     $conditions[] = "machine_idMachine = '$machineId'";
