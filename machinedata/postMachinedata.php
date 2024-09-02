@@ -6,7 +6,7 @@ $data = json_decode(file_get_contents("php://input"), true);
 
 if (!isset($data['timestamp']) || !isset($data['value']) || !isset($data['idshift'])) {
     http_response_code(400);
-    echo json_encode(["message" => "Missing required fields: timestamp, value, and idshift are required."], JSON_PRETTY_PRINT);
+    echo json_encode(["message" => "timestamp, value, and idshift are required."], JSON_PRETTY_PRINT);
     exit();
 }
 

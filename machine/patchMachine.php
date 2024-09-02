@@ -7,7 +7,7 @@ $machine_id = $machineconn->real_escape_string(trim($data['machineid'] ?? $_GET[
 
 if (!$machine_id) {
     http_response_code(400);
-    echo json_encode(["message" => "Machineid required."], JSON_PRETTY_PRINT);
+    echo json_encode(["message" => "machineid required."], JSON_PRETTY_PRINT);
     exit();
 }
 

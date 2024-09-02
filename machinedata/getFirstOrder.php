@@ -23,9 +23,9 @@ if ($userid) {
                 LEFT JOIN 
                     shift ON machinedata.shift_idShift = shift.idShift
                 WHERE 
-                    machinedata.`order` = '$orderid' 
+                    machinedata.`order` = '$orderid'
                 AND 
-                    machinedata.userid = '$userid'
+                    machinedata.userid = '$userid' 
                 ORDER BY 
                     machinedata.idMachinedata ASC 
                 LIMIT 1";

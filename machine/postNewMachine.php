@@ -5,7 +5,7 @@ $data = json_decode(file_get_contents("php://input"), true);
 
 if (!isset($data['name']) || !isset($data['d_entry_startstop']) || !isset($data['d_entry_counter']) || !isset($data['device_idDevice'])) {
     http_response_code(400); 
-    echo json_encode(["message" => "Missing required fields."], JSON_PRETTY_PRINT);
+    echo json_encode(["message" => "name, d_entry_startstop, e_entry_counter and device_idDevice is required."], JSON_PRETTY_PRINT);
     exit();
 }
 

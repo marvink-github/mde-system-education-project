@@ -5,7 +5,7 @@ $data = json_decode(file_get_contents("php://input"), true);
 
 if (!isset($data['barcode'])) {
     http_response_code(400);
-    echo json_encode(["message" => "barcode required."], JSON_PRETTY_PRINT);
+    echo json_encode(["message" => "barcode is required."], JSON_PRETTY_PRINT);
     exit();
 }
 
