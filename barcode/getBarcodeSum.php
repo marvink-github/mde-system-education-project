@@ -5,7 +5,7 @@ $value = $machineconn->real_escape_string(trim($_GET['barcode'] ?? null));
 
 if (!$value) {
     http_response_code(400);
-    echo json_encode(["message" => "barcode required."], JSON_PRETTY_PRINT);
+    echo json_encode(["message" => "barcode is required."], JSON_PRETTY_PRINT);
     exit();
 }
 

@@ -2,11 +2,11 @@
 
 require_once("../connection.php");
 
-$idDevice = $machineconn->real_escape_string(trim($_GET['id'] ?? null));
+$idDevice = $machineconn->real_escape_string(trim($_GET['deviceid'] ?? null));
 
 if (!$idDevice) {
     http_response_code(400);
-    echo json_encode(["message" => "Missing required fields: id is required."], JSON_PRETTY_PRINT);
+    echo json_encode(["message" => "deviceid is required."], JSON_PRETTY_PRINT);
     exit();
 }
 

@@ -13,7 +13,7 @@ $from = $machineconn->real_escape_string(trim($_GET['from'] ?? null));
 $to = $machineconn->real_escape_string(trim($_GET['to'] ?? null));
 $userid = $machineconn->real_escape_string(trim($_GET['userid'] ?? null));
 $orderid = $machineconn->real_escape_string(trim($_GET['orderid'] ?? null));  
-$shift = $machineconn->real_escape_string(trim($_GET['shift'] ?? null)); 
+$shiftid = $machineconn->real_escape_string(trim($_GET['shiftid'] ?? null)); 
 $page = $machineconn->real_escape_string(trim($_GET['page'] ?? 1));
 $limit = $machineconn->real_escape_string(trim($_GET['limit'] ?? 200));
 
@@ -37,8 +37,8 @@ if ($orderid) {
     $sql .= " AND `order` = '$orderid'"; 
 }
 
-if ($shift) {
-    $sql .= " AND shift_idshift = '$shift'";
+if ($shiftid) {
+    $sql .= " AND shift_idshift = '$shiftid'";
 }
 
 $sql .= " LIMIT $limit OFFSET $offset";
