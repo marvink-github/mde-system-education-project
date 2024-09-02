@@ -12,7 +12,7 @@ if (!$machine_id) {
 }
 
 $userid = $machineconn->real_escape_string(trim($data['userid'] ?? null)); 
-$orderid = $machineconn->real_escape_string(trim($data['orderid'] ?? null));
+$orderid = $data['orderid'] ?? null;
 
 $sqlCheck = "SELECT * FROM machine WHERE idMachine = '$machine_id'";
 $resultCheck = $machineconn->query($sqlCheck);
@@ -23,30 +23,24 @@ if ($resultCheck->num_rows == 0) {
     exit();
 }
 
-if (empty($userid) && empty($orderid) && empty($data['name']) && empty($data['d_entry_startstop']) && empty($data['d_entry_counter']) && empty($data['device_idDevice'])) {
-    http_response_code(400);
-    echo json_encode(["message" => "At least one is required. (userid, orderid, machinename, d_entry_startstop, d_entry_counter or device_idDevice."], JSON_PRETTY_PRINT);
-    exit();
-}
-
 $updateFields = [];
 
 if (!empty($userid)) {
     $updateFields[] = "userid = '$userid'";
 }
-if (!empty($order)) {
-    $updateFields[] = "`order` = '$orderid'";
+if ($orderid !== null && $orderid !== "") {
+    $updateFields[] = "`order` = '" . $machineconn->real_escape_string(trim($orderid)) . "'";
 }
-if (isset($data['name'])) {
+if (isset($data['name']) && $data['name'] !== "") {
     $updateFields[] = "name = '" . $machineconn->real_escape_string(trim($data['name'])) . "'";
 }
-if (isset($data['d_entry_startstop'])) {
+if (isset($data['d_entry_startstop']) && $data['d_entry_startstop'] !== "") {
     $updateFields[] = "d_entry_startstop = '" . $machineconn->real_escape_string(trim($data['d_entry_startstop'])) . "'";
 }
-if (isset($data['d_entry_counter'])) {
+if (isset($data['d_entry_counter']) && $data['d_entry_counter'] !== "") {
     $updateFields[] = "d_entry_counter = '" . $machineconn->real_escape_string(trim($data['d_entry_counter'])) . "'";
 }
-if (isset($data['device_idDevice'])) {
+if (isset($data['device_idDevice']) && $data['device_idDevice'] !== "") {
     $updateFields[] = "device_idDevice = '" . $machineconn->real_escape_string(trim($data['device_idDevice'])) . "'";
 }
 
@@ -59,7 +53,7 @@ if (!empty($updateFields)) {
 
         http_response_code(200);
         echo json_encode([
-            "message" => "Machineinformation successfully patched.",
+            "message" => "Machine information successfully patched.",
             "machineId" => $machine_id,
             "userid" => $updatedData['userid'] ?? null,
             "orderid" => $updatedData['order'] ?? null,
@@ -70,7 +64,7 @@ if (!empty($updateFields)) {
         ], JSON_PRETTY_PRINT);
     } else {
         http_response_code(400);
-        echo json_encode(["message" => "Error updating machinedata: " . $machineconn->error], JSON_PRETTY_PRINT);
+        echo json_encode(["message" => "Error updating machine data: " . $machineconn->error], JSON_PRETTY_PRINT);
     }
 } else {
     http_response_code(400);
@@ -78,3 +72,4 @@ if (!empty($updateFields)) {
 }
 
 $machineconn->close();
+

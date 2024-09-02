@@ -7,7 +7,7 @@ $machine_id = $machineconn->real_escape_string(trim($_GET['machineid'] ?? null))
 
 if (!$orderid) {
     http_response_code(400);
-    echo json_encode(["message" => "orderid ist erforderlich."], JSON_PRETTY_PRINT);
+    echo json_encode(["message" => "orderid is required."], JSON_PRETTY_PRINT);
     exit();
 }
 
@@ -35,7 +35,7 @@ $result = $machineconn->query($sql);
 
 if (!$result) {
     http_response_code(400);
-    echo json_encode(["message" => "Datenbankabfrage fehlgeschlagen: " . $machineconn->error], JSON_PRETTY_PRINT);
+    echo json_encode(["message" => "Database query failed:" . $machineconn->error], JSON_PRETTY_PRINT);
     exit();
 }
 
@@ -44,7 +44,7 @@ $row = $result->fetch_assoc();
 $data = [
     'orderid' => $orderid,
     'total_value' => $row['total_value'] ?? 0,
-    'data_count' => $row['data_count'] ?? 0, 
+    'record_count' => $row['data_count'] ?? 0, 
     'shift_count' => $row['shift_count'] ?? 0
 ];
 

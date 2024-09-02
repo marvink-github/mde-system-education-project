@@ -25,8 +25,6 @@ curl -X GET "http://127.0.0.1/api/getdata.php?df_api=1&df_table=MDE&df_col_DT=20
 
 #################################################################################################################
 
-REST API Anfragemöglichkeiten
-
 Machinedata:
 
 Mit from, to, userid, page und limit:
@@ -49,11 +47,11 @@ curl -X POST "http://127.0.0.1/api/machinedata/postMachinedata.php"
      -H "Content-Type: application/json" \
      -d '{ "timestamp": "2024-08-29 18:30:00", "value": "1", "idshift": "52", "userid": "141", "order": "dj19734z1h"}'
 
-Welcher User hat Auftrag begonnen: (Wenn keine userid angegeben ist, den ersten Eintrag mit anonym)
+Welcher User hat Auftrag begonnen: (Wenn keine userid angegeben ist, den ersten Eintrag von anonym)
 curl -X GET "127.0.0.1/api/machinedata/getFirstOrder.php?orderid=d108237z1hj&userid=123"
 
-Welcher User hat Auftrag beendet: (Wenn keine userid angegeben ist, den ersten Eintrag mit anonym)
-curl -X GET "127.0.0.1/api/machinedata/getLastOrder.php?orderid=d108237z1hj"
+Welcher User hat Auftrag beendet: (Wenn keine userid angegeben ist, den ersten Eintrag von anonym)
+curl -X GET "127.0.0.1/api/machinedata/getLastOrder.php?orderid=d108237z1hj&userid=123"
 
 Values von einem Auftrag mit orderid: (total_value, data_count, shift_count) Optional: userid, machineid
 curl -X GET "127.0.0.1/api/machinedata/getOrderCount.php?orderid=d108237z1hj"
@@ -87,10 +85,18 @@ curl -X GET "http://127.0.0.1/api/machine/getMachine.php"
 Eine spezifische Maschine abrufen:
 curl -X GET "http://127.0.0.1/api/machine/getMachine.php?id=1"
 
-Maschine Patchen, Machine Id muss gesetzt sein (die anderen Parameter sind optional)
+Machine PATCH, MachineId muss gesetzt sein (anderen Parameter sind optional)
 curl -X PATCH "http://127.0.0.1/api/machine/patchMachine.php" \
      -H "Content-Type: application/json" \
-     -d '{"machineid": "1", "name": "New Name", "userid": "813"}'
+     -d '{
+           "machineid": "1",
+           "userid": "",
+           "orderid": "",
+           "name": "New Name 10",
+           "d_entry_startstop": "",
+           "d_entry_counter": "",
+           "device_idDevice": ""
+         }'
 
 Maschine löschen nach id:
 curl -X DELETE "http://127.0.0.1/api/machine/deleteMachine.php?id=1"

@@ -8,5 +8,5 @@ $machinedb = "machinedb_v3";
 $machineconn = mysqli_connect($machinehost, $machineusername, $machinepassword, $machinedb);
 
 if(mysqli_connect_errno()) {
-    die("Verbindung fehlgeschlagen: " . mysqli_connect_error());
+    die("Connection failed: " . mysqli_connect_error());
 }
