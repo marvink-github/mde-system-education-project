@@ -5,7 +5,7 @@ $idShift = $machineconn->real_escape_string(trim($_GET['shiftid'] ?? null));
 
 if (!$idShift) {
     http_response_code(400);
-    echo json_encode(["message" => "Missing required fields: id required."], JSON_PRETTY_PRINT);
+    echo json_encode(["message" => "shiftid is required."], JSON_PRETTY_PRINT);
     exit();
 }
 
