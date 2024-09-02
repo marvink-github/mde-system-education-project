@@ -9,7 +9,7 @@ $order = $machineconn->real_escape_string(trim($_GET['orderid'] ?? null));
 
 if (!$userid) {
     http_response_code(400);
-    echo json_encode(["message" => "userid ist erforderlich."], JSON_PRETTY_PRINT);
+    echo json_encode(["message" => "userid is required."], JSON_PRETTY_PRINT);
     exit();
 }
 
@@ -53,7 +53,7 @@ $result = $machineconn->query($sql);
 
 if (!$result) {
     http_response_code(400);
-    echo json_encode(["message" => "Datenbankabfrage fehlgeschlagen: " . $machineconn->error], JSON_PRETTY_PRINT);
+    echo json_encode(["message" => "Database query failed: " . $machineconn->error], JSON_PRETTY_PRINT);
     exit();
 }
 
@@ -73,7 +73,7 @@ while ($row = $result->fetch_assoc()) {
 
 if (empty($data)) {
     http_response_code(400);
-    echo json_encode(["message" => "Keine Schichten bei diesem Benutzer gefunden."], JSON_PRETTY_PRINT);
+    echo json_encode(["message" => "No shifts found for this user."], JSON_PRETTY_PRINT);
 } else {
     echo json_encode($data, JSON_PRETTY_PRINT);
 }
