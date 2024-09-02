@@ -24,7 +24,7 @@ switch ($requestMethod) {
         break;
 
     default:
-        http_response_code(405);
+        http_response_code(400);
         echo json_encode(["message" => "Method Not Allowed"]);
         break;
 }
