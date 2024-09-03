@@ -1,5 +1,4 @@
 <?php
-require_once("../connection.php");
 
 $orderid = $machineconn->real_escape_string(trim($_GET['orderid'] ?? null));
 $userid = $machineconn->real_escape_string(trim($_GET['userid'] ?? null));
