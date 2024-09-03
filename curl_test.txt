@@ -79,11 +79,8 @@ curl -X POST "http://127.0.0.1/api/machine/postNewMachine.php" \
      -H "Content-Type: application/json" \
      -d '{ "name": "Testmachine 2", "d_entry_startstop": "2", "d_entry_counter": "1", "device_idDevice": "1"}'  
 
-Alle Maschinen abrufen:
+Alle Maschinen abrufen: Optional(machineid, userid, state)
 curl -X GET "http://127.0.0.1/api/machine/getMachine.php" 
-
-Eine spezifische Maschine abrufen:
-curl -X GET "http://127.0.0.1/api/machine/getMachine.php?id=1"
 
 Machine PATCH, MachineId muss gesetzt sein (anderen Parameter sind optional)
 curl -X PATCH "http://127.0.0.1/api/machine/patchMachine.php" \

@@ -8,7 +8,7 @@ $requestMethod = $_SERVER['REQUEST_METHOD'];
 
 switch ($requestMethod) {
     case 'GET':
-        require __DIR__ . '/getMachine.php';
+        require __DIR__ . '/getMachineById.php';
         break;
 
     case 'POST':
@@ -16,11 +16,11 @@ switch ($requestMethod) {
         break;
 
     case 'PATCH':
-        require __DIR__ . '/patchMachine.php';
+        require __DIR__ . '/patchMachineById.php';
         break;
 
     case 'DELETE':
-        require __DIR__ . '/deleteMachine.php';
+        require __DIR__ . '/deleteMachineById.php';
         break;
 
     default:

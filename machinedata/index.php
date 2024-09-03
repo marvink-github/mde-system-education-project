@@ -9,9 +9,9 @@ $requestMethod = $_SERVER['REQUEST_METHOD'];
 switch ($requestMethod) {
     case 'GET':
         require __DIR__ . '/getMachinedata.php';
-        require __DIR__ . '/getFirstOrder.php';
-        require __DIR__ . '/getLastOrder.php';
-        require __DIR__ . '/getOrderCount.php';
+        require __DIR__ . '/getFirstOrderById.php';
+        require __DIR__ . '/getLastOrderById.php';
+        require __DIR__ . '/getOrderCountById.php';
         break;
 
     case 'POST':

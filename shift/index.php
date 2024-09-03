@@ -8,8 +8,8 @@ $requestMethod = $_SERVER['REQUEST_METHOD'];
 
 switch ($requestMethod) {
     case 'GET':
-        require __DIR__ . '/getShiftbyId.php';
-        require __DIR__ . '/getUserShiftActivity.php';
+        require __DIR__ . '/getShift.php';
+        require __DIR__ . '/getShiftActivityByUser.php';
         break;
 
     case 'POST':

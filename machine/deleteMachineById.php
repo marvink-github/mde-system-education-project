@@ -1,7 +1,7 @@
 <?php
 require_once("../connection.php"); 
 
-$machineId = $machineconn->real_escape_string(trim($_GET['id'] ?? null));
+$machineId = $machineconn->real_escape_string(trim($_GET['machineid'] ?? null));
 
 if (!$machineId) {
     http_response_code(400); 
