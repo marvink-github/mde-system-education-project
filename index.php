@@ -68,7 +68,7 @@ try {
     }
 } catch (Exception $e) {
     http_response_code(500);
-    logDB($machineconn, 'catch', 'error: internal server error index.php' . $e->getMessage());
+    logDB($machineconn, 'catch', 'error: internal server error' . $e->getMessage());
 } finally {
     $machineconn->close();
 }
