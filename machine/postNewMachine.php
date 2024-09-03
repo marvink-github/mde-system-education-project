@@ -19,7 +19,7 @@ $checkResult = $machineconn->query($checkSql);
 
 if ($checkResult->num_rows > 0) {
     http_response_code(400); 
-    echo json_encode(["message" => "This machine already exists."], JSON_PRETTY_PRINT);
+    echo json_encode(["message" => "this machine already exists."], JSON_PRETTY_PRINT);
     exit();
 }
 
@@ -28,10 +28,10 @@ $sql = "INSERT INTO machine (name, d_entry_startstop, d_entry_counter, device_id
 if ($machineconn->query($sql) === TRUE) {
     $last_id = $machineconn->insert_id;
     http_response_code(200); 
-    echo json_encode(["message" => "Machine succesfully created", "idMachine" => $last_id], JSON_PRETTY_PRINT);
+    echo json_encode(["message" => "machine succesfully created", "idMachine" => $last_id], JSON_PRETTY_PRINT);
 } else {
     http_response_code(400); 
-    echo json_encode(["message" => "Error creating the machine:" . $machineconn->error], JSON_PRETTY_PRINT);
+    echo json_encode(["message" => "error creating the machine:" . $machineconn->error], JSON_PRETTY_PRINT);
 }
 
 $machineconn->close();

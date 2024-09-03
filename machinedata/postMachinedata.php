@@ -23,10 +23,10 @@ $sql .= ($order !== null) ? "'$order')" : "NULL)";
 
 if ($machineconn->query($sql) === TRUE) {
     http_response_code(201);  
-    echo json_encode(["message" => "Machinedata successfully saved.", "id" => $machineconn->insert_id], JSON_PRETTY_PRINT);
+    echo json_encode(["message" => "machinedata successfully saved.", "id" => $machineconn->insert_id], JSON_PRETTY_PRINT);
 } else {
     http_response_code(500);  
-    echo json_encode(["message" => "Error saving machinedata:" . $machineconn->error], JSON_PRETTY_PRINT);
+    echo json_encode(["message" => "error saving machinedata:" . $machineconn->error], JSON_PRETTY_PRINT);
 }
 
 

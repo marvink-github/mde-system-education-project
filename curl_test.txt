@@ -14,10 +14,10 @@ curl -X GET "http://127.0.0.1/api/getdata.php?df_api=1&df_table=MDE&df_col_DT=20
 
 Maschine 2:
 start Maschine + Schicht (Datensatz wird erzeugt wenn Hebel/Taste/Knopf auf An/Start gesetzt wird):
-curl -X GET http://127.0.0.1/api/getdata.php?df_api=1&df_table=MDE&df_col_DT=2024-08-27%2008:00:00&df_col_T_ID=3533&df_col_T_Type=EVO%204.6%20FlexKey&df_col_D_StartStop=2&df_col_Identifier=start
+curl -X GET "http://127.0.0.1/api/getdata.php?df_api=1&df_table=MDE&df_col_DT=2024-08-27%2008:00:00&df_col_T_ID=3533&df_col_T_Type=EVO%204.6%20FlexKey&df_col_D_StartStop=2&df_col_Identifier=start"
 
 count die einer Schicht zugeteilt werden: (Datensatz wird übertragen sobald ein Impulse der Maschine erzeugt wird)
-curl -X GET http://127.0.0.1/api/getdata.php?df_api=1&df_table=MDE&df_col_DT=2024-08-27%2016:00:00&df_col_T_ID=3533&df_col_T_Type=EVO%204.6%20FlexKey&df_col_D_Counter=1&df_col_Identifier=count&df_col_Value=1
+curl -X GET "http://127.0.0.1/api/getdata.php?df_api=1&df_table=MDE&df_col_DT=2024-08-27%2016:00:00&df_col_T_ID=3533&df_col_T_Type=EVO%204.6%20FlexKey&df_col_D_Counter=1&df_col_Identifier=count&df_col_Value=1"
 
 stop Maschine aus + Schicht zu Ende: (Datensatz wird erzeugt wenn Hebel/Taste/Knopf auf Aus/Stop gesetzt wird)
 curl -X GET "http://127.0.0.1/api/getdata.php?df_api=1&df_table=MDE&df_col_DT=2024-08-27%2016:00:00&df_col_T_ID=3533&df_col_T_Type=EVO%204.6%20FlexKey&df_col_D_StartStop=2&df_col_Identifier=stop"
@@ -106,7 +106,7 @@ curl -X DELETE "http://127.0.0.1/api/machine/deleteMachine.php?id=1"
 Shift:
 
 User Maschinenaktivität: Pflichtfeld: userid & machineid & orderid, Optional: from, to
-127.0.0.1/api/shift/getUserShiftActivity.php?userid=123&machineid=1&order=d108237z1hj
+curl -X GET "127.0.0.1/api/shift/getUserShiftActivity.php?userid=123&machineid=1&order=d108237z1hj"
 
 Eine bestimmte Schicht nach shiftId:
 curl -X GET "127.0.0.1/api/shift/getShift.php?shiftid=1"
@@ -153,9 +153,18 @@ curl -X GET "http://127.0.0.1/api/log/getLog.php?from=2024-08-27T00:00:00&to=202
 Barcode:
 
 Alle eingescannten Barcodes userid und barcode:  Optional: orderid 
-curl -X GET http://127.0.0.1/api/barcode/getBarcodeSum.php?userid=ad81d19j&barcode=123456789
+curl -X GET "http://127.0.0.1/api/barcode/getBarcodeSum.php?userid=ad81d19j&barcode=123456789"
 
 Barcodedatensatz patchen mit userid/orderid: Optional: orderid oder userid
 curl -X PATCH "http://127.0.0.1/api/barcode/patchBarcode.php" \
      -H "Content-Type: application/json" \
      -d '{"barcode": "123456789", "userid": "h9cj", "orderid": "j1d01jd1"}'
+
+##################################################################################################################
+
+Alive:
+
+Letzten Zeitstempel eines Device abfragen:
+curl -X GET "http://127.0.0.1/api/alive/getAliveStatus.php?terminalid=3533&terminaltype=EVO 4.6 FlexKey"
+
+

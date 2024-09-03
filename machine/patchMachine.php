@@ -19,7 +19,7 @@ $resultCheck = $machineconn->query($sqlCheck);
 
 if ($resultCheck->num_rows == 0) {
     http_response_code(400);
-    echo json_encode(["message" => "Machine not found."], JSON_PRETTY_PRINT);
+    echo json_encode(["message" => "machine not found."], JSON_PRETTY_PRINT);
     exit();
 }
 
@@ -53,7 +53,7 @@ if (!empty($updateFields)) {
 
         http_response_code(200);
         echo json_encode([
-            "message" => "Machine information successfully patched.",
+            "message" => "machine information successfully patched.",
             "machineId" => $machine_id,
             "userid" => $updatedData['userid'] ?? null,
             "orderid" => $updatedData['order'] ?? null,
@@ -64,11 +64,11 @@ if (!empty($updateFields)) {
         ], JSON_PRETTY_PRINT);
     } else {
         http_response_code(400);
-        echo json_encode(["message" => "Error updating machine data: " . $machineconn->error], JSON_PRETTY_PRINT);
+        echo json_encode(["message" => "error updating machine data: " . $machineconn->error], JSON_PRETTY_PRINT);
     }
 } else {
     http_response_code(400);
-    echo json_encode(["message" => "No changes specified."], JSON_PRETTY_PRINT);
+    echo json_encode(["message" => "no changes specified."], JSON_PRETTY_PRINT);
 }
 
 $machineconn->close();

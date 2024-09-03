@@ -33,7 +33,7 @@ if ($result && $row = $result->fetch_assoc()) {
     ], JSON_PRETTY_PRINT);
 } else {
     http_response_code(400);
-    echo json_encode(["message" => "No entry found for this barcode in machinedata."], JSON_PRETTY_PRINT);
+    echo json_encode(["message" => "no entry found for this barcode in machinedata."], JSON_PRETTY_PRINT);
 }
 
 $machineconn->close();

@@ -47,7 +47,7 @@ $result = $machineconn->query($sql);
 
 if (!$result) {
     http_response_code(400);
-    echo json_encode(["message" => "Database query failed: " . $machineconn->error]);
+    echo json_encode(["message" => "database query failed: " . $machineconn->error]);
     exit();
 }
 

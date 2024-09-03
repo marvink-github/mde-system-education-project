@@ -52,7 +52,7 @@ $lastResult = $machineconn->query($lastSql);
 
 if (!$lastResult) {
     http_response_code(400);
-    echo json_encode(["message" => "Database query for the last entry failed: " . $machineconn->error], JSON_PRETTY_PRINT);
+    echo json_encode(["message" => "database query for the last entry failed: " . $machineconn->error], JSON_PRETTY_PRINT);
     exit();
 }
 
@@ -60,7 +60,7 @@ $lastEntry = $lastResult->fetch_assoc();
 
 if (empty($lastEntry)) {
     http_response_code(400);
-    echo json_encode(["message" => "No last entry found for this order."], JSON_PRETTY_PRINT);
+    echo json_encode(["message" => "no last entry found for this order."], JSON_PRETTY_PRINT);
 } else {
     echo json_encode($lastEntry, JSON_PRETTY_PRINT);
 }

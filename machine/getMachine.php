@@ -31,7 +31,7 @@ if ($result) {
     echo json_encode($data, JSON_PRETTY_PRINT);
 } else {
     http_response_code(404); 
-    echo json_encode(["message" => "No machine found."], JSON_PRETTY_PRINT);
+    echo json_encode(["message" => "no machine found."], JSON_PRETTY_PRINT);
 }
 
 $machineconn->close();

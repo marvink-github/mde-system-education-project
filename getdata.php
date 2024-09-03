@@ -73,14 +73,13 @@ switch ($table) {
         logDB($machineconn, 'Einstellung', $data);
         break;
 
-    case 'Alive':
-        $data = [            
-            $machineconn->real_escape_string(trim($_GET['df_col_Alive_DU'] ?? null)),
-            $machineconn->real_escape_string(trim($_GET['df_col_T_ID'] ?? null)),
-            $machineconn->real_escape_string(trim($_GET['df_col_T_Typ'] ?? null)),
-            $machineconn->real_escape_string(trim($_GET['df_col_Count'] ?? null)),
-        ];
-        //logDB($machineconn, 'Alive', $data);
+    case 'Alive':                   
+        $timestamp = $machineconn->real_escape_string(trim($_GET['df_col_Alive_DU'] ?? null));
+        $terminal_id = $machineconn->real_escape_string(trim($_GET['df_col_T_ID'] ?? null));
+        $terminal_type = $machineconn->real_escape_string(trim($_GET['df_col_T_Typ'] ?? null));
+        $alive_count = $machineconn->real_escape_string(trim($_GET['df_col_Count'] ?? null));
+
+        updateAliveStatus($machineconn, $timestamp, $terminal_id, $terminal_type, $alive_count);    
         break;
 
     case 'System':

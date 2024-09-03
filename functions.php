@@ -75,6 +75,7 @@ function handleStartAction($machineconn, $timestamp, $terminal_id, $d_entry_star
     }
 }
 
+
 function handleMachineData($machineconn, $timestamp, $terminal_id, $value, $d_entry_counter) {
     $machine_id = getMachineIdByAction($machineconn, $terminal_id, 'd_entry_counter', $d_entry_counter);
 
@@ -135,6 +136,7 @@ function handleMachineData($machineconn, $timestamp, $terminal_id, $value, $d_en
     }
 }
 
+
 function handleStopAction($machineconn, $timestamp, $terminal_id, $d_entry_startstop) {
     $machine_id = getMachineIdByAction($machineconn, $terminal_id, 'd_entry_startstop', $d_entry_startstop);
 
@@ -173,7 +175,6 @@ function handleStopAction($machineconn, $timestamp, $terminal_id, $d_entry_start
 }
 
 
-
 function handleScannerAction($machineconn, $timestamp, $terminal_id, $terminal_type, $badge, $value) {
     $deviceStateSql = "SELECT state FROM device WHERE terminal_id = '$terminal_id' AND terminal_type = '$terminal_type'";
     $deviceStateResult = $machineconn->query($deviceStateSql);
@@ -196,6 +197,19 @@ function handleScannerAction($machineconn, $timestamp, $terminal_id, $terminal_t
         }
     } else {
         logDB($machineconn, 'scanner', "error: device not found for terminal_id: $terminal_id and terminal_type: $terminal_type. devicetime: $timestamp");
+    }
+}
+
+
+function updateAliveStatus($machineconn, $timestamp, $terminal_id, $terminal_type, $alive_count) {
+    $sqlUpdate = "UPDATE device SET last_alive = '$timestamp' WHERE terminal_id = '$terminal_id' AND terminal_type = '$terminal_type'";
+
+    if ($machineconn->query($sqlUpdate) === TRUE) {
+        if ((new DateTime() > (new DateTime($timestamp))->modify('+1 hour'))) {
+            logDB($machineconn, 'alive', "warning: device ($terminal_id, $terminal_type) last_alive is over 1 hour ago.");
+        }
+    } else {
+        logDB($machineconn, 'alive', "error updating last_alive for ($terminal_id, $terminal_type): " . $machineconn->error);
     }
 }
 

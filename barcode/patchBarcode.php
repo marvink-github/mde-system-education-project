@@ -24,7 +24,7 @@ $resultCheck = $machineconn->query($sqlCheck);
 
 if ($resultCheck->num_rows == 0) {
     http_response_code(400);
-    echo json_encode(["message" => "No entry found for this barcode in machinedata."], JSON_PRETTY_PRINT);
+    echo json_encode(["message" => "no entry found for this barcode in machinedata."], JSON_PRETTY_PRINT);
     exit();
 }
 
@@ -45,14 +45,14 @@ $sqlUpdate .= " WHERE value = '$barcode'";
 if ($machineconn->query($sqlUpdate) === TRUE) {
     http_response_code(200);
     echo json_encode([
-        "message" => "Data successfully updated in machinedata.",
+        "message" => "data successfully updated in machinedata.",
         "barcode" => $barcode,
         "userid" => $userid ?? $currentUserId, 
         "order" => $orderid ?? $currentOrderId
     ], JSON_PRETTY_PRINT);
 } else {
     http_response_code(400);
-    echo json_encode(["message" => "Error updating machinedata: " . $machineconn->error], JSON_PRETTY_PRINT);
+    echo json_encode(["message" => "error updating machinedata: " . $machineconn->error], JSON_PRETTY_PRINT);
 }
 
 $machineconn->close();

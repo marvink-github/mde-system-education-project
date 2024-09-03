@@ -17,7 +17,7 @@ $checkResult = $machineconn->query($checkSql);
 
 if ($checkResult->num_rows > 0) {
     http_response_code(409); 
-    echo json_encode(["message" => "Device with this ID and type already exists."], JSON_PRETTY_PRINT);
+    echo json_encode(["message" => "this device already exists."], JSON_PRETTY_PRINT);
     exit();
 }
 
@@ -26,10 +26,10 @@ $sql = "INSERT INTO device (terminal_id, terminal_type) VALUES ('$terminal_id', 
 if ($machineconn->query($sql) === TRUE) {
     $last_id = $machineconn->insert_id;
     http_response_code(201); 
-    echo json_encode(["message" => "Device succesfully created.", "idDevice" => $last_id], JSON_PRETTY_PRINT);
+    echo json_encode(["message" => "device succesfully created.", "idDevice" => $last_id], JSON_PRETTY_PRINT);
 } else {
     http_response_code(500); 
-    echo json_encode(["message" => "Error creating the device:" . $machineconn->error], JSON_PRETTY_PRINT);
+    echo json_encode(["message" => "error creating the device:" . $machineconn->error], JSON_PRETTY_PRINT);
 }
 
 $machineconn->close();
