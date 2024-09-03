@@ -1,5 +1,4 @@
 <?php
-require_once("../connection.php");
 
 $value = $machineconn->real_escape_string(trim($_GET['barcode'] ?? null));
 

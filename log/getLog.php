@@ -1,5 +1,4 @@
 <?php
-require_once("../connection.php");
 
 $logType = $machineconn->real_escape_string(trim($_GET['type'] ?? null));
 $from = $machineconn->real_escape_string(trim($_GET['from'] ?? null)); 

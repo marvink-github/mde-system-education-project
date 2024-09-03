@@ -1,7 +1,5 @@
 <?php
 
-require_once("../connection.php");
-
 $idDevice = $machineconn->real_escape_string(trim($_GET['deviceid'] ?? null));
 
 if ($idDevice) {

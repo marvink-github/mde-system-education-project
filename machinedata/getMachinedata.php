@@ -1,7 +1,5 @@
 <?php
 
-require_once __DIR__ . '/../connection.php'; 
-
 // Optional API Key check
 // if ($_GET['apiKey'] != "12398712397123987sadsdaihusadohji") {
 //     http_response_code(403);

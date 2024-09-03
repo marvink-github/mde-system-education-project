@@ -1,5 +1,4 @@
 <?php
-require_once("../connection.php");
 
 $terminal_id = $machineconn->real_escape_string(trim($_GET['terminalid'] ?? null));
 $terminal_type = $machineconn->real_escape_string(trim($_GET['terminaltype'] ?? null));

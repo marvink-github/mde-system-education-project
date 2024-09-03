@@ -1,5 +1,4 @@
 <?php
-require_once("../connection.php");
 
 $idShift = $machineconn->real_escape_string(trim($_GET['shiftid'] ?? null));
 

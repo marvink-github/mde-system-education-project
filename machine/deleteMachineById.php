@@ -1,5 +1,4 @@
 <?php
-require_once("../connection.php"); 
 
 $machineId = $machineconn->real_escape_string(trim($_GET['machineid'] ?? null));
 

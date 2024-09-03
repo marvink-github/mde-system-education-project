@@ -1,7 +1,5 @@
 <?php
 
-require_once __DIR__ . '/../connection.php'; 
-
 $data = json_decode(file_get_contents("php://input"), true);
 
 if (!isset($data['timestamp']) || !isset($data['value']) || !isset($data['idshift'])) {
@@ -29,6 +27,4 @@ if ($machineconn->query($sql) === TRUE) {
     echo json_encode(["message" => "error saving machinedata:" . $machineconn->error], JSON_PRETTY_PRINT);
 }
 
-
 $machineconn->close();
-
