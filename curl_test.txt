@@ -164,7 +164,10 @@ curl -X PATCH "http://127.0.0.1/api/barcode/patchBarcode.php" \
 
 Alive:
 
-Letzten Zeitstempel eines Device abfragen:
+last_alive Zeitstempel von einem Device abfragen:
 curl -X GET "http://127.0.0.1/api/alive/getAliveStatus.php?terminalid=3533&terminaltype=EVO 4.6 FlexKey"
 
+last_alive Zeitstempel einfügen > 1h in der Vergangenheit für Test:
+curl -X GET "http://127.0.0.1/api/getdata.php?df_api=1&df_table=Alive&df_col_Alive_DU=2024-08-30T13%3A31%3A52&df_col_T_ID=3533&df_col_T_Typ=EVO%204.6%20FlexKey&df_col_Count=1"
 
+##################################################################################################################

@@ -206,7 +206,7 @@ function updateAliveStatus($machineconn, $timestamp, $terminal_id, $terminal_typ
 
     if ($machineconn->query($sqlUpdate) === TRUE) {
         if ((new DateTime() > (new DateTime($timestamp))->modify('+1 hour'))) {
-            logDB($machineconn, 'alive', "warning: device ($terminal_id, $terminal_type) last_alive is over 1 hour ago.");
+            logDB($machineconn, 'alive', "warning: device ($terminal_id, $terminal_type) -> last_alive is over 1 hour ago.");
         }
     } else {
         logDB($machineconn, 'alive', "error updating last_alive for ($terminal_id, $terminal_type): " . $machineconn->error);
