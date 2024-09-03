@@ -70,7 +70,7 @@ curl -X POST "http://127.0.0.1/api/machine/patchMachine.php"
      -H "Content-Type: application/json" \
      -d '{ "userid": "123", "machineid": "1", "orderid": "d108237z1hj"}'
 
-Maschine erstellen:
+Maschinen erstellen:
 curl -X POST "http://127.0.0.1/api/machine/postNewMachine.php" \
      -H "Content-Type: application/json" \
      -d '{ "name": "Testmachine 1", "d_entry_startstop": "4", "d_entry_counter": "3", "device_idDevice": "1"}'
