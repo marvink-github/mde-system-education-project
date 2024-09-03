@@ -12,7 +12,7 @@ if (!$orderid) {
 
 if ($userid) {
     $firstSql = "SELECT 
-                    machinedata.idMachinedata AS entry_id, 
+                    machinedata.idMachinedata AS startid, 
                     machinedata.userid, 
                     machinedata.`order` AS orderid, 
                     machinedata.shift_idShift AS shift_id,
@@ -31,7 +31,7 @@ if ($userid) {
                 LIMIT 1";
 } else {
     $firstSql = "SELECT 
-                    machinedata.idMachinedata AS entry_id, 
+                    machinedata.idMachinedata AS startid, 
                     machinedata.userid, 
                     machinedata.`order` AS orderid, 
                     machinedata.shift_idShift AS shift_id,

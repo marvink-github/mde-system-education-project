@@ -48,13 +48,13 @@ curl -X POST "http://127.0.0.1/api/machinedata/postMachinedata.php"
      -d '{ "timestamp": "2024-08-29 18:30:00", "value": "1", "idshift": "52", "userid": "141", "order": "dj19734z1h"}'
 
 Welcher User hat Auftrag begonnen: (Wenn keine userid angegeben ist, den ersten Eintrag von anonym)
-curl -X GET "127.0.0.1/api/machinedata/getFirstOrder.php?orderid=d108237z1hj&userid=123"
+curl -X GET "127.0.0.1/api/machinedata/getFirstOrderById.php?orderid=d108237z1hj&userid=123"
 
 Welcher User hat Auftrag beendet: (Wenn keine userid angegeben ist, den ersten Eintrag von anonym)
-curl -X GET "127.0.0.1/api/machinedata/getLastOrder.php?orderid=d108237z1hj&userid=123"
+curl -X GET "127.0.0.1/api/machinedata/getLastOrderById.php?orderid=d108237z1hj&userid=123"
 
 Values von einem Auftrag mit orderid: (total_value, data_count, shift_count) Optional: userid, machineid
-curl -X GET "127.0.0.1/api/machinedata/getOrderCount.php?orderid=d108237z1hj"
+curl -X GET "127.0.0.1/api/machinedata/getOrderCountById.php?orderid=d108237z1hj"
 
 ################################################################################################################
 
@@ -89,7 +89,7 @@ curl -X PATCH "http://127.0.0.1/api/machine/patchMachine.php" \
            "machineid": "1",
            "userid": "",
            "orderid": "",
-           "name": "New Name 10",
+           "name": "",
            "d_entry_startstop": "",
            "d_entry_counter": "",
            "device_idDevice": ""
