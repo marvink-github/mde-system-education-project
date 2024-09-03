@@ -175,23 +175,16 @@ function handleStopAction($machineconn, $timestamp, $terminal_id, $d_entry_start
 }
 
 
-function handleScannerAction($machineconn, $timestamp, $terminal_id, $terminal_type, $badge, $value) {
-    $deviceStateSql = "SELECT state FROM device WHERE terminal_id = '$terminal_id' AND terminal_type = '$terminal_type'";
-    $deviceStateResult = $machineconn->query($deviceStateSql);
+function handleScannerAction($machineconn, $timestamp, $terminal_id, $terminal_type, $badge, $barcode) {
+    $deviceExistsSql = "SELECT 1 FROM device WHERE terminal_id = '$terminal_id' AND terminal_type = '$terminal_type'";
+    $deviceExistsResult = $machineconn->query($deviceExistsSql);
 
-    if ($deviceStateResult->num_rows > 0) {
-        $deviceState = $deviceStateResult->fetch_assoc();
-
-        if ($deviceState['state'] !== 'active') {
-            logDB($machineconn, 'scanner', "error: device is not active. devicetime: $timestamp");
-            return;
-        }
-
-        $scannerDataSql = "INSERT INTO machinedata (timestamp, userid, value) 
-                           VALUES ('$timestamp', '$badge', '$value')";
+    if ($deviceExistsResult->num_rows > 0) {
+        $scannerDataSql = "INSERT INTO machinedata (timestamp, userid, value, `order`) 
+                           VALUES ('$timestamp', '$badge', '1', '$barcode')";
         
         if ($machineconn->query($scannerDataSql) === TRUE) {
-            logDB($machineconn, 'scanner', "success: barcode $value has been scanned by $badge. devicetime: $timestamp");
+            logDB($machineconn, 'scanner', "success: $barcode has been scanned by $badge. devicetime: $timestamp");
         } else {
             logDB($machineconn, 'scanner', "error: saving scan data: $machineconn->error. devicetime: $timestamp");
         }
@@ -201,14 +194,10 @@ function handleScannerAction($machineconn, $timestamp, $terminal_id, $terminal_t
 }
 
 
-function updateAliveStatus($machineconn, $timestamp, $terminal_id, $terminal_type, $alive_count) {
+function updateAliveStatus($machineconn, $timestamp, $terminal_id, $terminal_type) {
     $sqlUpdate = "UPDATE device SET last_alive = '$timestamp' WHERE terminal_id = '$terminal_id' AND terminal_type = '$terminal_type'";
 
-    if ($machineconn->query($sqlUpdate) === TRUE) {
-        if ((new DateTime() > (new DateTime($timestamp))->modify('+1 hour'))) {
-            logDB($machineconn, 'alive', "warning: device ($terminal_id, $terminal_type) -> last_alive is over 1 hour ago.");
-        }
-    } else {
+    if (!$machineconn->query($sqlUpdate)) {
         logDB($machineconn, 'alive', "error updating last_alive for ($terminal_id, $terminal_type): " . $machineconn->error);
     }
 }

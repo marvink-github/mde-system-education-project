@@ -33,12 +33,12 @@ switch ($table) {
         break;
 
     case 'MDE':   
-        $timestamp = $machineconn->real_escape_string(trim($_GET['df_col_DT'])); 
-        $terminal_id = $machineconn->real_escape_string(trim($_GET['df_col_T_ID'])); 
+        $timestamp = $machineconn->real_escape_string(trim($_GET['df_col_DT'] ?? null)); 
+        $terminal_id = $machineconn->real_escape_string(trim($_GET['df_col_T_ID'] ?? null)); 
         $terminal_type = $machineconn->real_escape_string(trim($_GET['df_col_T_Type'] ?? null)); 
         $d_entry_counter = $machineconn->real_escape_string(trim($_GET['df_col_D_Counter'] ?? null)); 
         $d_entry_startstop = $machineconn->real_escape_string(trim($_GET['df_col_D_StartStop'] ?? null)); 
-        $action = $machineconn->real_escape_string(trim($_GET['df_col_Identifier'])); 
+        $action = $machineconn->real_escape_string(trim($_GET['df_col_Identifier'] ?? null)); 
         $value = $machineconn->real_escape_string(trim($_GET['df_col_Value'] ?? null)); 
         $badge = $machineconn->real_escape_string(trim($_GET['df_col_Badge'] ?? null)); 
 
@@ -79,7 +79,7 @@ switch ($table) {
         $terminal_type = $machineconn->real_escape_string(trim($_GET['df_col_T_Typ'] ?? null));
         $alive_count = $machineconn->real_escape_string(trim($_GET['df_col_Count'] ?? null));
 
-        updateAliveStatus($machineconn, $timestamp, $terminal_id, $terminal_type, $alive_count);    
+        updateAliveStatus($machineconn, $timestamp, $terminal_id, $terminal_type);    
         break;
 
     case 'System':

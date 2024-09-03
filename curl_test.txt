@@ -61,12 +61,12 @@ curl -X GET "127.0.0.1/api/machinedata/getOrderCountById.php?orderid=d108237z1hj
 Machine:
 
 User in Maschine Posten:
-curl -X POST "http://127.0.0.1/api/machine/patchMachine.php"
+curl -X POST "http://127.0.0.1/api/machine/patchMachineById.php"
      -H "Content-Type: application/json" \
      -d '{ "userid": "123", "machineid": "1"}'
 
 User in Maschine Posten inkl. Auftragsnummer:
-curl -X POST "http://127.0.0.1/api/machine/patchMachine.php"
+curl -X POST "http://127.0.0.1/api/machine/patchMachineById.php"
      -H "Content-Type: application/json" \
      -d '{ "userid": "123", "machineid": "1", "orderid": "d108237z1hj"}'
 
@@ -103,7 +103,7 @@ curl -X DELETE "http://127.0.0.1/api/machine/deleteMachine.php?id=1"
 Shift:
 
 User Maschinenaktivität: Pflichtfeld: userid & machineid & orderid, Optional: from, to
-curl -X GET "127.0.0.1/api/shift/getUserShiftActivity.php?userid=123&machineid=1&order=d108237z1hj"
+curl -X GET "127.0.0.1/api/shift/getShiftActivityByUser.php?userid=123&machineid=1&order=d108237z1hj"
 
 Eine bestimmte Schicht nach shiftId:
 curl -X GET "127.0.0.1/api/shift/getShift.php?shiftid=1"
