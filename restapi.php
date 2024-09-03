@@ -22,7 +22,7 @@ try {
         ],
         'POST' => [
             'postMachinedata' => '/machinedata/postMachinedata.php',
-            'postNewMachine' => '/machine/postNewMachine.php',
+            'postMachine' => '/machine/postMachine.php',
             'postNewDevice' => '/device/postNewDevice.php',
         ],
         'PATCH' => [
