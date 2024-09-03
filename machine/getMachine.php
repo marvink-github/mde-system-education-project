@@ -33,5 +33,5 @@ if ($result) {
     echo json_encode(["message" => "no machine found."], JSON_PRETTY_PRINT);
 }
 
-$machineconn->close();
+
 

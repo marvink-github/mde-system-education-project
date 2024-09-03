@@ -70,5 +70,5 @@ if (!empty($updateFields)) {
     echo json_encode(["message" => "no changes specified."], JSON_PRETTY_PRINT);
 }
 
-$machineconn->close();
+
 

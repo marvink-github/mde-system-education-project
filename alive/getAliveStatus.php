@@ -21,4 +21,4 @@ if ($result && $row = $result->fetch_assoc()) {
     echo json_encode(["message" => "no entry found for this device."], JSON_PRETTY_PRINT);
 }
 
-$machineconn->close();
+

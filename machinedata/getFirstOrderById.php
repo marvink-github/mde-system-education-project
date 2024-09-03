@@ -64,5 +64,5 @@ if (empty($firstEntry)) {
     echo json_encode($firstEntry, JSON_PRETTY_PRINT);
 }
 
-$machineconn->close();
+
 

@@ -54,4 +54,4 @@ if ($machineconn->query($sqlUpdate) === TRUE) {
     echo json_encode(["message" => "error updating machinedata: " . $machineconn->error], JSON_PRETTY_PRINT);
 }
 
-$machineconn->close();
+

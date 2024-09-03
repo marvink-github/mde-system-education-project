@@ -23,4 +23,4 @@ if ($machineconn->query($sql) === TRUE) {
     echo json_encode(["message" => "error deleting shift: " . $machineconn->error], JSON_PRETTY_PRINT);
 }
 
-$machineconn->close();
+

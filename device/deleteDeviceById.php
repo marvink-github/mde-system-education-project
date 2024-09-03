@@ -23,4 +23,4 @@ if ($machineconn->query($sql) === TRUE) {
     echo json_encode(["message" => "error deleting the device: " . $machineconn->error], JSON_PRETTY_PRINT);
 }
 
-$machineconn->close();
+

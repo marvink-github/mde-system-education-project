@@ -27,5 +27,5 @@ if ($machineconn->query($deleteSql) === TRUE) {
     echo json_encode(["message" => "failed to delete the machine." . $machineconn->error], JSON_PRETTY_PRINT);
 }
 
-$machineconn->close();
+
 
