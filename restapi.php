@@ -24,19 +24,23 @@ try {
             'postMachinedata' => '/machinedata/postMachinedata.php',
             'postMachine' => '/machine/postMachine.php',
             'postDevice' => '/device/postDevice.php',
+            'postShift' => '/shift/postShift.php',
         ],
         'PATCH' => [
+            'patchMachinedata' => '/machinedata/patchMachinedata.php',
             'patchMachine' => '/machine/patchMachine.php',
             'patchBarcode' => '/barcode/patchBarcode.php',
+            'patchShift' => '/shift/patchShift.php',
+            'patchDevice' => '/device/patchDevice.php'
         ],
         'DELETE' => [
+            'deleteMachinedata' => '/machinedata/deleteMachinedata.php',
             'deleteShift' => '/shift/deleteShift.php',
             'deleteMachine' => '/machine/deleteMachine.php',
             'deleteDevice' => '/device/deleteDevice.php',
         ],
     ];
 
-    // Prüfung, ob es eine passende Route für die Anfrage gibt
     if (isset($routes[$requestMethod])) {
         foreach ($routes[$requestMethod] as $route => $file) {
             if (strpos($requestUri, $route) !== false) {
