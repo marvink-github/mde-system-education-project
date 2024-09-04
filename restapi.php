@@ -1,6 +1,7 @@
 <?php
 
 require 'connection.php';
+require 'functions.php';
 
 try {
     $requestMethod = $_SERVER['REQUEST_METHOD'];
@@ -9,30 +10,29 @@ try {
     $routes = [
         'GET' => [
             'getShift' => '/shift/getShift.php',
-            'getShiftActivityByUserId' => '/shift/getShiftActivityByUserId.php',
             'getMachinedata' => '/machinedata/getMachinedata.php',
-            'getOrderCountById' => '/machinedata/getOrderCountById.php',
-            'getFirstOrderById' => '/machinedata/getFirstOrderById.php',
-            'getLastOrderById' => '/machinedata/getLastOrderById.php',
+            'getCount' => '/machinedata/getCount.php',
+            'getFirstOrder' => '/machinedata/getFirstOrder.php',
+            'getLastOrder' => '/machinedata/getLastOrder.php',
             'getMachine' => '/machine/getMachine.php',
             'getLog' => '/log/getLog.php',
             'getDevice' => '/device/getDevice.php',
-            'getBarcodeSum' => '/barcode/getBarcodeSum.php',
+            'getBarcode' => '/barcode/getBarcode.php',
             'getAliveStatus' => '/alive/getAliveStatus.php',
         ],
         'POST' => [
             'postMachinedata' => '/machinedata/postMachinedata.php',
             'postMachine' => '/machine/postMachine.php',
-            'postNewDevice' => '/device/postNewDevice.php',
+            'postDevice' => '/device/postDevice.php',
         ],
         'PATCH' => [
-            'patchMachineById' => '/machine/patchMachineById.php',
+            'patchMachine' => '/machine/patchMachine.php',
             'patchBarcode' => '/barcode/patchBarcode.php',
         ],
         'DELETE' => [
             'deleteShift' => '/shift/deleteShift.php',
-            'deleteMachineById' => '/machine/deleteMachineById.php',
-            'deleteDeviceById' => '/device/deleteDeviceById.php',
+            'deleteMachine' => '/machine/deleteMachine.php',
+            'deleteDevice' => '/device/deleteDevice.php',
         ],
     ];
 
@@ -51,7 +51,7 @@ try {
 
 } catch (Exception $e) {
     http_response_code(500);
-    logDB($machineconn, 'catch', 'error: internal server error index.php' . $e->getMessage());
+    logDB($machineconn, 'catch', 'error: internal server error' . $e->getMessage());
 } finally {
     $machineconn->close();
 }

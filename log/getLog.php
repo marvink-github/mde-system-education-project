@@ -3,8 +3,8 @@
 $logType = $machineconn->real_escape_string(trim($_GET['type'] ?? null));
 $from = $machineconn->real_escape_string(trim($_GET['from'] ?? null)); 
 $to = $machineconn->real_escape_string(trim($_GET['to'] ?? null)); 
-$page = $machineconn->real_escape_string(trim($_GET['page'] ?? 1));
-$limit = $machineconn->real_escape_string(trim($_GET['limit'] ?? 200));
+$limit = !empty($_GET['limit']) ? (int)($_GET['limit']) : 200; 
+$page = !empty($_GET['page']) ? (int)($_GET['page']) : 1; 
 
 $offset = ($page - 1) * $limit;
 

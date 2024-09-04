@@ -2,21 +2,44 @@
 
 $idShift = $machineconn->real_escape_string(trim($_GET['shiftid'] ?? null));
 $machineId = $machineconn->real_escape_string(trim($_GET['machineid'] ?? null));
+$orderId = $machineconn->real_escape_string(trim($_GET['orderid'] ?? null));
+$fromDate = $machineconn->real_escape_string(trim($_GET['from'] ?? null));
+$toDate = $machineconn->real_escape_string(trim($_GET['to'] ?? null));
+$limit = !empty($_GET['limit']) ? (int)($_GET['limit']) : 200; 
+$page = !empty($_GET['page']) ? (int)($_GET['page']) : 1; 
 
-$sql = "SELECT * FROM shift"; 
+$offset = ($page - 1) * $limit;
+
+$sql = "SELECT shift.*, machine.order FROM shift 
+        LEFT JOIN machine ON shift.machine_idMachine = machine.idMachine"; 
+
 $conditions = [];
 
-if ($idShift) {
-    $conditions[] = "idshift = '$idShift'"; 
+if (!empty($idShift)) {
+    $conditions[] = "shift.idshift = '$idShift'"; 
 }
 
-if ($machineId) {
-    $conditions[] = "machine_idMachine = '$machineId'";
+if (!empty($machineId)) {
+    $conditions[] = "shift.machine_idMachine = '$machineId'";
+}
+
+if (!empty($orderId)) {
+    $conditions[] = "machine.order = '$orderId'";
+}
+
+if (!empty($fromDate) && !empty($toDate)) {
+    $conditions[] = "shift.start_time BETWEEN '$fromDate' AND '$toDate'";
+} elseif (!empty($fromDate)) {
+    $conditions[] = "shift.start_time >= '$fromDate'";
+} elseif (!empty($toDate)) {
+    $conditions[] = "shift.start_time <= '$toDate'";
 }
 
 if (!empty($conditions)) {
     $sql .= " WHERE " . implode(" AND ", $conditions);
 }
+
+$sql .= " LIMIT $limit OFFSET $offset";
 
 $result = $machineconn->query($sql);
 
@@ -38,5 +61,3 @@ if (empty($data)) {
 } else {
     echo json_encode($data, JSON_PRETTY_PRINT);
 }
-
-

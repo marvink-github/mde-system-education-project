@@ -33,6 +33,9 @@ if ($orderid !== null && $orderid !== "") {
 if (isset($data['name']) && $data['name'] !== "") {
     $updateFields[] = "name = '" . $machineconn->real_escape_string(trim($data['name'])) . "'";
 }
+if (isset($data['state']) && $data['state'] !== "") {
+    $updateFields[] = "state = '" . $machineconn->real_escape_string(trim($data['state'])) . "'";
+}
 if (isset($data['d_entry_startstop']) && $data['d_entry_startstop'] !== "") {
     $updateFields[] = "d_entry_startstop = '" . $machineconn->real_escape_string(trim($data['d_entry_startstop'])) . "'";
 }
@@ -42,6 +45,8 @@ if (isset($data['d_entry_counter']) && $data['d_entry_counter'] !== "") {
 if (isset($data['device_idDevice']) && $data['device_idDevice'] !== "") {
     $updateFields[] = "device_idDevice = '" . $machineconn->real_escape_string(trim($data['device_idDevice'])) . "'";
 }
+
+
 
 if (!empty($updateFields)) {
     $updateMachineSql = "UPDATE machine SET " . implode(", ", $updateFields) . " WHERE idMachine = '$machine_id'";
@@ -54,12 +59,13 @@ if (!empty($updateFields)) {
         echo json_encode([
             "message" => "machine information successfully patched.",
             "machineId" => $machine_id,
-            "userid" => $updatedData['userid'] ?? null,
-            "orderid" => $updatedData['order'] ?? null,
             "machinename" => $updatedData['name'] ?? null,
+            "userid" => $updatedData['userid'] ?? null,
+            "orderid" => $updatedData['order'] ?? null,         
+            "state" => $updatedData['state'] ?? null,   
             "d_entry_startstop" => $updatedData['d_entry_startstop'] ?? null,
             "d_entry_counter" => $updatedData['d_entry_counter'] ?? null,
-            "device_idDevice" => $updatedData['device_idDevice'] ?? null
+            "device_idDevice" => $updatedData['device_idDevice'] ?? null             
         ], JSON_PRETTY_PRINT);
     } else {
         http_response_code(400);
@@ -69,6 +75,3 @@ if (!empty($updateFields)) {
     http_response_code(400);
     echo json_encode(["message" => "no changes specified."], JSON_PRETTY_PRINT);
 }
-
-
-

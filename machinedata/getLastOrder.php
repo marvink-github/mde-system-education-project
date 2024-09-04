@@ -10,32 +10,32 @@ if (!$orderid) {
 }
 
 if ($userid) {
-    $firstSql = "SELECT 
-                    machinedata.idMachinedata AS startid, 
-                    machinedata.userid, 
+    $lastSql = "SELECT 
+                    machinedata.idMachinedata AS dataid, 
+                    machinedata.userid AS userid, 
                     machinedata.`order` AS orderid, 
-                    machinedata.shift_idShift AS shift_id,
-                    shift.startTime AS shift_start_time,
-                    shift.endTime AS shift_end_time
+                    machinedata.shift_idShift AS shiftid,
+                    shift.startTime AS startTime,
+                    shift.endTime AS endTime
                 FROM 
                     machinedata
                 LEFT JOIN 
                     shift ON machinedata.shift_idShift = shift.idShift
                 WHERE 
-                    machinedata.`order` = '$orderid'
+                    machinedata.`order` = '$orderid' 
                 AND 
-                    machinedata.userid = '$userid' 
+                    machinedata.userid = '$userid'
                 ORDER BY 
-                    machinedata.idMachinedata ASC 
+                    machinedata.idMachinedata DESC 
                 LIMIT 1";
 } else {
-    $firstSql = "SELECT 
-                    machinedata.idMachinedata AS startid, 
-                    machinedata.userid, 
+    $lastSql = "SELECT 
+                    machinedata.idMachinedata AS dataid, 
+                    machinedata.userid AS userid, 
                     machinedata.`order` AS orderid, 
-                    machinedata.shift_idShift AS shift_id,
-                    shift.startTime AS shift_start_time,
-                    shift.endTime AS shift_end_time
+                    machinedata.shift_idShift AS shiftid,
+                    shift.startTime AS startTime,
+                    shift.endTime AS endTime
                 FROM 
                     machinedata
                 LEFT JOIN 
@@ -43,25 +43,25 @@ if ($userid) {
                 WHERE 
                     machinedata.`order` = '$orderid' 
                 ORDER BY 
-                    machinedata.idMachinedata ASC 
+                    machinedata.idMachinedata DESC 
                 LIMIT 1";
 }
 
-$firstResult = $machineconn->query($firstSql);
+$lastResult = $machineconn->query($lastSql);
 
-if (!$firstResult) {
+if (!$lastResult) {
     http_response_code(400);
     echo json_encode(["message" => "database query for the last entry failed: " . $machineconn->error], JSON_PRETTY_PRINT);
     exit();
 }
 
-$firstEntry = $firstResult->fetch_assoc();
+$lastEntry = $lastResult->fetch_assoc();
 
-if (empty($firstEntry)) {
+if (empty($lastEntry)) {
     http_response_code(400);
     echo json_encode(["message" => "no last entry found for this order."], JSON_PRETTY_PRINT);
 } else {
-    echo json_encode($firstEntry, JSON_PRETTY_PRINT);
+    echo json_encode($lastEntry, JSON_PRETTY_PRINT);
 }
 
 

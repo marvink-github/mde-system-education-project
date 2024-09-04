@@ -2,56 +2,47 @@
 
 $data = json_decode(file_get_contents("php://input"), true);
 
-if (!isset($data['barcode'])) {
+if (!isset($data['id'])) {
     http_response_code(400);
-    echo json_encode(["message" => "barcode is required."], JSON_PRETTY_PRINT);
+    echo json_encode(["message" => "id is required."], JSON_PRETTY_PRINT);
     exit();
 }
 
-$barcode = $machineconn->real_escape_string(trim($data['barcode']));
-$userid = isset($data['userid']) ? $machineconn->real_escape_string(trim($data['userid'])) : null;
+$id = $machineconn->real_escape_string(trim($data['id']));
 $orderid = isset($data['orderid']) ? $machineconn->real_escape_string(trim($data['orderid'])) : null;
+$userid = isset($data['userid']) ? $machineconn->real_escape_string(trim($data['userid'])) : null;
 
-if (empty($userid) && empty($orderid)) {
-    http_response_code(400);
-    echo json_encode(["message" => "userid is required."], JSON_PRETTY_PRINT);
-    exit();
-}
-
-$sqlCheck = "SELECT * FROM machinedata WHERE value = '$barcode'";
+$sqlCheck = "SELECT * FROM machinedata WHERE `idMachinedata` = '$id'";
 $resultCheck = $machineconn->query($sqlCheck);
 
 if ($resultCheck->num_rows == 0) {
     http_response_code(400);
-    echo json_encode(["message" => "no entry found for this barcode in machinedata."], JSON_PRETTY_PRINT);
+    echo json_encode(["message" => "no entry found in machinedata."], JSON_PRETTY_PRINT);
     exit();
 }
 
-$currentData = $resultCheck->fetch_assoc();
-$currentOrderId = $currentData['order'] ?? null;
-$currentUserId = $currentData['userid'] ?? null;
+$sqlUpdate = "UPDATE machinedata SET";
 
-$sqlUpdate = "UPDATE machinedata SET `order` = " . ($orderid !== null ? "'$orderid'" : "'$currentOrderId'");
-
-if ($userid !== null) {
-    $sqlUpdate .= ", `userid` = '$userid'";
-} else {
-    $sqlUpdate .= ", `userid` = '$currentUserId'"; 
+if ($orderid !== null) {
+    $sqlUpdate .= " `order` = '$orderid',";
 }
 
-$sqlUpdate .= " WHERE value = '$barcode'";
+if ($userid !== null) {
+    $sqlUpdate .= " `userid` = '$userid',";
+}
+
+$sqlUpdate = rtrim($sqlUpdate, ',') . " WHERE `idMachinedata` = '$id'";
 
 if ($machineconn->query($sqlUpdate) === TRUE) {
     http_response_code(200);
     echo json_encode([
-        "message" => "data successfully updated in machinedata.",
-        "barcode" => $barcode,
-        "userid" => $userid ?? $currentUserId, 
-        "order" => $orderid ?? $currentOrderId
+        "message" => "data successfully patched in machinedata.",
+        "id" => $id,
+        "orderid" => $orderid,
+        "userid" => $userid
     ], JSON_PRETTY_PRINT);
 } else {
     http_response_code(400);
-    echo json_encode(["message" => "error updating machinedata: " . $machineconn->error], JSON_PRETTY_PRINT);
+    echo json_encode(["message" => "error patching machinedata: " . $machineconn->error], JSON_PRETTY_PRINT);
 }
-
 
