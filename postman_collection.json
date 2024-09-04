@@ -1,0 +1,1313 @@
+{
+	"info": {
+		"_postman_id": "f44818a7-144f-413d-93f7-0383a00c7f33",
+		"name": "Maschinen API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28212105"
+	},
+	"item": [
+		{
+			"name": "Actions",
+			"item": [
+				{
+					"name": "Maschine 1: Start + Schicht",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1/api/getdata.php?df_api=1&df_table=MDE&df_col_DT=2024-08-27 08:00:00&df_col_T_ID=3533&df_col_T_Type=EVO 4.6 FlexKey&df_col_D_StartStop=4&df_col_Identifier=start",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"path": [
+								"api",
+								"getdata.php"
+							],
+							"query": [
+								{
+									"key": "df_api",
+									"value": "1"
+								},
+								{
+									"key": "df_table",
+									"value": "MDE"
+								},
+								{
+									"key": "df_col_DT",
+									"value": "2024-08-27 08:00:00"
+								},
+								{
+									"key": "df_col_T_ID",
+									"value": "3533"
+								},
+								{
+									"key": "df_col_T_Type",
+									"value": "EVO 4.6 FlexKey"
+								},
+								{
+									"key": "df_col_D_StartStop",
+									"value": "4"
+								},
+								{
+									"key": "df_col_Identifier",
+									"value": "start"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Maschine 1: Count",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1/api/getdata.php?df_api=1&df_table=MDE&df_col_DT=2024-08-27 16:00:00&df_col_T_ID=3533&df_col_T_Type=EVO 4.6 FlexKey&df_col_D_Counter=3&df_col_Identifier=count&df_col_Value=1",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"path": [
+								"api",
+								"getdata.php"
+							],
+							"query": [
+								{
+									"key": "df_api",
+									"value": "1"
+								},
+								{
+									"key": "df_table",
+									"value": "MDE"
+								},
+								{
+									"key": "df_col_DT",
+									"value": "2024-08-27 16:00:00"
+								},
+								{
+									"key": "df_col_T_ID",
+									"value": "3533"
+								},
+								{
+									"key": "df_col_T_Type",
+									"value": "EVO 4.6 FlexKey"
+								},
+								{
+									"key": "df_col_D_Counter",
+									"value": "3"
+								},
+								{
+									"key": "df_col_Identifier",
+									"value": "count"
+								},
+								{
+									"key": "df_col_Value",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Maschine 1: Stop",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1/api/getdata.php?df_api=1&df_table=MDE&df_col_DT=2024-08-27 16:00:00&df_col_T_ID=3533&df_col_T_Type=EVO 4.6 FlexKey&df_col_D_StartStop=4&df_col_Identifier=stop",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"path": [
+								"api",
+								"getdata.php"
+							],
+							"query": [
+								{
+									"key": "df_api",
+									"value": "1"
+								},
+								{
+									"key": "df_table",
+									"value": "MDE"
+								},
+								{
+									"key": "df_col_DT",
+									"value": "2024-08-27 16:00:00"
+								},
+								{
+									"key": "df_col_T_ID",
+									"value": "3533"
+								},
+								{
+									"key": "df_col_T_Type",
+									"value": "EVO 4.6 FlexKey"
+								},
+								{
+									"key": "df_col_D_StartStop",
+									"value": "4"
+								},
+								{
+									"key": "df_col_Identifier",
+									"value": "stop"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Maschine 2: Start + Schicht",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1/api/getdata.php?df_api=1&df_table=MDE&df_col_DT=2024-08-27 08:00:00&df_col_T_ID=3533&df_col_T_Type=EVO 4.6 FlexKey&df_col_D_StartStop=2&df_col_Identifier=start",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"path": [
+								"api",
+								"getdata.php"
+							],
+							"query": [
+								{
+									"key": "df_api",
+									"value": "1"
+								},
+								{
+									"key": "df_table",
+									"value": "MDE"
+								},
+								{
+									"key": "df_col_DT",
+									"value": "2024-08-27 08:00:00"
+								},
+								{
+									"key": "df_col_T_ID",
+									"value": "3533"
+								},
+								{
+									"key": "df_col_T_Type",
+									"value": "EVO 4.6 FlexKey"
+								},
+								{
+									"key": "df_col_D_StartStop",
+									"value": "2"
+								},
+								{
+									"key": "df_col_Identifier",
+									"value": "start"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Maschine 2: Count",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1/api/getdata.php?df_api=1&df_table=MDE&df_col_DT=2024-08-27 16:00:00&df_col_T_ID=3533&df_col_T_Type=EVO 4.6 FlexKey&df_col_D_Counter=1&df_col_Identifier=count&df_col_Value=1",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"path": [
+								"api",
+								"getdata.php"
+							],
+							"query": [
+								{
+									"key": "df_api",
+									"value": "1"
+								},
+								{
+									"key": "df_table",
+									"value": "MDE"
+								},
+								{
+									"key": "df_col_DT",
+									"value": "2024-08-27 16:00:00"
+								},
+								{
+									"key": "df_col_T_ID",
+									"value": "3533"
+								},
+								{
+									"key": "df_col_T_Type",
+									"value": "EVO 4.6 FlexKey"
+								},
+								{
+									"key": "df_col_D_Counter",
+									"value": "1"
+								},
+								{
+									"key": "df_col_Identifier",
+									"value": "count"
+								},
+								{
+									"key": "df_col_Value",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Maschine 2: Stop",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1/api/getdata.php?df_api=1&df_table=MDE&df_col_DT=2024-08-27 16:00:00&df_col_T_ID=3533&df_col_T_Type=EVO 4.6 FlexKey&df_col_D_StartStop=2&df_col_Identifier=stop",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"path": [
+								"api",
+								"getdata.php"
+							],
+							"query": [
+								{
+									"key": "df_api",
+									"value": "1"
+								},
+								{
+									"key": "df_table",
+									"value": "MDE"
+								},
+								{
+									"key": "df_col_DT",
+									"value": "2024-08-27 16:00:00"
+								},
+								{
+									"key": "df_col_T_ID",
+									"value": "3533"
+								},
+								{
+									"key": "df_col_T_Type",
+									"value": "EVO 4.6 FlexKey"
+								},
+								{
+									"key": "df_col_D_StartStop",
+									"value": "2"
+								},
+								{
+									"key": "df_col_Identifier",
+									"value": "stop"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Machinedata",
+			"item": [
+				{
+					"name": "Maschinendaten anfragen",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1/api/restapi?getMachinedata&from=2024-09-01T00:00:00&to=2024-09-02T23:59:59&userid=123&shiftid=71&orderid=d108237z1hj&page=1&limit=50",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"path": [
+								"api",
+								"restapi"
+							],
+							"query": [
+								{
+									"key": "getMachinedata",
+									"value": null
+								},
+								{
+									"key": "from",
+									"value": "2024-09-01T00:00:00"
+								},
+								{
+									"key": "to",
+									"value": "2024-09-02T23:59:59"
+								},
+								{
+									"key": "userid",
+									"value": "123"
+								},
+								{
+									"key": "shiftid",
+									"value": "71"
+								},
+								{
+									"key": "orderid",
+									"value": "d108237z1hj"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "50"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Auftrag gestartet",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1/api/restapi?getFirstOrder&orderid=d108237z1hj&userid=123",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"path": [
+								"api",
+								"restapi"
+							],
+							"query": [
+								{
+									"key": "getFirstOrder",
+									"value": null
+								},
+								{
+									"key": "orderid",
+									"value": "d108237z1hj"
+								},
+								{
+									"key": "userid",
+									"value": "123"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Auftrag beendet",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1/api/restapi?getLastOrder&orderid=d108237z1hj&userid=123",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"path": [
+								"api",
+								"restapi"
+							],
+							"query": [
+								{
+									"key": "getLastOrder",
+									"value": null
+								},
+								{
+									"key": "orderid",
+									"value": "d108237z1hj"
+								},
+								{
+									"key": "userid",
+									"value": "123"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Summe Order",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1/api/restapi?getCount&orderid=d108237z1hj&userid&machineid",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"path": [
+								"api",
+								"restapi"
+							],
+							"query": [
+								{
+									"key": "getCount",
+									"value": null
+								},
+								{
+									"key": "orderid",
+									"value": "d108237z1hj"
+								},
+								{
+									"key": "userid",
+									"value": null
+								},
+								{
+									"key": "machineid",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Maschinendaten erstellen",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"timestamp\": \"2024-08-29 18:30:00\", \"userid\": \"141\", \"value\": \"1\", \"order\": \"dj19734z1h\", \"idshift\": \"52\"}"
+						},
+						"url": {
+							"raw": "127.0.0.1/api/restapi?postMachinedata",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"path": [
+								"api",
+								"restapi"
+							],
+							"query": [
+								{
+									"key": "postMachinedata",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Maschinendaten anpassen",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"dataid\": \"563\", \"timestamp\": \"\",  \"userid\": \"80\", \"value\": \"\", \"orderid\": \"1892371895\",  \"shiftid\": \"71\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "127.0.0.1/api/restapi?patchMachinedata",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"path": [
+								"api",
+								"restapi"
+							],
+							"query": [
+								{
+									"key": "patchMachinedata",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Maschinendaten löschen",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1/api/restapi?deleteMachinedata&dataid=563",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"path": [
+								"api",
+								"restapi"
+							],
+							"query": [
+								{
+									"key": "deleteMachinedata",
+									"value": null
+								},
+								{
+									"key": "dataid",
+									"value": "563"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Machine",
+			"item": [
+				{
+					"name": "Maschine anfragen",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1/api/restapi?getMachine&machineid=4&userid=&orderid=&state=",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"path": [
+								"api",
+								"restapi"
+							],
+							"query": [
+								{
+									"key": "getMachine",
+									"value": null
+								},
+								{
+									"key": "machineid",
+									"value": "4"
+								},
+								{
+									"key": "userid",
+									"value": ""
+								},
+								{
+									"key": "orderid",
+									"value": ""
+								},
+								{
+									"key": "state",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Maschine erstellen",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"name\": \"Maschinerc66e\", \"d_entry_startstop\": \"90\", \"d_entry_counter\": \"80\", \"device_idDevice\": \"1\" }"
+						},
+						"url": {
+							"raw": "127.0.0.1/api/restapi?postMachine",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"path": [
+								"api",
+								"restapi"
+							],
+							"query": [
+								{
+									"key": "postMachine",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Testmaschine 1 erstellen",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"name\": \"Testmachine 1\", \"d_entry_startstop\": \"4\", \"d_entry_counter\": \"3\", \"device_idDevice\": \"1\" }"
+						},
+						"url": {
+							"raw": "127.0.0.1/api/restapi?postMachine",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"path": [
+								"api",
+								"restapi"
+							],
+							"query": [
+								{
+									"key": "postMachine",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Testmaschine 2 erstellen",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"name\": \"Testmachine 2\", \"d_entry_startstop\": \"2\", \"d_entry_counter\": \"1\", \"device_idDevice\": \"1\" }"
+						},
+						"url": {
+							"raw": "127.0.0.1/api/restapi?postMachine",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"path": [
+								"api",
+								"restapi"
+							],
+							"query": [
+								{
+									"key": "postMachine",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Maschine anpassen",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"machineid\": \"1\", \"userid\": \"\", \"orderid\": \"\", \"name\": \"\", \"state\": \"\",  \"d_entry_startstop\": \"\", \"d_entry_counter\": \"\", \"device_idDevice\": \"\" }"
+						},
+						"url": {
+							"raw": "127.0.0.1/api/restapi?patchMachine",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"path": [
+								"api",
+								"restapi"
+							],
+							"query": [
+								{
+									"key": "patchMachine",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Maschine löschen",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1/api/restapi?deleteMachine&machineid=6",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"path": [
+								"api",
+								"restapi"
+							],
+							"query": [
+								{
+									"key": "deleteMachine",
+									"value": null
+								},
+								{
+									"key": "machineid",
+									"value": "6"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Shift",
+			"item": [
+				{
+					"name": "Schicht anfragen",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1/api/restapi?getShift&shiftid=&machineid=1&orderid&from&to&limit&page",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"path": [
+								"api",
+								"restapi"
+							],
+							"query": [
+								{
+									"key": "getShift",
+									"value": null
+								},
+								{
+									"key": "shiftid",
+									"value": ""
+								},
+								{
+									"key": "machineid",
+									"value": "1"
+								},
+								{
+									"key": "orderid",
+									"value": null
+								},
+								{
+									"key": "from",
+									"value": null
+								},
+								{
+									"key": "to",
+									"value": null
+								},
+								{
+									"key": "limit",
+									"value": null
+								},
+								{
+									"key": "page",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Schicht erstellen",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"starttime\": \"2024-09-03T14:11:50\", \"endtime\": \"2024-09-03T18:11:52\", \"machineid\": \"1\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "127.0.0.1/api/restapi?postShift",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"path": [
+								"api",
+								"restapi"
+							],
+							"query": [
+								{
+									"key": "postShift",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Schicht anpassen",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"shiftid\": \"65\", \"starttime\": \"\", \"endtime\": \"\", \"machineid\": \"\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "127.0.0.1/api/restapi?patchShift",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"path": [
+								"api",
+								"restapi"
+							],
+							"query": [
+								{
+									"key": "patchShift",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Schicht löschen",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1/api/restapi?deleteShift&shiftid=20",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"path": [
+								"api",
+								"restapi"
+							],
+							"query": [
+								{
+									"key": "deleteShift",
+									"value": null
+								},
+								{
+									"key": "shiftid",
+									"value": "20"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Device",
+			"item": [
+				{
+					"name": "Device anfragen",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1/api/restapi?getDevice&terminalid=3533&terminaltype",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"path": [
+								"api",
+								"restapi"
+							],
+							"query": [
+								{
+									"key": "getDevice",
+									"value": null
+								},
+								{
+									"key": "terminalid",
+									"value": "3533"
+								},
+								{
+									"key": "terminaltype",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Device erstellen",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"terminalid\": \"3583\", \"terminaltype\": \"EVO 4.6 FlexKey\" }"
+						},
+						"url": {
+							"raw": "127.0.0.1/api/restapi?postDevice",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"path": [
+								"api",
+								"restapi"
+							],
+							"query": [
+								{
+									"key": "postDevice",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Device anpassen",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"deviceid\": \"1\", \"terminalid\": \"\", \"terminaltype\": \"\", \"last_alive\": \"\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "127.0.0.1/api/restapi?patchDevice",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"path": [
+								"api",
+								"restapi"
+							],
+							"query": [
+								{
+									"key": "patchDevice",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Device löschen",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1/api/restapi?deleteDevice&deviceid=5",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"path": [
+								"api",
+								"restapi"
+							],
+							"query": [
+								{
+									"key": "deleteDevice",
+									"value": null
+								},
+								{
+									"key": "deviceid",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Log",
+			"item": [
+				{
+					"name": "Log anfragen",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1/api/restapi?getLog&type=success&from&to&page&limit",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"path": [
+								"api",
+								"restapi"
+							],
+							"query": [
+								{
+									"key": "getLog",
+									"value": null
+								},
+								{
+									"key": "type",
+									"value": "success"
+								},
+								{
+									"key": "from",
+									"value": null
+								},
+								{
+									"key": "to",
+									"value": null
+								},
+								{
+									"key": "page",
+									"value": null
+								},
+								{
+									"key": "limit",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Barcode",
+			"item": [
+				{
+					"name": "Barcode anfragen (inkl. Summe)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1/api/restapi?getBarcode&orderid=4388810057725&userid=ad81d19j&value",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"path": [
+								"api",
+								"restapi"
+							],
+							"query": [
+								{
+									"key": "getBarcode",
+									"value": null
+								},
+								{
+									"key": "orderid",
+									"value": "4388810057725"
+								},
+								{
+									"key": "userid",
+									"value": "ad81d19j"
+								},
+								{
+									"key": "value",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Alive",
+			"item": [
+				{
+					"name": "Last Alive anfrage",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1/api/restapi?getAliveStatus&terminalid=3533&terminaltype=EVO 4.6 FlexKey",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"path": [
+								"api",
+								"restapi"
+							],
+							"query": [
+								{
+									"key": "getAliveStatus",
+									"value": null
+								},
+								{
+									"key": "terminalid",
+									"value": "3533"
+								},
+								{
+									"key": "terminaltype",
+									"value": "EVO 4.6 FlexKey"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Test Alive Log Action",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1/api/getdata.php?df_api=1&df_table=Alive&df_col_Alive_DU=2024-08-30T13:31:52&df_col_T_ID=3533&df_col_T_Typ=EVO 4.6 FlexKey&df_col_Count=1",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"path": [
+								"api",
+								"getdata.php"
+							],
+							"query": [
+								{
+									"key": "df_api",
+									"value": "1"
+								},
+								{
+									"key": "df_table",
+									"value": "Alive"
+								},
+								{
+									"key": "df_col_Alive_DU",
+									"value": "2024-08-30T13:31:52"
+								},
+								{
+									"key": "df_col_T_ID",
+									"value": "3533"
+								},
+								{
+									"key": "df_col_T_Typ",
+									"value": "EVO 4.6 FlexKey"
+								},
+								{
+									"key": "df_col_Count",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
