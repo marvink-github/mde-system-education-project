@@ -4,7 +4,9 @@ $data = json_decode(file_get_contents("php://input"), true);
 
 if (!isset($data['timestamp']) || !isset($data['value']) || !isset($data['idshift'])) {
     http_response_code(400);
-    echo json_encode(["message" => "timestamp, value, and idshift are required."], JSON_PRETTY_PRINT);
+    $errorMessage = "timestamp, value, and idshift are required.";
+    echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
+    logDB($machineconn, 'error', $errorMessage);
     exit();
 }
 
@@ -21,10 +23,12 @@ $sql .= ($order !== null) ? "'$order')" : "NULL)";
 
 if ($machineconn->query($sql) === TRUE) {
     http_response_code(201);  
-    echo json_encode(["message" => "machinedata successfully saved.", "id" => $machineconn->insert_id], JSON_PRETTY_PRINT);
+    $successMessage = "machinedata successfully saved.";
+    echo json_encode(["message" => $successMessage, "id" => $machineconn->insert_id], JSON_PRETTY_PRINT);
+    logDB($machineconn, 'info', $successMessage . " ID: " . $machineconn->insert_id);
 } else {
     http_response_code(500);  
-    echo json_encode(["message" => "error saving machinedata:" . $machineconn->error], JSON_PRETTY_PRINT);
+    $errorMessage = "error saving machinedata: " . $machineconn->error;
+    echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
+    logDB($machineconn, 'error', $errorMessage);
 }
-
-

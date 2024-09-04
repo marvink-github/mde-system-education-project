@@ -2,13 +2,15 @@
 
 $data = json_decode(file_get_contents("php://input"), true);
 
-if (!isset($data['id'])) {
+if (!isset($data['dataid'])) {
     http_response_code(400);
-    echo json_encode(["message" => "id is required."], JSON_PRETTY_PRINT);
+    $errorMessage = "dataid is required.";
+    echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
+    logDB($machineconn, 'error', $errorMessage);
     exit();
 }
 
-$id = $machineconn->real_escape_string(trim($data['id']));
+$id = $machineconn->real_escape_string(trim($data['dataid']));
 $orderid = isset($data['orderid']) ? $machineconn->real_escape_string(trim($data['orderid'])) : null;
 $userid = isset($data['userid']) ? $machineconn->real_escape_string(trim($data['userid'])) : null;
 
@@ -17,32 +19,43 @@ $resultCheck = $machineconn->query($sqlCheck);
 
 if ($resultCheck->num_rows == 0) {
     http_response_code(400);
-    echo json_encode(["message" => "no entry found in machinedata."], JSON_PRETTY_PRINT);
+    $errorMessage = "no entry found in machinedata.";
+    echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
+    logDB($machineconn, 'error', $errorMessage);
     exit();
 }
 
-$sqlUpdate = "UPDATE machinedata SET";
+$updateFields = [];
 
 if ($orderid !== null) {
-    $sqlUpdate .= " `order` = '$orderid',";
+    $updateFields[] = "`order` = '$orderid'";
 }
 
 if ($userid !== null) {
-    $sqlUpdate .= " `userid` = '$userid',";
+    $updateFields[] = "`userid` = '$userid'";
 }
 
-$sqlUpdate = rtrim($sqlUpdate, ',') . " WHERE `idMachinedata` = '$id'";
+if (!empty($updateFields)) {
+    $sqlUpdate = "UPDATE machinedata SET " . implode(", ", $updateFields) . " WHERE `idMachinedata` = '$id'";
 
-if ($machineconn->query($sqlUpdate) === TRUE) {
-    http_response_code(200);
-    echo json_encode([
-        "message" => "data successfully patched in machinedata.",
-        "id" => $id,
-        "orderid" => $orderid,
-        "userid" => $userid
-    ], JSON_PRETTY_PRINT);
+    if ($machineconn->query($sqlUpdate) === TRUE) {
+        http_response_code(200);
+        echo json_encode([
+            "message" => "data successfully patched in machinedata.",
+            "id" => $id,
+            "orderid" => $orderid,
+            "userid" => $userid
+        ], JSON_PRETTY_PRINT);
+        logDB($machineconn, 'info', "data successfully patched for idMachinedata: $id");
+    } else {
+        http_response_code(400);
+        $errorMessage = "error patching machinedata: " . $machineconn->error;
+        echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
+        logDB($machineconn, 'error', $errorMessage);
+    }
 } else {
     http_response_code(400);
-    echo json_encode(["message" => "error patching machinedata: " . $machineconn->error], JSON_PRETTY_PRINT);
+    $errorMessage = "no changes specified.";
+    echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
+    logDB($machineconn, 'warning', $errorMessage);
 }
-

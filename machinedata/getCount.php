@@ -6,7 +6,9 @@ $machine_id = $machineconn->real_escape_string(trim($_GET['machineid'] ?? null))
 
 if (!$orderid) {
     http_response_code(400);
-    echo json_encode(["message" => "orderid is required."], JSON_PRETTY_PRINT);
+    $errorMessage = "orderid is required.";
+    echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
+    logDB($machineconn, 'error', $errorMessage);
     exit();
 }
 
@@ -34,7 +36,9 @@ $result = $machineconn->query($sql);
 
 if (!$result) {
     http_response_code(400);
-    echo json_encode(["message" => "database query failed:" . $machineconn->error], JSON_PRETTY_PRINT);
+    $errorMessage = "database query failed: " . $machineconn->error;
+    echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
+    logDB($machineconn, 'error', $errorMessage);
     exit();
 }
 
@@ -49,6 +53,4 @@ $data = [
 
 http_response_code(200);
 echo json_encode($data, JSON_PRETTY_PRINT);
-
-
-
+logDB($machineconn, 'info', "retrieved data for order: $orderid");

@@ -45,7 +45,9 @@ $result = $machineconn->query($sql);
 
 if (!$result) {
     http_response_code(400);
-    echo json_encode(["message" => "database query failed: " . $machineconn->error]);
+    $errorMessage = "database query failed: " . $machineconn->error;
+    echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
+    logDB($machineconn, 'error', $errorMessage);
     exit();
 }
 
@@ -55,6 +57,13 @@ while ($row = $result->fetch_assoc()) {
     $data[] = $row;
 }
 
-echo json_encode($data, JSON_PRETTY_PRINT);
-
-
+if (empty($data)) {
+    http_response_code(404);
+    $message = "no data found.";
+    echo json_encode(["message" => $message], JSON_PRETTY_PRINT);
+    logDB($machineconn, 'info', $message);
+} else {
+    http_response_code(200);
+    echo json_encode($data, JSON_PRETTY_PRINT);
+    logDB($machineconn, 'info', "data retrieved successfully. count: " . count($data));
+}

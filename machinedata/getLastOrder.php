@@ -5,7 +5,9 @@ $userid = $machineconn->real_escape_string(trim($_GET['userid'] ?? null));
 
 if (!$orderid) {
     http_response_code(400);
-    echo json_encode(["message" => "orderid is required."], JSON_PRETTY_PRINT);
+    $errorMessage = "orderid is required.";
+    echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
+    logDB($machineconn, 'error', $errorMessage);
     exit();
 }
 
@@ -51,7 +53,9 @@ $lastResult = $machineconn->query($lastSql);
 
 if (!$lastResult) {
     http_response_code(400);
-    echo json_encode(["message" => "database query for the last entry failed: " . $machineconn->error], JSON_PRETTY_PRINT);
+    $errorMessage = "database query for the last entry failed: " . $machineconn->error;
+    echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
+    logDB($machineconn, 'error', $errorMessage);
     exit();
 }
 
@@ -59,10 +63,11 @@ $lastEntry = $lastResult->fetch_assoc();
 
 if (empty($lastEntry)) {
     http_response_code(400);
-    echo json_encode(["message" => "no last entry found for this order."], JSON_PRETTY_PRINT);
+    $message = "no last entry found for this order.";
+    echo json_encode(["message" => $message], JSON_PRETTY_PRINT);
+    logDB($machineconn, 'info', $message);
 } else {
+    http_response_code(200);
     echo json_encode($lastEntry, JSON_PRETTY_PRINT);
+    logDB($machineconn, 'info', "last entry retrieved for order: " . $orderid);
 }
-
-
-

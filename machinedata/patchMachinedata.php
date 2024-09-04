@@ -6,7 +6,9 @@ $idMachinedata = $machineconn->real_escape_string(trim($data['dataid'] ?? $_GET[
 
 if (!$idMachinedata) {
     http_response_code(400);
-    echo json_encode(["message" => "dataid (idMachinedata) is required."], JSON_PRETTY_PRINT);
+    $errorMessage = "dataid (idMachinedata) is required.";
+    echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
+    logDB($machineconn, 'error', $errorMessage);
     exit();
 }
 
@@ -19,7 +21,9 @@ $resultCheck = $machineconn->query($sqlCheck);
 
 if ($resultCheck->num_rows == 0) {
     http_response_code(400);
-    echo json_encode(["message" => "machinedata not found."], JSON_PRETTY_PRINT);
+    $errorMessage = "machinedata not found.";
+    echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
+    logDB($machineconn, 'error', $errorMessage);
     exit();
 }
 
@@ -49,8 +53,9 @@ if (!empty($updateFields)) {
         $updatedData = $resultCheckUpdated->fetch_assoc();
 
         http_response_code(200);
+        $successMessage = "machinedata information successfully patched.";
         echo json_encode([
-            "message" => "machinedata information successfully patched.",
+            "message" => $successMessage,
             "dataid" => $idMachinedata,
             "timestamp" => $updatedData['timestamp'] ?? null,
             "userid" => $updatedData['userid'] ?? null,
@@ -58,12 +63,16 @@ if (!empty($updateFields)) {
             "orderid" => $updatedData['order'] ?? null,         
             "shiftid" => $updatedData['shift_idshift'] ?? null,   
         ], JSON_PRETTY_PRINT);
+        logDB($machineconn, 'info', $successMessage . " dataid: " . $idMachinedata);
     } else {
         http_response_code(400);
-        echo json_encode(["message" => "error updating machinedata: " . $machineconn->error], JSON_PRETTY_PRINT);
+        $errorMessage = "error updating machinedata: " . $machineconn->error;
+        echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
+        logDB($machineconn, 'error', $errorMessage);
     }
 } else {
     http_response_code(400);
-    echo json_encode(["message" => "no changes specified."], JSON_PRETTY_PRINT);
+    $errorMessage = "no changes specified.";
+    echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
+    logDB($machineconn, 'warning', $errorMessage);
 }
-

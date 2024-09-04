@@ -8,7 +8,9 @@ $machineid = $machineconn->real_escape_string(trim($data['machineid'] ?? null));
 
 if (!$starttime || !$endtime || !$machineid) {
     http_response_code(400);
-    echo json_encode(["message" => "starttime, endtime, and machineid are required."], JSON_PRETTY_PRINT);
+    $errorMessage = "starttime, endtime, and machineid are required.";
+    echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
+    logDB($machineconn, 'error', $errorMessage); 
     exit();
 }
 
@@ -16,15 +18,19 @@ $sqlInsert = "INSERT INTO shift (startTime, endTime, machine_idMachine) VALUES (
 
 if ($machineconn->query($sqlInsert) === TRUE) {
     $shiftId = $machineconn->insert_id;
-    http_response_code(201); 
+    http_response_code(201);
+    $successMessage = "shift successfully created.";
     echo json_encode([
-        "message" => "shift successfully created.",
+        "message" => $successMessage,
         "shiftid" => $shiftId,
         "starttime" => $starttime,
         "endtime" => $endtime,
         "machineid" => $machineid
     ], JSON_PRETTY_PRINT);
+    logDB($machineconn, 'info', $successMessage . " shiftid: " . $shiftId); 
 } else {
     http_response_code(400);
-    echo json_encode(["message" => "failed to create shift: " . $machineconn->error], JSON_PRETTY_PRINT);
+    $errorMessage = "failed to create shift: " . $machineconn->error;
+    echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
+    logDB($machineconn, 'error', $errorMessage); 
 }

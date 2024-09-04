@@ -26,14 +26,24 @@ if ($orderid) {
 $result = $machineconn->query($sql);
 
 if ($result) {
-    $data = [];
+    if ($result->num_rows > 0) {
+        $data = [];
+        while ($row = $result->fetch_assoc()) {
+            $data[] = $row;
+        }
 
-    while ($row = $result->fetch_assoc()) {
-        $data[] = $row;
+        http_response_code(200);
+        echo json_encode($data, JSON_PRETTY_PRINT);
+        logDB($machineconn, 'info', "machines retrieved successfully. Count: " . count($data));
+    } else {
+        http_response_code(400);
+        $errorMessage = "no machines found.";
+        echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
+        logDB($machineconn, 'warning', $errorMessage);
     }
-
-    echo json_encode($data, JSON_PRETTY_PRINT);
 } else {
     http_response_code(400); 
-    echo json_encode(["message" => "no machine found."], JSON_PRETTY_PRINT);
+    $errorMessage = "database query failed: " . $machineconn->error;
+    echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
+    logDB($machineconn, 'error', $errorMessage);
 }

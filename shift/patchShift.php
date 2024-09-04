@@ -6,7 +6,9 @@ $shiftId = $machineconn->real_escape_string(trim($data['shiftid'] ?? $_GET['shif
 
 if (!$shiftId) {
     http_response_code(400);
-    echo json_encode(["message" => "shiftid is required."], JSON_PRETTY_PRINT);
+    $errorMessage = "shiftid is required.";
+    echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
+    logDB($machineconn, 'error', $errorMessage); 
     exit();
 }
 
@@ -15,14 +17,16 @@ $resultCheck = $machineconn->query($sqlCheck);
 
 if ($resultCheck->num_rows == 0) {
     http_response_code(400);
-    echo json_encode(["message" => "shift not found."], JSON_PRETTY_PRINT);
+    $errorMessage = "shift not found.";
+    echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
+    logDB($machineconn, 'error', $errorMessage); 
     exit();
 }
 
 $updateFields = [];
 
 if (isset($data['starttime']) && $data['starttime'] !== "") {
-    $updateFields[] = "starTtime = '" . $machineconn->real_escape_string(trim($data['starttime'])) . "'";
+    $updateFields[] = "startTime = '" . $machineconn->real_escape_string(trim($data['starttime'])) . "'";
 }
 if (isset($data['endtime']) && $data['endtime'] !== "") {
     $updateFields[] = "endTime = '" . $machineconn->real_escape_string(trim($data['endtime'])) . "'";
@@ -39,18 +43,24 @@ if (!empty($updateFields)) {
         $updatedData = $resultCheckUpdated->fetch_assoc();
 
         http_response_code(200);
+        $successMessage = "shift information successfully patched.";
         echo json_encode([
-            "message" => "shift information successfully patched.",
+            "message" => $successMessage,
             "shiftid" => $shiftId,
             "starttime" => $updatedData['startTime'] ?? null,
             "endtime" => $updatedData['endTime'] ?? null,
             "machineid" => $updatedData['machine_idMachine'] ?? null
         ], JSON_PRETTY_PRINT);
+        logDB($machineconn, 'info', $successMessage . " shiftid: " . $shiftId); 
     } else {
         http_response_code(400);
-        echo json_encode(["message" => "error updating shift data: " . $machineconn->error], JSON_PRETTY_PRINT);
+        $errorMessage = "error updating shift data: " . $machineconn->error;
+        echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
+        logDB($machineconn, 'error', $errorMessage); 
     }
 } else {
     http_response_code(400);
-    echo json_encode(["message" => "no changes specified."], JSON_PRETTY_PRINT);
+    $errorMessage = "no changes specified.";
+    echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
+    logDB($machineconn, 'warning', $errorMessage); 
 }

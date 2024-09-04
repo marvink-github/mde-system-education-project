@@ -6,7 +6,9 @@ $deviceId = $machineconn->real_escape_string(trim($data['deviceid'] ?? $_GET['de
 
 if (!$deviceId) {
     http_response_code(400);
-    echo json_encode(["message" => "deviceid is required."], JSON_PRETTY_PRINT);
+    $errorMessage = "deviceid is required.";
+    echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
+    logDB($machineconn, 'error', $errorMessage); 
     exit();
 }
 
@@ -15,7 +17,9 @@ $resultCheck = $machineconn->query($sqlCheck);
 
 if ($resultCheck->num_rows == 0) {
     http_response_code(400);
-    echo json_encode(["message" => "device not found."], JSON_PRETTY_PRINT);
+    $errorMessage = "device not found.";
+    echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
+    logDB($machineconn, 'error', $errorMessage); 
     exit();
 }
 
@@ -40,17 +44,23 @@ if (!empty($updateFields)) {
 
         http_response_code(200);
         echo json_encode([
-            "message" => "Device information successfully patched.",
+            "message" => "device information successfully patched.",
             "deviceid" => $deviceId,
             "terminalid" => $updatedData['terminal_id'] ?? null,
             "terminaltype" => $updatedData['terminal_type'] ?? null,
             "last_alive" => $updatedData['last_alive'] ?? null
         ], JSON_PRETTY_PRINT);
+        
+        logDB($machineconn, 'info', "device information successfully updated for device id: $deviceId");
     } else {
         http_response_code(400);
-        echo json_encode(["message" => "Error updating device data: " . $machineconn->error], JSON_PRETTY_PRINT);
+        $errorMessage = "error updating device data: " . $machineconn->error;
+        echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
+        logDB($machineconn, 'error', $errorMessage);
     }
 } else {
     http_response_code(400);
-    echo json_encode(["message" => "No changes specified."], JSON_PRETTY_PRINT);
+    $errorMessage = "no changes specified.";
+    echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
+    logDB($machineconn, 'warning', $errorMessage);
 }

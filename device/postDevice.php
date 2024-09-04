@@ -4,7 +4,9 @@ $data = json_decode(file_get_contents("php://input"), true);
 
 if (!isset($data['terminalid']) || !isset($data['terminaltype'])) {
     http_response_code(400); 
-    echo json_encode(["message" => "terminalid and terminaltype are required."], JSON_PRETTY_PRINT);
+    $errorMessage = "terminalid and terminaltype are required.";
+    echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
+    logDB($machineconn, 'error', $errorMessage); 
     exit();
 }
 
@@ -15,8 +17,10 @@ $checkSql = "SELECT * FROM device WHERE terminal_id = '$terminal_id' AND termina
 $checkResult = $machineconn->query($checkSql);
 
 if ($checkResult->num_rows > 0) {
-    http_response_code(409); 
-    echo json_encode(["message" => "this device already exists."], JSON_PRETTY_PRINT);
+    http_response_code(400); 
+    $errorMessage = "this device already exists.";
+    echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
+    logDB($machineconn, 'warning', $errorMessage); 
     exit();
 }
 
@@ -24,11 +28,12 @@ $sql = "INSERT INTO device (terminal_id, terminal_type) VALUES ('$terminal_id', 
 
 if ($machineconn->query($sql) === TRUE) {
     $last_id = $machineconn->insert_id;
-    http_response_code(201); 
-    echo json_encode(["message" => "device succesfully created.", "idDevice" => $last_id], JSON_PRETTY_PRINT);
+    http_response_code(200); 
+    echo json_encode(["message" => "device successfully created.", "idDevice" => $last_id], JSON_PRETTY_PRINT);
+    logDB($machineconn, 'info', "device successfully created with id: $last_id"); 
 } else {
-    http_response_code(500); 
-    echo json_encode(["message" => "error creating the device:" . $machineconn->error], JSON_PRETTY_PRINT);
+    http_response_code(400); 
+    $errorMessage = "error creating the device: " . $machineconn->error;
+    echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
+    logDB($machineconn, 'error', $errorMessage); 
 }
-
-

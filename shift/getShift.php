@@ -16,7 +16,7 @@ $sql = "SELECT shift.*, machine.order FROM shift
 $conditions = [];
 
 if (!empty($idShift)) {
-    $conditions[] = "shift.idshift = '$idShift'"; 
+    $conditions[] = "shift.idShift = '$idShift'"; 
 }
 
 if (!empty($machineId)) {
@@ -28,11 +28,11 @@ if (!empty($orderId)) {
 }
 
 if (!empty($fromDate) && !empty($toDate)) {
-    $conditions[] = "shift.start_time BETWEEN '$fromDate' AND '$toDate'";
+    $conditions[] = "shift.startTime BETWEEN '$fromDate' AND '$toDate'";
 } elseif (!empty($fromDate)) {
-    $conditions[] = "shift.start_time >= '$fromDate'";
+    $conditions[] = "shift.startTime >= '$fromDate'";
 } elseif (!empty($toDate)) {
-    $conditions[] = "shift.start_time <= '$toDate'";
+    $conditions[] = "shift.startTime <= '$toDate'";
 }
 
 if (!empty($conditions)) {
@@ -45,7 +45,9 @@ $result = $machineconn->query($sql);
 
 if (!$result) {
     http_response_code(400);
-    echo json_encode(["message" => "database query failed: " . $machineconn->error], JSON_PRETTY_PRINT);
+    $errorMessage = "database query failed: " . $machineconn->error;
+    echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
+    logDB($machineconn, 'error', $errorMessage);
     exit();
 }
 
@@ -57,7 +59,10 @@ while ($row = $result->fetch_assoc()) {
 
 if (empty($data)) {
     http_response_code(400);
-    echo json_encode(["message" => "no shifts found."], JSON_PRETTY_PRINT);
+    $errorMessage = "no shifts found.";
+    echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
+    logDB($machineconn, 'info', $errorMessage);
 } else {
     echo json_encode($data, JSON_PRETTY_PRINT);
+    logDB($machineconn, 'info', "shifts retrieved: " . count($data));
 }

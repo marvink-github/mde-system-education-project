@@ -4,7 +4,9 @@ $idShift = $machineconn->real_escape_string(trim($_GET['shiftid'] ?? null));
 
 if (!$idShift) {
     http_response_code(400);
-    echo json_encode(["message" => "shiftid is required."], JSON_PRETTY_PRINT);
+    $errorMessage = "shiftid is required.";
+    echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
+    logDB($machineconn, 'error', $errorMessage);
     exit();
 }
 
@@ -13,14 +15,18 @@ $sql = "DELETE FROM shift WHERE idShift = '$idShift'";
 if ($machineconn->query($sql) === TRUE) {
     if ($machineconn->affected_rows > 0) {
         http_response_code(200);
-        echo json_encode(["message" => "shift successfully deleted."], JSON_PRETTY_PRINT);
+        $successMessage = "shift successfully deleted.";
+        echo json_encode(["message" => $successMessage], JSON_PRETTY_PRINT);
+        logDB($machineconn, 'info', $successMessage);
     } else {
         http_response_code(400);
-        echo json_encode(["message" => "no shift found that could be deleted."], JSON_PRETTY_PRINT);
+        $errorMessage = "no shift found that could be deleted.";
+        echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
+        logDB($machineconn, 'info', $errorMessage);
     }
 } else {
     http_response_code(400);
-    echo json_encode(["message" => "error deleting shift: " . $machineconn->error], JSON_PRETTY_PRINT);
+    $errorMessage = "error deleting shift: " . $machineconn->error;
+    echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
+    logDB($machineconn, 'error', $errorMessage);
 }
-
-
