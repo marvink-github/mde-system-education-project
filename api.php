@@ -11,7 +11,7 @@ try {
         'GET' => [
             'getShift' => '/shift/getShift.php',
             'getMachinedata' => '/machinedata/getMachinedata.php',
-            'getCount' => '/machinedata/getCount.php',
+            'getSum' => '/machinedata/getSum.php',
             'getFirstOrder' => '/machinedata/getFirstOrder.php',
             'getLastOrder' => '/machinedata/getLastOrder.php',
             'getMachine' => '/machine/getMachine.php',
