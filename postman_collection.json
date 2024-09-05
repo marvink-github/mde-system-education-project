@@ -450,7 +450,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "127.0.0.1/api/api/getCount?machineid=7&userid=20658&orderid=dh971712&shiftid=",
+							"raw": "127.0.0.1/api/api/getSum?machineid=7&userid=&orderid=&shiftid=",
 							"host": [
 								"127",
 								"0",
@@ -460,7 +460,7 @@
 							"path": [
 								"api",
 								"api",
-								"getCount"
+								"getSum"
 							],
 							"query": [
 								{
@@ -469,11 +469,11 @@
 								},
 								{
 									"key": "userid",
-									"value": "20658"
+									"value": ""
 								},
 								{
 									"key": "orderid",
-									"value": "dh971712"
+									"value": ""
 								},
 								{
 									"key": "shiftid",
@@ -1141,7 +1141,7 @@
 						"method": "PATCH",
 						"header": [],
 						"url": {
-							"raw": "127.0.0.1/api/api/startBarcode?orderid=dh971712&userid=",
+							"raw": "127.0.0.1/api/api/startBarcode?orderid=dh971712&userid=132151",
 							"host": [
 								"127",
 								"0",
@@ -1160,7 +1160,7 @@
 								},
 								{
 									"key": "userid",
-									"value": ""
+									"value": "132151"
 								}
 							]
 						}
