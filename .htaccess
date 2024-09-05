@@ -2,5 +2,5 @@ RewriteEngine On
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^restapi/?$ restapi.php [L]
-RewriteRule ^restapi/(.*)$ restapi.php/$1 [L,QSA]
+RewriteRule ^api/?$ api.php [L]
+RewriteRule ^api/(.*)$ api.php/$1 [L,QSA]
