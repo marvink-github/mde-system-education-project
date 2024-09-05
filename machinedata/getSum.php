@@ -7,7 +7,7 @@ $shiftid = $machineconn->real_escape_string(trim($_GET['shiftid'] ?? null));
 
 if (!$machineid && !$userid && !$orderid && !$shiftid) {
     http_response_code(400);
-    $errorMessage = "At least one parameter (machineid, userid, orderid, shiftid) is required.";
+    $errorMessage = "at least one parameter (machineid, userid, orderid, shiftid) is required.";
     echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
     logDB($machineconn, 'warning', $errorMessage);
     exit();
@@ -45,7 +45,7 @@ $result = $machineconn->query($sql);
 
 if (!$result) {
     http_response_code(400);
-    $errorMessage = "Database query failed: " . $machineconn->error;
+    $errorMessage = "database query failed: " . $machineconn->error;
     echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
     logDB($machineconn, 'error', $errorMessage);
     exit();
@@ -55,7 +55,7 @@ $row = $result->fetch_assoc();
 
 if ($row['data_count'] == 0) {
     http_response_code(400);
-    $errorMessage = "No entries found for the provided filters.";
+    $errorMessage = "no entries found for the provided filters.";
     echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
     logDB($machineconn, 'warning', $errorMessage);
     exit();
