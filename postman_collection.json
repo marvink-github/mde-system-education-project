@@ -445,12 +445,12 @@
 					"response": []
 				},
 				{
-					"name": "Summe Order",
+					"name": "Summe anfragen",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "127.0.0.1/api/api/getCount?orderid=d108237z1hj&userid&machineid",
+							"raw": "127.0.0.1/api/api/getCount?machineid=7&userid=20658&orderid=dh971712&shiftid=",
 							"host": [
 								"127",
 								"0",
@@ -464,16 +464,20 @@
 							],
 							"query": [
 								{
-									"key": "orderid",
-									"value": "d108237z1hj"
+									"key": "machineid",
+									"value": "7"
 								},
 								{
 									"key": "userid",
-									"value": null
+									"value": "20658"
 								},
 								{
-									"key": "machineid",
-									"value": null
+									"key": "orderid",
+									"value": "dh971712"
+								},
+								{
+									"key": "shiftid",
+									"value": ""
 								}
 							]
 						}
@@ -1101,7 +1105,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "127.0.0.1/api/api/getBarcode?orderid=4388810057725&userid=232C416A&value",
+							"raw": "127.0.0.1/api/api/getBarcode?orderid=kj8d09j1&userid=&value",
 							"host": [
 								"127",
 								"0",
@@ -1116,11 +1120,11 @@
 							"query": [
 								{
 									"key": "orderid",
-									"value": "4388810057725"
+									"value": "kj8d09j1"
 								},
 								{
 									"key": "userid",
-									"value": "232C416A"
+									"value": ""
 								},
 								{
 									"key": "value",
@@ -1132,12 +1136,12 @@
 					"response": []
 				},
 				{
-					"name": "Maschine Start (Order + Schicht)",
+					"name": "Maschine Start (Schicht starten)",
 					"request": {
 						"method": "PATCH",
 						"header": [],
 						"url": {
-							"raw": "127.0.0.1/api/api/startBarcode?orderid=kj8d09j1",
+							"raw": "127.0.0.1/api/api/startBarcode?orderid=dh971712&userid=",
 							"host": [
 								"127",
 								"0",
@@ -1152,7 +1156,11 @@
 							"query": [
 								{
 									"key": "orderid",
-									"value": "kj8d09j1"
+									"value": "dh971712"
+								},
+								{
+									"key": "userid",
+									"value": ""
 								}
 							]
 						}
@@ -1160,12 +1168,12 @@
 					"response": []
 				},
 				{
-					"name": "Maschine Stop (Order + Schicht)",
+					"name": "Maschine Stop (Schicht beenden)",
 					"request": {
 						"method": "PATCH",
 						"header": [],
 						"url": {
-							"raw": "127.0.0.1/api/api/stopBarcode?orderid=kj8d09j1",
+							"raw": "127.0.0.1/api/api/stopBarcode",
 							"host": [
 								"127",
 								"0",
@@ -1176,12 +1184,6 @@
 								"api",
 								"api",
 								"stopBarcode"
-							],
-							"query": [
-								{
-									"key": "orderid",
-									"value": "kj8d09j1"
-								}
 							]
 						}
 					},

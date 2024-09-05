@@ -1,42 +1,51 @@
 <?php
 
-$orderid = $machineconn->real_escape_string(trim($_GET['orderid'] ?? null));
+$machineid = $machineconn->real_escape_string(trim($_GET['machineid'] ?? null));
 $userid = $machineconn->real_escape_string(trim($_GET['userid'] ?? null));
-$machine_id = $machineconn->real_escape_string(trim($_GET['machineid'] ?? null));
+$orderid = $machineconn->real_escape_string(trim($_GET['orderid'] ?? null));
+$shiftid = $machineconn->real_escape_string(trim($_GET['shiftid'] ?? null));
 
-if (!$orderid) {
+if (!$machineid && !$userid && !$orderid && !$shiftid) {
     http_response_code(400);
-    $errorMessage = "orderid is required.";
+    $errorMessage = "At least one parameter (machineid, userid, orderid, shiftid) is required.";
     echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
-    logDB($machineconn, 'error', $errorMessage);
+    logDB($machineconn, 'warning', $errorMessage);
     exit();
 }
 
 $sql = "SELECT 
-            SUM(machinedata.value) AS total_value,
             COUNT(machinedata.idMachinedata) AS data_count,
             COUNT(DISTINCT machinedata.shift_idShift) AS shift_count,
-            machinedata.`order`
+            machinedata.`order` AS order_number
         FROM 
             machinedata 
         LEFT JOIN 
             shift ON machinedata.shift_idShift = shift.idShift
-        WHERE 
-            machinedata.`order` = '$orderid'";
+        WHERE 1=1"; 
+
+if ($orderid) {
+    $sql .= " AND machinedata.`order` = '$orderid'";
+}
 
 if ($userid) {
     $sql .= " AND machinedata.userid = '$userid'";
 }
 
-if ($machine_id) {
-    $sql .= " AND machinedata.shift_idShift IN (SELECT idShift FROM shift WHERE machine_idMachine = '$machine_id')";
+if ($machineid) {
+    $sql .= " AND machinedata.shift_idShift IN (SELECT idShift FROM shift WHERE machine_idMachine = '$machineid')";
 }
+
+if ($shiftid) {
+    $sql .= " AND machinedata.shift_idShift = '$shiftid'";
+}
+
+$sql .= " GROUP BY machinedata.`order`";
 
 $result = $machineconn->query($sql);
 
 if (!$result) {
     http_response_code(400);
-    $errorMessage = "database query failed: " . $machineconn->error;
+    $errorMessage = "Database query failed: " . $machineconn->error;
     echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
     logDB($machineconn, 'error', $errorMessage);
     exit();
@@ -44,13 +53,22 @@ if (!$result) {
 
 $row = $result->fetch_assoc();
 
+if ($row['data_count'] == 0) {
+    http_response_code(400);
+    $errorMessage = "No entries found for the provided filters.";
+    echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
+    logDB($machineconn, 'warning', $errorMessage);
+    exit();
+}
+
 $data = [
-    'orderid' => $orderid,
-    'total_value' => $row['total_value'] ?? 0,
-    'record_count' => $row['data_count'] ?? 0, 
-    'shift_count' => $row['shift_count'] ?? 0
+    'machineid' => $machineid ?? null,
+    'userid' => $userid ?? null, 
+    'orderid' => $orderid ?? null, 
+    'shiftid' => $shiftid ?? null,
+    'data_count' => $row['data_count'] ?? 0, 
+    'shift_count' => $row['shift_count'] ?? 0,
 ];
 
 http_response_code(200);
 echo json_encode($data, JSON_PRETTY_PRINT);
-logDB($machineconn, 'info', "retrieved data for order: $orderid");

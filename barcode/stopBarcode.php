@@ -2,13 +2,6 @@
 
 $orderid = $machineconn->real_escape_string(trim($_GET['orderid'] ?? null));
 
-if (!$orderid) {
-    http_response_code(400);
-    $errorMessage = "orderid is required.";
-    echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
-    exit();
-}
-
 $machineIdSql = "SELECT idMachine FROM machine WHERE name = 'Barcode'";
 $machineIdResult = $machineconn->query($machineIdSql);
 
@@ -20,14 +13,45 @@ if ($machineIdResult->num_rows > 0) {
     
     if ($machineconn->query($updateMachineSql) === TRUE) {
         $endShiftSql = "UPDATE shift SET endTime = DATE_FORMAT(NOW(), '%Y-%m-%dT%H:%i:%s') WHERE machine_idMachine = $machine_id AND endTime IS NULL";
-        $machineconn->query($endShiftSql);
-        
-        echo json_encode(["status" => "success", "message" => "machine state updated to 'stop' and shift ended."], JSON_PRETTY_PRINT);
+        if ($machineconn->query($endShiftSql) === TRUE) {
+            $machineDataSql = "SELECT * FROM machine WHERE idMachine = $machine_id";
+            $machineDataResult = $machineconn->query($machineDataSql);
+
+            if ($machineDataResult->num_rows > 0) {
+                $updatedData = $machineDataResult->fetch_assoc();
+
+                echo json_encode([
+                    "message" => "machine and shift succesfully stopped.",
+                    "machineId" => $updatedData['idMachine'],
+                    "machinename" => $updatedData['name'] ?? null,
+                    "userid" => $updatedData['userid'] ?? null,
+                    "orderid" => $updatedData['order'] ?? null,
+                    "state" => $updatedData['state'] ?? null,
+                    "device_idDevice" => $updatedData['device_idDevice'] ?? null
+                ], JSON_PRETTY_PRINT);
+
+            } else {
+                http_response_code(400);
+                $errorMessage = "failed to retrieve updated machine data.";
+                echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
+                logDB($machineconn, 'error', $errorMessage);
+            }
+        } else {
+            http_response_code(400);
+            $errorMessage = "failed to end shift: " . $machineconn->error;
+            echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
+            logDB($machineconn, 'error', $errorMessage);
+        }
     } else {
-        http_response_code(500);
-        echo json_encode(["message" => "failed to update machine state: " . $machineconn->error], JSON_PRETTY_PRINT);
+        http_response_code(400);
+        $errorMessage = "Failed to update machine state: " . $machineconn->error;
+        echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
+        logDB($machineconn, 'error', $errorMessage);
     }
 } else {
-    http_response_code(404);
-    echo json_encode(["message" => "no machine found for orderid: $orderid"], JSON_PRETTY_PRINT);
+    http_response_code(400);
+    $errorMessage = "No machine found for orderid: $orderid";
+    echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
+    logDB($machineconn, 'warning', $errorMessage);
 }
+
