@@ -199,7 +199,6 @@ function handleStopAction($machineconn, $timestamp, $terminal_id, $d_entry_start
     // Hole die Machine-ID anhand der Terminal-ID und d_entry_startstop
     $machine_id = getMachineIdByAction($machineconn, $terminal_id, 'd_entry_startstop', $d_entry_startstop);
 
-    // Überprüfe, ob die Maschine gefunden wurde
     if (!$machine_id) {
         logDB($machineconn, 'stop', "error: machine not found. devicetime: $timestamp");
         return; 
@@ -208,7 +207,6 @@ function handleStopAction($machineconn, $timestamp, $terminal_id, $d_entry_start
     // Hole die Maschinen-Daten anhand der Machine-ID
     $machineData = getMachineData($machineconn, $machine_id);
     
-    // Überprüfe, ob die Maschinen-Daten vorhanden sind
     if (!$machineData) {
         logDB($machineconn, 'stop', "error: machine data not found. devicetime: $timestamp");
         return; 
