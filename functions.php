@@ -266,7 +266,7 @@ function handleScannerAction($machineconn, $timestamp, $terminal_id, $terminal_t
                     logDB($machineconn, 'scanner', "error: updating machine userid: $machineconn->error. devicetime: $timestamp");
                 }
             } else {
-                logDB($machineconn, 'scanner', "warning: no active shift for machine_id: $machine_id. devicetime: $timestamp. No data written.");
+                logDB($machineconn, 'scanner', "warning: no active shift for machine_id: $machine_id. devicetime: $timestamp.");
             }
         } else {
             logDB($machineconn, 'scanner', "error: no machine found for barcode: $barcode. devicetime: $timestamp");
