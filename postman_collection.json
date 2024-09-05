@@ -10,7 +10,7 @@
 			"name": "Action von Maschine",
 			"item": [
 				{
-					"name": "Maschine 1: Start + Schicht",
+					"name": "Maschine 1: Start",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -167,7 +167,7 @@
 					"response": []
 				},
 				{
-					"name": "Maschine 2: Start + Schicht",
+					"name": "Maschine 2: Start",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -334,7 +334,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "127.0.0.1/api/restapi?getMachinedata&from=2024-09-01T00:00:00&to=2024-09-02T23:59:59&userid=123&shiftid=71&orderid=d108237z1hj&page=1&limit=50",
+							"raw": "127.0.0.1/api/api/getMachinedata?from=&to=&userid=&shiftid=&orderid=&page=2&limit=200",
 							"host": [
 								"127",
 								"0",
@@ -343,40 +343,37 @@
 							],
 							"path": [
 								"api",
-								"restapi"
+								"api",
+								"getMachinedata"
 							],
 							"query": [
 								{
-									"key": "getMachinedata",
-									"value": null
-								},
-								{
 									"key": "from",
-									"value": "2024-09-01T00:00:00"
+									"value": ""
 								},
 								{
 									"key": "to",
-									"value": "2024-09-02T23:59:59"
+									"value": ""
 								},
 								{
 									"key": "userid",
-									"value": "123"
+									"value": ""
 								},
 								{
 									"key": "shiftid",
-									"value": "71"
+									"value": ""
 								},
 								{
 									"key": "orderid",
-									"value": "d108237z1hj"
+									"value": ""
 								},
 								{
 									"key": "page",
-									"value": "1"
+									"value": "2"
 								},
 								{
 									"key": "limit",
-									"value": "50"
+									"value": "200"
 								}
 							]
 						}
@@ -389,7 +386,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "127.0.0.1/api/restapi?getFirstOrder&orderid=d108237z1hj&userid=123",
+							"raw": "127.0.0.1/api/api/getFirstOrder?orderid=d108237z1hj&userid=123",
 							"host": [
 								"127",
 								"0",
@@ -398,13 +395,10 @@
 							],
 							"path": [
 								"api",
-								"restapi"
+								"api",
+								"getFirstOrder"
 							],
 							"query": [
-								{
-									"key": "getFirstOrder",
-									"value": null
-								},
 								{
 									"key": "orderid",
 									"value": "d108237z1hj"
@@ -424,7 +418,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "127.0.0.1/api/restapi?getLastOrder&orderid=d108237z1hj&userid=123",
+							"raw": "127.0.0.1/api/api/getLastOrder?orderid=d108237z1hj&userid=123",
 							"host": [
 								"127",
 								"0",
@@ -433,13 +427,10 @@
 							],
 							"path": [
 								"api",
-								"restapi"
+								"api",
+								"getLastOrder"
 							],
 							"query": [
-								{
-									"key": "getLastOrder",
-									"value": null
-								},
 								{
 									"key": "orderid",
 									"value": "d108237z1hj"
@@ -459,7 +450,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "127.0.0.1/api/restapi?getCount&orderid=d108237z1hj&userid&machineid",
+							"raw": "127.0.0.1/api/api/getCount?orderid=d108237z1hj&userid&machineid",
 							"host": [
 								"127",
 								"0",
@@ -468,13 +459,10 @@
 							],
 							"path": [
 								"api",
-								"restapi"
+								"api",
+								"getCount"
 							],
 							"query": [
-								{
-									"key": "getCount",
-									"value": null
-								},
 								{
 									"key": "orderid",
 									"value": "d108237z1hj"
@@ -507,7 +495,7 @@
 							"raw": "{ \"timestamp\": \"2024-08-29 18:30:00\", \"userid\": \"141\", \"value\": \"1\", \"order\": \"dj19734z1h\", \"idshift\": \"52\"}"
 						},
 						"url": {
-							"raw": "127.0.0.1/api/restapi?postMachinedata",
+							"raw": "127.0.0.1/api/api/postMachinedata",
 							"host": [
 								"127",
 								"0",
@@ -516,13 +504,8 @@
 							],
 							"path": [
 								"api",
-								"restapi"
-							],
-							"query": [
-								{
-									"key": "postMachinedata",
-									"value": null
-								}
+								"api",
+								"postMachinedata"
 							]
 						}
 					},
@@ -535,7 +518,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{ \"dataid\": \"563\", \"timestamp\": \"\",  \"userid\": \"80\", \"value\": \"\", \"orderid\": \"1892371895\",  \"shiftid\": \"71\"}",
+							"raw": "{ \"dataid\": \"1\", \"timestamp\": \"\",  \"userid\": \"80\", \"value\": \"\", \"orderid\": \"1892371895\",  \"shiftid\": \"71\"}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -543,7 +526,7 @@
 							}
 						},
 						"url": {
-							"raw": "127.0.0.1/api/restapi?patchMachinedata",
+							"raw": "127.0.0.1/api/api/patchMachinedata",
 							"host": [
 								"127",
 								"0",
@@ -552,13 +535,8 @@
 							],
 							"path": [
 								"api",
-								"restapi"
-							],
-							"query": [
-								{
-									"key": "patchMachinedata",
-									"value": null
-								}
+								"api",
+								"patchMachinedata"
 							]
 						}
 					},
@@ -570,7 +548,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "127.0.0.1/api/restapi?deleteMachinedata&dataid=563",
+							"raw": "127.0.0.1/api/api/deleteMachinedata?dataid=1",
 							"host": [
 								"127",
 								"0",
@@ -579,16 +557,13 @@
 							],
 							"path": [
 								"api",
-								"restapi"
+								"api",
+								"deleteMachinedata"
 							],
 							"query": [
 								{
-									"key": "deleteMachinedata",
-									"value": null
-								},
-								{
 									"key": "dataid",
-									"value": "563"
+									"value": "1"
 								}
 							]
 						}
@@ -606,7 +581,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "127.0.0.1/api/restapi?getMachine&machineid=4&userid=&orderid=&state=",
+							"raw": "127.0.0.1/api/api/getMachine?machineid=&userid=&orderid=&state=",
 							"host": [
 								"127",
 								"0",
@@ -615,16 +590,13 @@
 							],
 							"path": [
 								"api",
-								"restapi"
+								"api",
+								"getMachine"
 							],
 							"query": [
 								{
-									"key": "getMachine",
-									"value": null
-								},
-								{
 									"key": "machineid",
-									"value": "4"
+									"value": ""
 								},
 								{
 									"key": "userid",
@@ -655,10 +627,10 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{ \"name\": \"Maschinerc66e\", \"d_entry_startstop\": \"90\", \"d_entry_counter\": \"80\", \"device_idDevice\": \"1\" }"
+							"raw": "{ \"name\": \"Barcode\", \"d_entry_startstop\": \"\", \"d_entry_counter\": \"\", \"device_idDevice\": \"1\" }"
 						},
 						"url": {
-							"raw": "127.0.0.1/api/restapi?postMachine",
+							"raw": "127.0.0.1/api/api/postMachine",
 							"host": [
 								"127",
 								"0",
@@ -667,13 +639,8 @@
 							],
 							"path": [
 								"api",
-								"restapi"
-							],
-							"query": [
-								{
-									"key": "postMachine",
-									"value": null
-								}
+								"api",
+								"postMachine"
 							]
 						}
 					},
@@ -694,7 +661,7 @@
 							"raw": "{ \"name\": \"Testmachine 1\", \"d_entry_startstop\": \"4\", \"d_entry_counter\": \"3\", \"device_idDevice\": \"1\" }"
 						},
 						"url": {
-							"raw": "127.0.0.1/api/restapi?postMachine",
+							"raw": "127.0.0.1/api/api/postMachine",
 							"host": [
 								"127",
 								"0",
@@ -703,13 +670,8 @@
 							],
 							"path": [
 								"api",
-								"restapi"
-							],
-							"query": [
-								{
-									"key": "postMachine",
-									"value": null
-								}
+								"api",
+								"postMachine"
 							]
 						}
 					},
@@ -730,7 +692,7 @@
 							"raw": "{ \"name\": \"Testmachine 2\", \"d_entry_startstop\": \"2\", \"d_entry_counter\": \"1\", \"device_idDevice\": \"1\" }"
 						},
 						"url": {
-							"raw": "127.0.0.1/api/restapi?postMachine",
+							"raw": "127.0.0.1/api/api/postMachine",
 							"host": [
 								"127",
 								"0",
@@ -739,13 +701,8 @@
 							],
 							"path": [
 								"api",
-								"restapi"
-							],
-							"query": [
-								{
-									"key": "postMachine",
-									"value": null
-								}
+								"api",
+								"postMachine"
 							]
 						}
 					},
@@ -763,10 +720,10 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{ \"machineid\": \"1\", \"userid\": \"\", \"orderid\": \"\", \"name\": \"\", \"state\": \"\",  \"d_entry_startstop\": \"\", \"d_entry_counter\": \"\", \"device_idDevice\": \"\" }"
+							"raw": "{ \"machineid\": \"7\", \"userid\": \"\", \"orderid\": \"dj91732z\", \"name\": \"\", \"state\": \"\",  \"d_entry_startstop\": \"\", \"d_entry_counter\": \"\", \"device_idDevice\": \"\" }"
 						},
 						"url": {
-							"raw": "127.0.0.1/api/restapi?patchMachine",
+							"raw": "127.0.0.1/api/api/patchMachine",
 							"host": [
 								"127",
 								"0",
@@ -775,13 +732,8 @@
 							],
 							"path": [
 								"api",
-								"restapi"
-							],
-							"query": [
-								{
-									"key": "patchMachine",
-									"value": null
-								}
+								"api",
+								"patchMachine"
 							]
 						}
 					},
@@ -793,7 +745,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "127.0.0.1/api/restapi?deleteMachine&machineid=6",
+							"raw": "127.0.0.1/api/api/deleteMachine?machineid=6",
 							"host": [
 								"127",
 								"0",
@@ -802,13 +754,10 @@
 							],
 							"path": [
 								"api",
-								"restapi"
+								"api",
+								"deleteMachine"
 							],
 							"query": [
-								{
-									"key": "deleteMachine",
-									"value": null
-								},
 								{
 									"key": "machineid",
 									"value": "6"
@@ -829,7 +778,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "127.0.0.1/api/restapi?getShift&shiftid=&machineid=1&orderid&from&to&limit&page",
+							"raw": "127.0.0.1/api/api/getShift?shiftid=103&machineid=&orderid&from&to&limit&page",
 							"host": [
 								"127",
 								"0",
@@ -838,20 +787,17 @@
 							],
 							"path": [
 								"api",
-								"restapi"
+								"api",
+								"getShift"
 							],
 							"query": [
 								{
-									"key": "getShift",
-									"value": null
-								},
-								{
 									"key": "shiftid",
-									"value": ""
+									"value": "103"
 								},
 								{
 									"key": "machineid",
-									"value": "1"
+									"value": ""
 								},
 								{
 									"key": "orderid",
@@ -893,7 +839,7 @@
 							}
 						},
 						"url": {
-							"raw": "127.0.0.1/api/restapi?postShift",
+							"raw": "127.0.0.1/api/api/postShift",
 							"host": [
 								"127",
 								"0",
@@ -902,13 +848,8 @@
 							],
 							"path": [
 								"api",
-								"restapi"
-							],
-							"query": [
-								{
-									"key": "postShift",
-									"value": null
-								}
+								"api",
+								"postShift"
 							]
 						}
 					},
@@ -921,7 +862,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"shiftid\": \"65\", \"starttime\": \"\", \"endtime\": \"\", \"machineid\": \"\"}",
+							"raw": "{\"shiftid\": \"103\", \"starttime\": \"\", \"endtime\": \"2024-09-05T16:36:21\", \"machineid\": \"\"}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -929,7 +870,7 @@
 							}
 						},
 						"url": {
-							"raw": "127.0.0.1/api/restapi?patchShift",
+							"raw": "127.0.0.1/api/api/patchShift",
 							"host": [
 								"127",
 								"0",
@@ -938,13 +879,8 @@
 							],
 							"path": [
 								"api",
-								"restapi"
-							],
-							"query": [
-								{
-									"key": "patchShift",
-									"value": null
-								}
+								"api",
+								"patchShift"
 							]
 						}
 					},
@@ -956,7 +892,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "127.0.0.1/api/restapi?deleteShift&shiftid=20",
+							"raw": "127.0.0.1/api/api/deleteShift?shiftid=20",
 							"host": [
 								"127",
 								"0",
@@ -965,13 +901,10 @@
 							],
 							"path": [
 								"api",
-								"restapi"
+								"api",
+								"deleteShift"
 							],
 							"query": [
-								{
-									"key": "deleteShift",
-									"value": null
-								},
 								{
 									"key": "shiftid",
 									"value": "20"
@@ -992,7 +925,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "127.0.0.1/api/restapi?getDevice&terminalid=3533&terminaltype",
+							"raw": "127.0.0.1/api/api/getDevice?terminalid=&terminaltype",
 							"host": [
 								"127",
 								"0",
@@ -1001,16 +934,13 @@
 							],
 							"path": [
 								"api",
-								"restapi"
+								"api",
+								"getDevice"
 							],
 							"query": [
 								{
-									"key": "getDevice",
-									"value": null
-								},
-								{
 									"key": "terminalid",
-									"value": "3533"
+									"value": ""
 								},
 								{
 									"key": "terminaltype",
@@ -1036,7 +966,7 @@
 							"raw": "{ \"terminalid\": \"3583\", \"terminaltype\": \"EVO 4.6 FlexKey\" }"
 						},
 						"url": {
-							"raw": "127.0.0.1/api/restapi?postDevice",
+							"raw": "127.0.0.1/api/api/postDevice",
 							"host": [
 								"127",
 								"0",
@@ -1045,13 +975,8 @@
 							],
 							"path": [
 								"api",
-								"restapi"
-							],
-							"query": [
-								{
-									"key": "postDevice",
-									"value": null
-								}
+								"api",
+								"postDevice"
 							]
 						}
 					},
@@ -1064,7 +989,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"deviceid\": \"1\", \"terminalid\": \"\", \"terminaltype\": \"\", \"last_alive\": \"\"}",
+							"raw": "{\"deviceid\": \"7\", \"terminalid\": \"\", \"terminaltype\": \"\", \"last_alive\": \"\"}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1072,7 +997,7 @@
 							}
 						},
 						"url": {
-							"raw": "127.0.0.1/api/restapi?patchDevice",
+							"raw": "127.0.0.1/api/api/patchDevice",
 							"host": [
 								"127",
 								"0",
@@ -1081,13 +1006,8 @@
 							],
 							"path": [
 								"api",
-								"restapi"
-							],
-							"query": [
-								{
-									"key": "patchDevice",
-									"value": null
-								}
+								"api",
+								"patchDevice"
 							]
 						}
 					},
@@ -1099,7 +1019,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "127.0.0.1/api/restapi?deleteDevice&deviceid=5",
+							"raw": "127.0.0.1/api/api/deleteDevice?deviceid=6",
 							"host": [
 								"127",
 								"0",
@@ -1108,16 +1028,13 @@
 							],
 							"path": [
 								"api",
-								"restapi"
+								"api",
+								"deleteDevice"
 							],
 							"query": [
 								{
-									"key": "deleteDevice",
-									"value": null
-								},
-								{
 									"key": "deviceid",
-									"value": "5"
+									"value": "6"
 								}
 							]
 						}
@@ -1135,7 +1052,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "127.0.0.1/api/restapi?getLog&type=count&from&to&page&limit",
+							"raw": "127.0.0.1/api/api/getLog?type=count&from&to&page&limit",
 							"host": [
 								"127",
 								"0",
@@ -1144,13 +1061,10 @@
 							],
 							"path": [
 								"api",
-								"restapi"
+								"api",
+								"getLog"
 							],
 							"query": [
-								{
-									"key": "getLog",
-									"value": null
-								},
 								{
 									"key": "type",
 									"value": "count"
@@ -1182,12 +1096,12 @@
 			"name": "Barcode",
 			"item": [
 				{
-					"name": "Barcode anfragen (inkl. Summe)",
+					"name": "Barcode Summe anfragen",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "127.0.0.1/api/restapi?getBarcode&orderid=4388810057725&userid=ad81d19j&value",
+							"raw": "127.0.0.1/api/api/getBarcode?orderid=4388810057725&userid=232C416A&value",
 							"host": [
 								"127",
 								"0",
@@ -1196,24 +1110,77 @@
 							],
 							"path": [
 								"api",
-								"restapi"
+								"api",
+								"getBarcode"
 							],
 							"query": [
-								{
-									"key": "getBarcode",
-									"value": null
-								},
 								{
 									"key": "orderid",
 									"value": "4388810057725"
 								},
 								{
 									"key": "userid",
-									"value": "ad81d19j"
+									"value": "232C416A"
 								},
 								{
 									"key": "value",
 									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Maschine Start (Order + Schicht)",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1/api/api/startBarcode?orderid=kj8d09j1",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"path": [
+								"api",
+								"api",
+								"startBarcode"
+							],
+							"query": [
+								{
+									"key": "orderid",
+									"value": "kj8d09j1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Maschine Stop (Order + Schicht)",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1/api/api/stopBarcode?orderid=kj8d09j1",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"path": [
+								"api",
+								"api",
+								"stopBarcode"
+							],
+							"query": [
+								{
+									"key": "orderid",
+									"value": "kj8d09j1"
 								}
 							]
 						}

@@ -18,7 +18,7 @@ try {
             'getLog' => '/log/getLog.php',
             'getDevice' => '/device/getDevice.php',
             'getBarcode' => '/barcode/getBarcode.php',
-            'getAliveStatus' => '/alive/getAliveStatus.php',
+            'getAliveStatus' => '/alive/getAliveStatus.php',               
         ],
         'POST' => [
             'postMachinedata' => '/machinedata/postMachinedata.php',
@@ -31,7 +31,9 @@ try {
             'patchMachine' => '/machine/patchMachine.php',
             'patchBarcode' => '/barcode/patchBarcode.php',
             'patchShift' => '/shift/patchShift.php',
-            'patchDevice' => '/device/patchDevice.php'
+            'patchDevice' => '/device/patchDevice.php',
+            'startBarcode' => '/barcode/startBarcode.php',
+            'stopBarcode' => '/barcode/stopBarcode.php',
         ],
         'DELETE' => [
             'deleteMachinedata' => '/machinedata/deleteMachinedata.php',

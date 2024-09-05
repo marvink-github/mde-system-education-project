@@ -222,18 +222,54 @@ function handleStopAction($machineconn, $timestamp, $terminal_id, $d_entry_start
 }
 
 
-function handleScannerAction($machineconn, $timestamp, $terminal_id, $terminal_type, $badge, $barcode) {
+function handleScannerAction($machineconn, $timestamp, $terminal_id, $terminal_type, $barcode, $badge) {
+    // Überprüfe, ob das Device mit der angegebenen Terminal-ID und dem Terminal-Typ existiert
     $deviceExistsSql = "SELECT 1 FROM device WHERE terminal_id = '$terminal_id' AND terminal_type = '$terminal_type'";
     $deviceExistsResult = $machineconn->query($deviceExistsSql);
 
     if ($deviceExistsResult->num_rows > 0) {
-        $scannerDataSql = "INSERT INTO machinedata (timestamp, userid, value, `order`) 
-                           VALUES ('$timestamp', '$badge', '1', '$barcode')";
-        
-        if ($machineconn->query($scannerDataSql) === TRUE) {
-            logDB($machineconn, 'scanner', "success: $barcode has been scanned by $badge. devicetime: $timestamp");
+        // Überprüfe, ob die Maschine mit dem Namen 'Barcode' existiert
+        $machineIdSql = "SELECT idMachine FROM machine WHERE name = 'Barcode'";
+        $machineIdResult = $machineconn->query($machineIdSql);
+
+        if ($machineIdResult->num_rows > 0) {
+            $machine = $machineIdResult->fetch_assoc();
+            $machine_id = $machine['idMachine'];
+
+            // Hole die aktive Order der Maschine
+            $activeOrderSql = "SELECT `order` FROM machine WHERE idMachine = $machine_id";
+            $activeOrderResult = $machineconn->query($activeOrderSql);
+            $activeOrder = $activeOrderResult->fetch_assoc();
+            $currentOrder = $activeOrder['order'];
+
+            // Hole die aktuelle Schicht für die Maschine
+            $activeShiftSql = "SELECT idShift FROM shift WHERE machine_idMachine = $machine_id AND endTime IS NULL";
+            $activeShiftResult = $machineconn->query($activeShiftSql);
+
+            if ($activeShiftResult->num_rows > 0) {
+                $activeShift = $activeShiftResult->fetch_assoc();
+                $currentShiftId = $activeShift['idShift'];
+
+                // Setze die userid der Maschine
+                $updateUserIdSql = "UPDATE machine SET userid = '$badge' WHERE idMachine = $machine_id";
+                if ($machineconn->query($updateUserIdSql) === TRUE) {
+                    // Schreibe in die machinedata
+                    $scannerDataSql = "INSERT INTO machinedata (timestamp, userid, value, `order`, shift_idShift) 
+                                       VALUES ('$timestamp', '$badge', '$barcode', '$currentOrder', $currentShiftId)";
+                    
+                    if ($machineconn->query($scannerDataSql) === TRUE) {
+                        logDB($machineconn, 'scanner', "success: $barcode has been scanned by $badge. devicetime: $timestamp");
+                    } else {
+                        logDB($machineconn, 'scanner', "error: saving scan data: $machineconn->error. devicetime: $timestamp");
+                    }
+                } else {
+                    logDB($machineconn, 'scanner', "error: updating machine userid: $machineconn->error. devicetime: $timestamp");
+                }
+            } else {
+                logDB($machineconn, 'scanner', "warning: no active shift for machine_id: $machine_id. devicetime: $timestamp. No data written.");
+            }
         } else {
-            logDB($machineconn, 'scanner', "error: saving scan data: $machineconn->error. devicetime: $timestamp");
+            logDB($machineconn, 'scanner', "error: no machine found for barcode: $barcode. devicetime: $timestamp");
         }
     } else {
         logDB($machineconn, 'scanner', "error: device not found for terminal_id: $terminal_id and terminal_type: $terminal_type. devicetime: $timestamp");
