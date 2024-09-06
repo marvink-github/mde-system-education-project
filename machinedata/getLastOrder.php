@@ -52,8 +52,8 @@ if ($userid) {
 $lastResult = $machineconn->query($lastSql);
 
 if (!$lastResult) {
-    http_response_code(400);
-    $errorMessage = "database query for the last entry failed: " . $machineconn->error;
+    http_response_code(500);
+    $errorMessage = "Database query for the last entry failed: " . $machineconn->error;
     echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
     logDB($machineconn, 'error', $errorMessage);
     exit();
@@ -62,12 +62,12 @@ if (!$lastResult) {
 $lastEntry = $lastResult->fetch_assoc();
 
 if (empty($lastEntry)) {
-    http_response_code(400);
-    $message = "no last entry found for this order.";
+    http_response_code(404);
+    $message = "No last entry found for this order.";
     echo json_encode(["message" => $message], JSON_PRETTY_PRINT);
     logDB($machineconn, 'info', $message);
 } else {
     http_response_code(200);
     echo json_encode($lastEntry, JSON_PRETTY_PRINT);
-    logDB($machineconn, 'info', "last entry retrieved for order: " . $orderid);
+    logDB($machineconn, 'info', "Last entry retrieved for order: " . $orderid);
 }

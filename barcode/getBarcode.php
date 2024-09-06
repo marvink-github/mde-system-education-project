@@ -10,7 +10,7 @@ if ($barcodeMachineResult->num_rows > 0) {
     $barcodeMachine = $barcodeMachineResult->fetch_assoc();
     $barcodeMachineId = $barcodeMachine['idMachine'];
 
-    // Nur Daten von der 'Barcode'-Maschine holen
+    // Nur Daten von der 'Barcode'- Maschine holen
     $sql = "SELECT md.* 
             FROM machinedata md
             JOIN shift s ON md.shift_idShift = s.idShift 
@@ -35,19 +35,19 @@ if ($barcodeMachineResult->num_rows > 0) {
                 "total" => (int)$result->num_rows
             ], JSON_PRETTY_PRINT);
         } else {
-            http_response_code(400);
-            $errorMessage = "no entries found for the barcode machine.";
+            http_response_code(404);
+            $errorMessage = "No entries found for the barcode machine.";
             echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
             logDB($machineconn, 'warning', $errorMessage);
         }
     } else {
-        http_response_code(400);
-        $errorMessage = "database query failed: " . $machineconn->error;
+        http_response_code(500);
+        $errorMessage = "Database query failed: " . $machineconn->error;
         echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
         logDB($machineconn, 'error', $errorMessage);
     }
 } else {
-    http_response_code(400);
+    http_response_code(404);
     $errorMessage = "Barcode machine not found.";
     echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
     logDB($machineconn, 'error', $errorMessage);

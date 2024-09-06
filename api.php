@@ -3,6 +3,13 @@
 require 'connection.php';
 require 'functions.php';
 
+// API Key check
+// if ($_GET['apiKey'] != "12398712397123987sadsdaihusadohji") {
+//     http_response_code(403);
+//     echo json_encode(["message" => "Forbidden"]);
+//     exit();
+// }
+
 try {
     $requestMethod = $_SERVER['REQUEST_METHOD'];
     $requestUri = $_SERVER['REQUEST_URI'];
@@ -52,12 +59,12 @@ try {
         }
     }
 
-    http_response_code(400);
-    echo json_encode(["message" => "method not allowed"]);
+    http_response_code(405);
+    echo json_encode(["message" => "Method not allowed"]);
 
 } catch (Exception $e) {
     http_response_code(500);
-    logDB($machineconn, 'catch', 'internal server error: ' . $e->getMessage());
+    logDB($machineconn, 'api', 'Internal server error: ' . $e->getMessage());
 } finally {
     $machineconn->close();
 }

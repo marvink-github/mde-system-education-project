@@ -16,8 +16,8 @@ $sqlCheck = "SELECT * FROM device WHERE idDevice = '$deviceId'";
 $resultCheck = $machineconn->query($sqlCheck);
 
 if ($resultCheck->num_rows == 0) {
-    http_response_code(400);
-    $errorMessage = "device not found.";
+    http_response_code(404);
+    $errorMessage = "Device not found.";
     echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
     logDB($machineconn, 'error', $errorMessage); 
     exit();
@@ -44,23 +44,23 @@ if (!empty($updateFields)) {
 
         http_response_code(200);
         echo json_encode([
-            "message" => "device information successfully patched.",
+            "message" => "Device information successfully patched.",
             "deviceid" => $deviceId,
             "terminalid" => $updatedData['terminal_id'] ?? null,
             "terminaltype" => $updatedData['terminal_type'] ?? null,
             "last_alive" => $updatedData['last_alive'] ?? null
         ], JSON_PRETTY_PRINT);
         
-        logDB($machineconn, 'info', "device information successfully updated for device id: $deviceId");
+        logDB($machineconn, 'info', "Device information successfully updated for device id: $deviceId");
     } else {
-        http_response_code(400);
-        $errorMessage = "error updating device data: " . $machineconn->error;
+        http_response_code(500);
+        $errorMessage = "Error updating device data: " . $machineconn->error;
         echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
         logDB($machineconn, 'error', $errorMessage);
     }
 } else {
     http_response_code(400);
-    $errorMessage = "no changes specified.";
+    $errorMessage = "No changes specified.";
     echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
     logDB($machineconn, 'warning', $errorMessage);
 }

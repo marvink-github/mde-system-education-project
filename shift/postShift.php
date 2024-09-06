@@ -19,7 +19,7 @@ $sqlInsert = "INSERT INTO shift (startTime, endTime, machine_idMachine) VALUES (
 if ($machineconn->query($sqlInsert) === TRUE) {
     $shiftId = $machineconn->insert_id;
     http_response_code(201);
-    $successMessage = "shift successfully created.";
+    $successMessage = "Shift successfully created.";
     echo json_encode([
         "message" => $successMessage,
         "shiftid" => $shiftId,
@@ -29,8 +29,8 @@ if ($machineconn->query($sqlInsert) === TRUE) {
     ], JSON_PRETTY_PRINT);
     logDB($machineconn, 'info', $successMessage . " shiftid: " . $shiftId); 
 } else {
-    http_response_code(400);
-    $errorMessage = "failed to create shift: " . $machineconn->error;
+    http_response_code(500);
+    $errorMessage = "Failed to create shift: " . $machineconn->error;
     echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
     logDB($machineconn, 'error', $errorMessage); 
 }

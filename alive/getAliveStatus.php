@@ -19,16 +19,16 @@ if ($result) {
         echo json_encode([
             "last_alive" => $row['last_alive']
         ], JSON_PRETTY_PRINT);
-        logDB($machineconn, 'info', "successfully retrieved last_alive for terminal_id: $terminal_id, terminal_type: $terminal_type.");
+        logDB($machineconn, 'info', "Successfully retrieved last_alive for terminal_id: $terminal_id, terminal_type: $terminal_type.");
     } else {
-        http_response_code(400);
-        $errorMessage = "no entry found for this device.";
+        http_response_code(404);
+        $errorMessage = "No entry found for this device.";
         echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
         logDB($machineconn, 'warning', $errorMessage);
     }
 } else {
-    http_response_code(400);
-    $errorMessage = "database query failed: " . $machineconn->error;
+    http_response_code(500);
+    $errorMessage = "Database query failed: " . $machineconn->error;
     echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
     logDB($machineconn, 'error', $errorMessage);
 }

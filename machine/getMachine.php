@@ -34,16 +34,16 @@ if ($result) {
 
         http_response_code(200);
         echo json_encode($data, JSON_PRETTY_PRINT);
-        logDB($machineconn, 'info', "machines retrieved successfully. Count: " . count($data));
+        logDB($machineconn, 'info', "Machines retrieved successfully. Count: " . count($data));
     } else {
-        http_response_code(400);
-        $errorMessage = "no machines found.";
+        http_response_code(404);
+        $errorMessage = "No machines found.";
         echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
         logDB($machineconn, 'warning', $errorMessage);
     }
 } else {
-    http_response_code(400); 
-    $errorMessage = "database query failed: " . $machineconn->error;
+    http_response_code(500); 
+    $errorMessage = "Database query failed: " . $machineconn->error;
     echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
     logDB($machineconn, 'error', $errorMessage);
 }

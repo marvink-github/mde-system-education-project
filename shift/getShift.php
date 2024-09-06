@@ -44,8 +44,8 @@ $sql .= " LIMIT $limit OFFSET $offset";
 $result = $machineconn->query($sql);
 
 if (!$result) {
-    http_response_code(400);
-    $errorMessage = "database query failed: " . $machineconn->error;
+    http_response_code(500);
+    $errorMessage = "Database query failed: " . $machineconn->error;
     echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
     logDB($machineconn, 'error', $errorMessage);
     exit();
@@ -58,11 +58,11 @@ while ($row = $result->fetch_assoc()) {
 }
 
 if (empty($data)) {
-    http_response_code(400);
-    $errorMessage = "no shifts found.";
+    http_response_code(404);
+    $errorMessage = "No shifts found.";
     echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
     logDB($machineconn, 'info', $errorMessage);
 } else {
     echo json_encode($data, JSON_PRETTY_PRINT);
-    logDB($machineconn, 'info', "shifts retrieved: " . count($data));
+    logDB($machineconn, 'info', "Shifts retrieved: " . count($data));
 }

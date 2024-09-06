@@ -21,7 +21,7 @@ if ($machineIdResult->num_rows > 0) {
                 $updatedData = $machineDataResult->fetch_assoc();
 
                 echo json_encode([
-                    "message" => "machine and shift succesfully stopped.",
+                    "message" => "Machine and shift succesfully stopped.",
                     "machineId" => $updatedData['idMachine'],
                     "machinename" => $updatedData['name'] ?? null,
                     "userid" => $updatedData['userid'] ?? null,
@@ -32,13 +32,13 @@ if ($machineIdResult->num_rows > 0) {
 
             } else {
                 http_response_code(400);
-                $errorMessage = "failed to retrieve updated machine data.";
+                $errorMessage = "Failed to retrieve updated machine data.";
                 echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
                 logDB($machineconn, 'error', $errorMessage);
             }
         } else {
             http_response_code(400);
-            $errorMessage = "failed to end shift: " . $machineconn->error;
+            $errorMessage = "Failed to end shift: " . $machineconn->error;
             echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
             logDB($machineconn, 'error', $errorMessage);
         }
@@ -49,7 +49,7 @@ if ($machineIdResult->num_rows > 0) {
         logDB($machineconn, 'error', $errorMessage);
     }
 } else {
-    http_response_code(400);
+    http_response_code(404);
     $errorMessage = "No machine found for orderid: $orderid";
     echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
     logDB($machineconn, 'warning', $errorMessage);

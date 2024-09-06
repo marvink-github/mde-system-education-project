@@ -36,7 +36,7 @@ if ($machineIdResult->num_rows > 0) {
                     $updatedData = $machineDataResult->fetch_assoc();
 
                     echo json_encode([
-                        "message" => "machine and shift successfully started.",
+                        "message" => "Machine and shift successfully started.",
                         "machineId" => $updatedData['idMachine'],
                         "machinename" => $updatedData['name'] ?? null,
                         "userid" => $updatedData['userid'] ?? null,
@@ -47,31 +47,31 @@ if ($machineIdResult->num_rows > 0) {
                     
                 } else {
                     http_response_code(400);
-                    $errorMessage = "failed to retrieve updated machine data.";
+                    $errorMessage = "Failed to retrieve updated machine data.";
                     echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
                     logDB($machineconn, 'error', $errorMessage);
                 }
             } else {
                 http_response_code(400);
-                $errorMessage = "failed to update machine state: " . $machineconn->error;
+                $errorMessage = "Failed to update machine state: " . $machineconn->error;
                 echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
                 logDB($machineconn, 'error', $errorMessage);
             }
         } else {
             http_response_code(400);
-            $errorMessage = "failed to create shift: " . $machineconn->error;
+            $errorMessage = "Failed to create shift: " . $machineconn->error;
             echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
             logDB($machineconn, 'error', $errorMessage);
         }
     } else {
         http_response_code(400);
-        $errorMessage = "an active shift already exists for this machine.";
+        $errorMessage = "An active shift already exists for this machine.";
         echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
         logDB($machineconn, 'warning', $errorMessage);
     }
 } else {
-    http_response_code(400);
-    $errorMessage = "no machine found for orderid: $orderid";
+    http_response_code(404);
+    $errorMessage = "No machine found for orderid: $orderid";
     echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
     logDB($machineconn, 'warning', $errorMessage);
 }

@@ -14,7 +14,7 @@ $checkSql = "SELECT * FROM machinedata WHERE idMachinedata = '$idMachinedata'";
 $checkResult = $machineconn->query($checkSql);
 
 if ($checkResult->num_rows === 0) {
-    http_response_code(400); 
+    http_response_code(404); 
     $errorMessage = "machinedata not found.";
     echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
     logDB($machineconn, 'error', $errorMessage);
@@ -28,7 +28,7 @@ if ($machineconn->query($deleteSql) === TRUE) {
     echo json_encode(["message" => "machinedata successfully deleted."], JSON_PRETTY_PRINT);
     logDB($machineconn, 'info', "deleted machinedata with id: $idMachinedata");
 } else {
-    http_response_code(400); 
+    http_response_code(500); 
     $errorMessage = "failed to delete the machinedata: " . $machineconn->error;
     echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
     logDB($machineconn, 'error', $errorMessage);

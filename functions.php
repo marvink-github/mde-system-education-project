@@ -10,7 +10,7 @@ function logDB($machineconn, $logType, $logMessage) {
     $result = $machineconn->query($sql);
     
     if (!$result) {
-        error_log('logDB' . mysqli_error($machineconn));
+        error_log('logDB' . mysqli_error($machineconn));  
     }
 }
 

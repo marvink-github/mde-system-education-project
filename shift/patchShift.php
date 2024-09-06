@@ -16,7 +16,7 @@ $sqlCheck = "SELECT * FROM shift WHERE idShift = '$shiftId'";
 $resultCheck = $machineconn->query($sqlCheck);
 
 if ($resultCheck->num_rows == 0) {
-    http_response_code(400);
+    http_response_code(404);
     $errorMessage = "shift not found.";
     echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
     logDB($machineconn, 'error', $errorMessage); 
@@ -43,7 +43,7 @@ if (!empty($updateFields)) {
         $updatedData = $resultCheckUpdated->fetch_assoc();
 
         http_response_code(200);
-        $successMessage = "shift information successfully patched.";
+        $successMessage = "Shift information successfully patched.";
         echo json_encode([
             "message" => $successMessage,
             "shiftid" => $shiftId,
@@ -53,14 +53,14 @@ if (!empty($updateFields)) {
         ], JSON_PRETTY_PRINT);
         logDB($machineconn, 'info', $successMessage . " shiftid: " . $shiftId); 
     } else {
-        http_response_code(400);
-        $errorMessage = "error updating shift data: " . $machineconn->error;
+        http_response_code(500);
+        $errorMessage = "Error updating shift data: " . $machineconn->error;
         echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
         logDB($machineconn, 'error', $errorMessage); 
     }
 } else {
     http_response_code(400);
-    $errorMessage = "no changes specified.";
+    $errorMessage = "No changes specified.";
     echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
     logDB($machineconn, 'warning', $errorMessage); 
 }

@@ -27,7 +27,7 @@ if (!empty($conditions)) {
 $result = $machineconn->query($sql);
 
 if (!$result) {
-    http_response_code(400);
+    http_response_code(500);
     $errorMessage = "Database query failed: " . $machineconn->error;
     echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
     logDB($machineconn, 'error', $errorMessage);
@@ -41,10 +41,11 @@ while ($row = $result->fetch_assoc()) {
 }
 
 if (empty($data)) {
-    http_response_code(400);
+    http_response_code(404);
     echo json_encode(["message" => "No devices found."], JSON_PRETTY_PRINT);
     logDB($machineconn, 'error', "No devices found matching the criteria.");
 } else {
+    http_response_code(200);
     echo json_encode($data, JSON_PRETTY_PRINT);
     logDB($machineconn, 'info', "Devices retrieved successfully: " . json_encode($data));
 }

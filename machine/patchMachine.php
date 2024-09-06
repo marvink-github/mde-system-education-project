@@ -19,8 +19,8 @@ $sqlCheck = "SELECT * FROM machine WHERE idMachine = '$machine_id'";
 $resultCheck = $machineconn->query($sqlCheck);
 
 if ($resultCheck->num_rows == 0) {
-    http_response_code(400);
-    $errorMessage = "machine not found.";
+    http_response_code(404);
+    $errorMessage = "Machine not found.";
     echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
     logDB($machineconn, 'error', $errorMessage);
     exit();
@@ -59,7 +59,7 @@ if (!empty($updateFields)) {
 
         http_response_code(200);
         echo json_encode([
-            "message" => "machine information successfully patched.",
+            "message" => "Machine information successfully patched.",
             "machineId" => $machine_id,
             "machinename" => $updatedData['name'] ?? null,
             "userid" => $updatedData['userid'] ?? null,
@@ -69,16 +69,16 @@ if (!empty($updateFields)) {
             "d_entry_counter" => $updatedData['d_entry_counter'] ?? null,
             "device_idDevice" => $updatedData['device_idDevice'] ?? null             
         ], JSON_PRETTY_PRINT);
-        logDB($machineconn, 'info', "machine information updated successfully for id: $machine_id");
+        logDB($machineconn, 'info', "Machine information updated successfully for id: $machine_id");
     } else {
-        http_response_code(400);
-        $errorMessage = "error updating machine data: " . $machineconn->error;
+        http_response_code(500);
+        $errorMessage = "Error updating machine data: " . $machineconn->error;
         echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
         logDB($machineconn, 'error', $errorMessage);
     }
 } else {
     http_response_code(400);
-    $errorMessage = "no changes specified.";
+    $errorMessage = "No changes specified.";
     echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
     logDB($machineconn, 'warning', $errorMessage);
 }

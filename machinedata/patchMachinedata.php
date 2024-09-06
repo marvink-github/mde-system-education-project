@@ -53,7 +53,7 @@ if (!empty($updateFields)) {
         $updatedData = $resultCheckUpdated->fetch_assoc();
 
         http_response_code(200);
-        $successMessage = "machinedata information successfully patched.";
+        $successMessage = "Machinedata information successfully patched.";
         echo json_encode([
             "message" => $successMessage,
             "dataid" => $idMachinedata,
@@ -66,13 +66,13 @@ if (!empty($updateFields)) {
         logDB($machineconn, 'info', $successMessage . " dataid: " . $idMachinedata);
     } else {
         http_response_code(400);
-        $errorMessage = "error updating machinedata: " . $machineconn->error;
+        $errorMessage = "Error updating machinedata: " . $machineconn->error;
         echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
         logDB($machineconn, 'error', $errorMessage);
     }
 } else {
     http_response_code(400);
-    $errorMessage = "no changes specified.";
+    $errorMessage = "No changes specified.";
     echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
     logDB($machineconn, 'warning', $errorMessage);
 }

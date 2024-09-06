@@ -1,12 +1,5 @@
 <?php
 
-// Optional API Key check
-// if ($_GET['apiKey'] != "12398712397123987sadsdaihusadohji") {
-//     http_response_code(403);
-//     echo json_encode(["message" => "Forbidden"]);
-//     exit();
-// }
-
 $from = $machineconn->real_escape_string(trim($_GET['from'] ?? null));
 $to = $machineconn->real_escape_string(trim($_GET['to'] ?? null));
 $userid = $machineconn->real_escape_string(trim($_GET['userid'] ?? null));
@@ -44,8 +37,8 @@ $sql .= " LIMIT $limit OFFSET $offset";
 $result = $machineconn->query($sql);
 
 if (!$result) {
-    http_response_code(400);
-    $errorMessage = "database query failed: " . $machineconn->error;
+    http_response_code(500);
+    $errorMessage = "Database query failed: " . $machineconn->error;
     echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
     logDB($machineconn, 'error', $errorMessage);
     exit();
@@ -59,11 +52,11 @@ while ($row = $result->fetch_assoc()) {
 
 if (empty($data)) {
     http_response_code(404);
-    $message = "no data found.";
+    $message = "No machinedata found.";
     echo json_encode(["message" => $message], JSON_PRETTY_PRINT);
     logDB($machineconn, 'info', $message);
 } else {
     http_response_code(200);
     echo json_encode($data, JSON_PRETTY_PRINT);
-    logDB($machineconn, 'info', "data retrieved successfully. count: " . count($data));
+    logDB($machineconn, 'info', "Data retrieved successfully.");
 }
