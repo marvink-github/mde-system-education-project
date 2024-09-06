@@ -10,7 +10,6 @@ if ($barcodeMachineResult->num_rows > 0) {
     $barcodeMachine = $barcodeMachineResult->fetch_assoc();
     $barcodeMachineId = $barcodeMachine['idMachine'];
 
-    // Nur Daten von der 'Barcode'- Maschine holen
     $sql = "SELECT md.* 
             FROM machinedata md
             JOIN shift s ON md.shift_idShift = s.idShift 
@@ -36,7 +35,7 @@ if ($barcodeMachineResult->num_rows > 0) {
             ], JSON_PRETTY_PRINT);
         } else {
             http_response_code(404);
-            $errorMessage = "No entries found for the barcode machine.";
+            $errorMessage = "No entries found at the barcode machine.";
             echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
             logDB($machineconn, 'warning', $errorMessage);
         }
