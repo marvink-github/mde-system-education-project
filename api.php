@@ -3,12 +3,15 @@
 require 'connection.php';
 require 'functions.php';
 
-// API Key check
-// if ($_GET['apiKey'] != "12398712397123987sadsdaihusadohji") {
-//     http_response_code(403);
-//     echo json_encode(["message" => "Forbidden"]);
-//     exit();
-// }
+header('Content-Type: application/json');
+
+$apiKey = '694d3da45d8cbcc7fa3fa4d21649a47ff1bf1ad23dd145b0d26fec420f603a2c';
+
+if (!isset($_SERVER['HTTP_APIKEY']) || $_SERVER['HTTP_APIKEY'] != $apiKey) {
+    http_response_code(403);
+    echo json_encode(["message" => "Forbidden"]);
+    exit();
+}
 
 try {
     $requestMethod = $_SERVER['REQUEST_METHOD'];
