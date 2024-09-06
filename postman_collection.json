@@ -631,7 +631,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{ \"name\": \"Test31231\", \"d_entry_startstop\": \"\", \"d_entry_counter\": \"\", \"device_idDevice\": \"1\" }"
+							"raw": "{ \"name\": \"Barcode\", \"d_entry_startstop\": \"\", \"d_entry_counter\": \"\", \"device_idDevice\": \"1\" }"
 						},
 						"url": {
 							"raw": "127.0.0.1/api/api/postMachine",
@@ -749,7 +749,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "127.0.0.1/api/api/deleteMachine?machineid=9",
+							"raw": "127.0.0.1/api/api/deleteMachine?machineid=10",
 							"host": [
 								"127",
 								"0",
@@ -764,7 +764,7 @@
 							"query": [
 								{
 									"key": "machineid",
-									"value": "9"
+									"value": "10"
 								}
 							]
 						}
@@ -1056,7 +1056,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "127.0.0.1/api/api/getLog?type=count&from&to&page&limit",
+							"raw": "127.0.0.1/api/api/getLog?type=&from&to&page&limit&logid=500",
 							"host": [
 								"127",
 								"0",
@@ -1071,7 +1071,7 @@
 							"query": [
 								{
 									"key": "type",
-									"value": "count"
+									"value": ""
 								},
 								{
 									"key": "from",
@@ -1088,6 +1088,10 @@
 								{
 									"key": "limit",
 									"value": null
+								},
+								{
+									"key": "logid",
+									"value": "500"
 								}
 							]
 						}
