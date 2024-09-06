@@ -196,7 +196,7 @@ function handleMachineData($machineconn, $timestamp, $terminal_id, $value, $d_en
 
 
 function handleStopAction($machineconn, $timestamp, $terminal_id, $d_entry_startstop) {
-    // Hole die Machine-ID anhand der Terminal-ID und d_entry_startstop
+    // Hole die Machine-ID anhand der terminal_id und d_entry_startstop
     $machine_id = getMachineIdByAction($machineconn, $terminal_id, 'd_entry_startstop', $d_entry_startstop);
 
     if (!$machine_id) {
@@ -204,7 +204,7 @@ function handleStopAction($machineconn, $timestamp, $terminal_id, $d_entry_start
         return; 
     }
 
-    // Hole die Maschinen-Daten anhand der Machine-ID
+    // Hole die Maschinendaten anhand der Machine-ID
     $machineData = getMachineData($machineconn, $machine_id);
     
     if (!$machineData) {
