@@ -10,7 +10,7 @@ if (!$starttime || !$endtime || !$machineid) {
     http_response_code(400);
     $errorMessage = "starttime, endtime, and machineid are required.";
     echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
-    logDB($machineconn, 'error', $errorMessage); 
+    logDB($machineconn, 'post', $errorMessage); 
     exit();
 }
 
@@ -27,7 +27,7 @@ if ($machineconn->query($sqlInsert) === TRUE) {
         "endtime" => $endtime,
         "machineid" => $machineid
     ], JSON_PRETTY_PRINT);
-    logDB($machineconn, 'info', $successMessage . " shiftid: " . $shiftId); 
+    logDB($machineconn, 'info', "$successMessage. shiftid: $shiftId"); 
 } else {
     http_response_code(500);
     $errorMessage = "Failed to create shift: " . $machineconn->error;

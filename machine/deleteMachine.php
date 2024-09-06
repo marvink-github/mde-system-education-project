@@ -6,7 +6,7 @@ if (!$machineId) {
     http_response_code(400); 
     $errorMessage = "machineid required.";
     echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
-    logDB($machineconn, 'error', $errorMessage);
+    logDB($machineconn, 'delete', $errorMessage);
     exit();
 }
 
@@ -17,7 +17,7 @@ if ($checkResult->num_rows === 0) {
     http_response_code(404); 
     $errorMessage = "Machine not found.";
     echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
-    logDB($machineconn, 'error', $errorMessage);
+    logDB($machineconn, 'warning', $errorMessage);
     exit();
 }
 
@@ -25,7 +25,7 @@ $deleteSql = "DELETE FROM machine WHERE idMachine = '$machineId'";
 
 if ($machineconn->query($deleteSql) === TRUE) {
     http_response_code(200); 
-    $errorMessage = "Machine with id $machineId successfully deleted.";
+    $errorMessage = "Machineid: $machineId successfully deleted.";
     echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
     logDB($machineconn, 'info', $errorMessage);
 } else {

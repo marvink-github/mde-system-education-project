@@ -6,7 +6,7 @@ if (!isset($data['terminalid']) || !isset($data['terminaltype'])) {
     http_response_code(400); 
     $errorMessage = "terminalid and terminaltype are required.";
     echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
-    logDB($machineconn, 'error', $errorMessage); 
+    logDB($machineconn, 'post', $errorMessage); 
     exit();
 }
 

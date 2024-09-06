@@ -6,9 +6,9 @@ $idMachinedata = $machineconn->real_escape_string(trim($data['dataid'] ?? $_GET[
 
 if (!$idMachinedata) {
     http_response_code(400);
-    $errorMessage = "dataid (idMachinedata) is required.";
+    $errorMessage = "machinedataid is required.";
     echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
-    logDB($machineconn, 'error', $errorMessage);
+    logDB($machineconn, 'patch', $errorMessage);
     exit();
 }
 
@@ -21,9 +21,9 @@ $resultCheck = $machineconn->query($sqlCheck);
 
 if ($resultCheck->num_rows == 0) {
     http_response_code(400);
-    $errorMessage = "machinedata not found.";
+    $errorMessage = "Machinedata not found.";
     echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
-    logDB($machineconn, 'error', $errorMessage);
+    logDB($machineconn, 'patch', $errorMessage);
     exit();
 }
 
@@ -53,7 +53,7 @@ if (!empty($updateFields)) {
         $updatedData = $resultCheckUpdated->fetch_assoc();
 
         http_response_code(200);
-        $successMessage = "Machinedata information successfully patched.";
+        $successMessage = "Machinedata successfully patched.";
         echo json_encode([
             "message" => $successMessage,
             "dataid" => $idMachinedata,
@@ -65,7 +65,7 @@ if (!empty($updateFields)) {
         ], JSON_PRETTY_PRINT);
         logDB($machineconn, 'info', $successMessage . " dataid: " . $idMachinedata);
     } else {
-        http_response_code(400);
+        http_response_code(500);
         $errorMessage = "Error updating machinedata: " . $machineconn->error;
         echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
         logDB($machineconn, 'error', $errorMessage);

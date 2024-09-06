@@ -3,6 +3,7 @@
 $logType = $machineconn->real_escape_string(trim($_GET['type'] ?? null));
 $from = $machineconn->real_escape_string(trim($_GET['from'] ?? null)); 
 $to = $machineconn->real_escape_string(trim($_GET['to'] ?? null)); 
+$logid = $machineconn->real_escape_string(trim($_GET['logid'] ?? null));
 $limit = !empty($_GET['limit']) ? (int)($_GET['limit']) : 200; 
 $page = !empty($_GET['page']) ? (int)($_GET['page']) : 1; 
 
@@ -22,6 +23,8 @@ if ($from && $to) {
     $conditions[] = "timestamp >= '$from'";
 } elseif ($to) {
     $conditions[] = "timestamp <= '$to'";
+} elseif ($logid) {
+    $conditions[] = "idLog = '$logid'";
 }
 
 if (!empty($conditions)) {

@@ -6,7 +6,7 @@ if (!isset($data['name']) || !isset($data['d_entry_startstop']) || !isset($data[
     http_response_code(400); 
     $errorMessage = "name, d_entry_startstop, d_entry_counter and device_idDevice are required.";
     echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
-    logDB($machineconn, 'error', $errorMessage); 
+    logDB($machineconn, 'post', $errorMessage); 
     exit();
 }
 
@@ -22,7 +22,7 @@ if ($checkResult->num_rows > 0) {
     http_response_code(409); 
     $errorMessage = "This machine already exists.";
     echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
-    logDB($machineconn, 'error', $errorMessage); 
+    logDB($machineconn, 'warning', $errorMessage); 
     exit();
 }
 

@@ -9,7 +9,7 @@ if (!$machineid && !$userid && !$orderid && !$shiftid) {
     http_response_code(400);
     $errorMessage = "At least one parameter (machineid, userid, orderid, shiftid) is required.";
     echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
-    logDB($machineconn, 'warning', $errorMessage);
+    logDB($machineconn, 'getSum', $errorMessage);
     exit();
 }
 
@@ -44,7 +44,7 @@ $sql .= " GROUP BY machinedata.`order`";
 $result = $machineconn->query($sql);
 
 if (!$result) {
-    http_response_code(400);
+    http_response_code(500);
     $errorMessage = "Database query failed: " . $machineconn->error;
     echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
     logDB($machineconn, 'error', $errorMessage);
@@ -54,8 +54,8 @@ if (!$result) {
 $row = $result->fetch_assoc();
 
 if (isset($row) && $row['sum_value'] == 0) {
-    http_response_code(400);
-    $errorMessage = "No entries found for the provided filters.";
+    http_response_code(404);
+    $errorMessage = "No entries found for the filters.";
     echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
     logDB($machineconn, 'warning', $errorMessage);
     exit();
@@ -66,7 +66,7 @@ $data = [
     'userid' => $userid ?? null, 
     'orderid' => $orderid ?? null, 
     'shiftid' => $shiftid ?? null,
-    'sum_value' => $row['sum_value'] ?? 0, 
+    'sum_value' => (int) $row['sum_value'] ?? 0, 
 ];
 
 http_response_code(200);

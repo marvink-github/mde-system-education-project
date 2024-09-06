@@ -218,7 +218,7 @@ function handleStopAction($machineconn, $timestamp, $terminal_id, $d_entry_start
         return; 
     }
 
-    logDB($machineconn, 'stop', "success: machine stopped. devicetime: $timestamp");
+    logDB($machineconn, 'stop', "success: machine and shift stopped. devicetime: $timestamp");
 }
 
 

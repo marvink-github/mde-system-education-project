@@ -8,7 +8,7 @@ if (!$deviceId) {
     http_response_code(400);
     $errorMessage = "deviceid is required.";
     echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
-    logDB($machineconn, 'error', $errorMessage); 
+    logDB($machineconn, 'patch', $errorMessage); 
     exit();
 }
 
@@ -19,7 +19,7 @@ if ($resultCheck->num_rows == 0) {
     http_response_code(404);
     $errorMessage = "Device not found.";
     echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
-    logDB($machineconn, 'error', $errorMessage); 
+    logDB($machineconn, 'warning', $errorMessage); 
     exit();
 }
 

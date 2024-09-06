@@ -54,9 +54,9 @@ if (empty($data)) {
     http_response_code(404);
     $message = "No machinedata found.";
     echo json_encode(["message" => $message], JSON_PRETTY_PRINT);
-    logDB($machineconn, 'info', $message);
+    logDB($machineconn, 'warning', $message);
 } else {
     http_response_code(200);
     echo json_encode($data, JSON_PRETTY_PRINT);
-    logDB($machineconn, 'info', "Data retrieved successfully.");
+    logDB($machineconn, 'info', "Machinedata retrieved successfully.");
 }

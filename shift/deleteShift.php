@@ -6,7 +6,7 @@ if (!$idShift) {
     http_response_code(400);
     $errorMessage = "shiftid is required.";
     echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
-    logDB($machineconn, 'error', $errorMessage);
+    logDB($machineconn, 'delete', $errorMessage);
     exit();
 }
 
@@ -22,7 +22,7 @@ if ($machineconn->query($sql) === TRUE) {
         http_response_code(404);
         $errorMessage = "No shift found that could be deleted.";
         echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
-        logDB($machineconn, 'info', $errorMessage);
+        logDB($machineconn, 'delete', $errorMessage);
     }
 } else {
     http_response_code(500);

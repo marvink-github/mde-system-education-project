@@ -43,7 +43,7 @@ while ($row = $result->fetch_assoc()) {
 if (empty($data)) {
     http_response_code(404);
     echo json_encode(["message" => "No devices found."], JSON_PRETTY_PRINT);
-    logDB($machineconn, 'error', "No devices found matching the criteria.");
+    logDB($machineconn, 'warning', "No devices found matching the criteria.");
 } else {
     http_response_code(200);
     echo json_encode($data, JSON_PRETTY_PRINT);

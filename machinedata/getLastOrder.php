@@ -7,7 +7,7 @@ if (!$orderid) {
     http_response_code(400);
     $errorMessage = "orderid is required.";
     echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
-    logDB($machineconn, 'error', $errorMessage);
+    logDB($machineconn, 'lastorder', $errorMessage);
     exit();
 }
 
@@ -65,7 +65,7 @@ if (empty($lastEntry)) {
     http_response_code(404);
     $message = "No last entry found for this order.";
     echo json_encode(["message" => $message], JSON_PRETTY_PRINT);
-    logDB($machineconn, 'info', $message);
+    logDB($machineconn, 'warning', $message);
 } else {
     http_response_code(200);
     echo json_encode($lastEntry, JSON_PRETTY_PRINT);

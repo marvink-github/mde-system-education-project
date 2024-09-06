@@ -334,7 +334,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "127.0.0.1/api/api/getMachinedata?from=&to=&userid=&shiftid=&orderid=&page=2&limit=200",
+							"raw": "127.0.0.1/api/api/getMachinedata?from=2024-08-29&to=2024-08-31&userid=123&shiftid=31&orderid=&page=1&limit=200",
 							"host": [
 								"127",
 								"0",
@@ -349,19 +349,19 @@
 							"query": [
 								{
 									"key": "from",
-									"value": ""
+									"value": "2024-08-29"
 								},
 								{
 									"key": "to",
-									"value": ""
+									"value": "2024-08-31"
 								},
 								{
 									"key": "userid",
-									"value": ""
+									"value": "123"
 								},
 								{
 									"key": "shiftid",
-									"value": ""
+									"value": "31"
 								},
 								{
 									"key": "orderid",
@@ -369,7 +369,7 @@
 								},
 								{
 									"key": "page",
-									"value": "2"
+									"value": "1"
 								},
 								{
 									"key": "limit",
@@ -450,7 +450,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "127.0.0.1/api/api/getSum?machineid=7&userid=&orderid=&shiftid=",
+							"raw": "127.0.0.1/api/api/getSum?machineid=&userid=&orderid=&shiftid=53",
 							"host": [
 								"127",
 								"0",
@@ -465,7 +465,7 @@
 							"query": [
 								{
 									"key": "machineid",
-									"value": "7"
+									"value": ""
 								},
 								{
 									"key": "userid",
@@ -477,7 +477,7 @@
 								},
 								{
 									"key": "shiftid",
-									"value": ""
+									"value": "53"
 								}
 							]
 						}
@@ -631,7 +631,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{ \"name\": \"Barcode\", \"d_entry_startstop\": \"\", \"d_entry_counter\": \"\", \"device_idDevice\": \"1\" }"
+							"raw": "{ \"name\": \"Test31231\", \"d_entry_startstop\": \"\", \"d_entry_counter\": \"\", \"device_idDevice\": \"1\" }"
 						},
 						"url": {
 							"raw": "127.0.0.1/api/api/postMachine",
@@ -724,7 +724,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{ \"machineid\": \"7\", \"userid\": \"\", \"orderid\": \"dj91732z\", \"name\": \"\", \"state\": \"\",  \"d_entry_startstop\": \"\", \"d_entry_counter\": \"\", \"device_idDevice\": \"\" }"
+							"raw": "{ \"machineid\": \"8\", \"userid\": \"\", \"orderid\": \"\", \"name\": \"\", \"state\": \"\",  \"d_entry_startstop\": \"\", \"d_entry_counter\": \"\", \"device_idDevice\": \"\" }"
 						},
 						"url": {
 							"raw": "127.0.0.1/api/api/patchMachine",
@@ -749,7 +749,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "127.0.0.1/api/api/deleteMachine?machineid=6",
+							"raw": "127.0.0.1/api/api/deleteMachine?machineid=9",
 							"host": [
 								"127",
 								"0",
@@ -764,7 +764,7 @@
 							"query": [
 								{
 									"key": "machineid",
-									"value": "6"
+									"value": "9"
 								}
 							]
 						}
@@ -1105,7 +1105,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "127.0.0.1/api/api/getBarcode?orderid=kj8d09j1&userid=&value",
+							"raw": "127.0.0.1/api/api/getBarcode?orderid=dh971712&userid=232C416A&value=",
 							"host": [
 								"127",
 								"0",
@@ -1120,15 +1120,15 @@
 							"query": [
 								{
 									"key": "orderid",
-									"value": "kj8d09j1"
+									"value": "dh971712"
 								},
 								{
 									"key": "userid",
-									"value": ""
+									"value": "232C416A"
 								},
 								{
 									"key": "value",
-									"value": null
+									"value": ""
 								}
 							]
 						}
@@ -1277,6 +1277,43 @@
 					"response": []
 				}
 			]
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "value",
+				"value": "694d3da45d8cbcc7fa3fa4d21649a47ff1bf1ad23dd145b0d26fec420f603a2c",
+				"type": "string"
+			},
+			{
+				"key": "key",
+				"value": "apiKey",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
 		}
 	]
 }

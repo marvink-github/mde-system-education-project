@@ -37,7 +37,7 @@ if ($machineIdResult->num_rows > 0) {
 
                     echo json_encode([
                         "message" => "Machine and shift successfully started.",
-                        "machineId" => $updatedData['idMachine'],
+                        "idMachinedata" => $updatedData['idMachine'],
                         "machinename" => $updatedData['name'] ?? null,
                         "userid" => $updatedData['userid'] ?? null,
                         "orderid" => $updatedData['order'] ?? null,

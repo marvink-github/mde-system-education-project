@@ -8,7 +8,7 @@ if (!$shiftId) {
     http_response_code(400);
     $errorMessage = "shiftid is required.";
     echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
-    logDB($machineconn, 'error', $errorMessage); 
+    logDB($machineconn, 'patch', $errorMessage); 
     exit();
 }
 
@@ -19,7 +19,7 @@ if ($resultCheck->num_rows == 0) {
     http_response_code(404);
     $errorMessage = "shift not found.";
     echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
-    logDB($machineconn, 'error', $errorMessage); 
+    logDB($machineconn, 'patch', $errorMessage); 
     exit();
 }
 
@@ -43,7 +43,7 @@ if (!empty($updateFields)) {
         $updatedData = $resultCheckUpdated->fetch_assoc();
 
         http_response_code(200);
-        $successMessage = "Shift information successfully patched.";
+        $successMessage = "Shift successfully patched.";
         echo json_encode([
             "message" => $successMessage,
             "shiftid" => $shiftId,

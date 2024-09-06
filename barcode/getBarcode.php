@@ -47,7 +47,7 @@ if ($barcodeMachineResult->num_rows > 0) {
     }
 } else {
     http_response_code(404);
-    $errorMessage = "Machine Barcode not found.";
+    $errorMessage = "Machine with name Barcode not found.";
     echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
-    logDB($machineconn, 'error', $errorMessage);
+    logDB($machineconn, 'warning', $errorMessage);
 }

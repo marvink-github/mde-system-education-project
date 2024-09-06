@@ -61,7 +61,7 @@ if (empty($data)) {
     http_response_code(404);
     $errorMessage = "No shifts found.";
     echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
-    logDB($machineconn, 'info', $errorMessage);
+    logDB($machineconn, 'warning', $errorMessage);
 } else {
     echo json_encode($data, JSON_PRETTY_PRINT);
     logDB($machineconn, 'info', "Shifts retrieved: " . count($data));
