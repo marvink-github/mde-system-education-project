@@ -54,9 +54,11 @@ switch ($table) {
             case 'stop':                             
                 handleStopAction($machineconn, $timestamp, $terminal_id, $d_entry_startstop);                  
                 break;
+
             case 'scanner':
                 handleScannerAction($machineconn, $timestamp, $terminal_id, $terminal_type, $value, $badge);
                 break;
+                
             default:
                 exit;
         }
