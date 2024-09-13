@@ -5,12 +5,16 @@ $to = $machineconn->real_escape_string(trim($_GET['to'] ?? null));
 $userid = $machineconn->real_escape_string(trim($_GET['userid'] ?? null));
 $orderid = $machineconn->real_escape_string(trim($_GET['orderid'] ?? null));  
 $shiftid = $machineconn->real_escape_string(trim($_GET['shiftid'] ?? null)); 
+$machineid = $machineconn->real_escape_string(trim($_GET['machineid'] ?? null));
 $page = $machineconn->real_escape_string(trim($_GET['page'] ?? 1));
 $limit = $machineconn->real_escape_string(trim($_GET['limit'] ?? 200));
 
 $offset = ($page - 1) * $limit;
 
-$sql = "SELECT * FROM machinedata WHERE 1=1"; 
+$sql = "SELECT md.* 
+        FROM machinedata md
+        JOIN shift s ON md.shift_idShift = s.idShift 
+        WHERE 1=1"; 
 
 if ($from && $to) {
     $sql .= " AND timestamp BETWEEN '$from' AND '$to'";
@@ -30,6 +34,10 @@ if ($orderid) {
 
 if ($shiftid) {
     $sql .= " AND shift_idshift = '$shiftid'";
+}
+
+if ($machineid) {
+    $sql .= " AND s.machine_idMachine = '$machineid'";
 }
 
 $sql .= " LIMIT $limit OFFSET $offset";
