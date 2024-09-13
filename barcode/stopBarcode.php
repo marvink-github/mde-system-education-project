@@ -30,9 +30,7 @@ if ($machineIdResult->num_rows > 0) {
                     "device_idDevice" => $updatedData['device_idDevice'] ?? null
                 ], JSON_PRETTY_PRINT);
                 http_response_code(200);
-                $errorMessage = "Machines successfully. Count: count($data)";
-                echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
-                logDB($machineconn, 'info', $errorMessage);
+                logDB($machineconn, 'info', "Machine and shift succesfully stopped.");
             } else {
                 http_response_code(400);
                 $errorMessage = "Failed to retrieve updated machine data.";
