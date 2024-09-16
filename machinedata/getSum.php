@@ -14,7 +14,7 @@ if (!$machineid && !$userid && !$orderid && !$shiftid) {
 }
 
 $sql = "SELECT 
-            COUNT(machinedata.idMachinedata) AS sum_value,
+            SUM(machinedata.value) AS total_value,  
             COUNT(DISTINCT machinedata.shift_idShift) AS shift_count,
             machinedata.`order` AS order_number
         FROM 
@@ -53,7 +53,7 @@ if (!$result) {
 
 $row = $result->fetch_assoc();
 
-if (isset($row) && $row['sum_value'] == 0) {
+if (isset($row) && $row['total_value'] == 0) {  
     http_response_code(404);
     $errorMessage = "No entries found for the filters.";
     echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
@@ -66,7 +66,7 @@ $data = [
     'userid' => $userid ?? null, 
     'orderid' => $orderid ?? null, 
     'shiftid' => $shiftid ?? null,
-    'sum_value' => (int) $row['sum_value'] ?? 0, 
+    'sum_value' => (int) $row['total_value'] ?? 0,  
 ];
 
 http_response_code(200);

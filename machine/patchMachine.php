@@ -63,7 +63,7 @@ if (!empty($updateFields)) {
             "machineId" => $machine_id,
             "machinename" => $updatedData['name'] ?? null,
             "userid" => $updatedData['userid'] ?? null,
-            "orderid" => $updatedData['order'] ?? null,         
+            "order" => $updatedData['order'] ?? null,         
             "state" => $updatedData['state'] ?? null,   
             "d_entry_startstop" => $updatedData['d_entry_startstop'] ?? null,
             "d_entry_counter" => $updatedData['d_entry_counter'] ?? null,
