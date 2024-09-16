@@ -10,8 +10,6 @@ $output2 = [];
 exec("start /B C:\\xampp\\php\\php.exe start_machine.php 2 kj245nd 132178412 $apiKey " . rand(5, 10) . " 2 2 1 3533 2>&1", $output2);
 echo "Output für Maschine 2:\n" . implode("\n", $output2) . "\n";
 
-sleep(5);
-
 $output3 = [];
 exec("start /B C:\\xampp\\php\\php.exe start_machine.php 1 lk098qw 823136427 $apiKey " . rand(5, 10) . " 2 4 3 3533 2>&1", $output3);
 echo "Output für Maschine 1:\n" . implode("\n", $output3) . "\n";
