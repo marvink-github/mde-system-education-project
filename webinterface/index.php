@@ -19,6 +19,15 @@
     </header>
 
     <main>
+        <div id="filter-form">
+            <label for="userid">User ID:</label>
+            <input type="text" id="userid" name="userid">
+            
+            <label for="orderid">Order ID:</label>
+            <input type="text" id="orderid" name="orderid">
+
+            <button id="apply-filters">Filter anwenden</button>
+        </div>
         <section id="dashboard">
             <table>
                 <thead id="table-header">
