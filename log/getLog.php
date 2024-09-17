@@ -31,7 +31,7 @@ if (!empty($conditions)) {
     $sql .= " WHERE " . implode(" AND ", $conditions);
 }
 
-$sql .= " LIMIT $limit OFFSET $offset";
+$sql .= " ORDER BY log.idLog DESC LIMIT $limit OFFSET $offset";
 
 $result = $machineconn->query($sql);
 

@@ -2,6 +2,8 @@
 
 $apiKey = '694d3da45d8cbcc7fa3fa4d21649a47ff1bf1ad23dd145b0d26fec420f603a2c';
 
+// file_get_contents("http://127.0.0.1/conni/users/add8761238976");
+
 $output1 = [];
 exec("start /B C:\\xampp\\php\\php.exe start_machine.php 1 dj198ma 189023710 $apiKey " . rand(5, 15) . " 2 4 3 3533 2>&1", $output1);
 echo "Output für Maschine 1:\n" . implode("\n", $output1) . "\n";

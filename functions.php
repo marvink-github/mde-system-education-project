@@ -223,7 +223,7 @@ function handleStopAction($machineconn, $timestamp, $terminal_id, $d_entry_start
 
 
 function handleScannerAction($machineconn, $timestamp, $terminal_id, $terminal_type, $barcode, $badge) {
-    // Überprüfe, ob das Device mit der angegebenen Terminal-ID und dem Terminal-Typ existiert
+    // Devicecheck
     $deviceExistsSql = "SELECT 1 FROM device WHERE terminal_id = '$terminal_id' AND terminal_type = '$terminal_type'";
     $deviceExistsResult = $machineconn->query($deviceExistsSql);
 

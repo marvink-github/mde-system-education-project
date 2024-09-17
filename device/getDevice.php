@@ -47,5 +47,4 @@ if (empty($data)) {
 } else {
     http_response_code(200);
     echo json_encode($data, JSON_PRETTY_PRINT);
-    logDB($machineconn, 'info', "Devices retrieved successfully: " . json_encode($data));
 }

@@ -39,7 +39,7 @@ if (!empty($conditions)) {
     $sql .= " WHERE " . implode(" AND ", $conditions);
 }
 
-$sql .= " LIMIT $limit OFFSET $offset";
+$sql .= " ORDER BY shift.idShift DESC LIMIT $limit OFFSET $offset";
 
 $result = $machineconn->query($sql);
 
@@ -64,5 +64,5 @@ if (empty($data)) {
     logDB($machineconn, 'warning', $errorMessage);
 } else {
     echo json_encode($data, JSON_PRETTY_PRINT);
-    logDB($machineconn, 'info', "Shifts retrieved: " . count($data));
+    logDB($machineconn, 'info', "Shifts retrieved successfully: " . count($data). " entries found");
 }

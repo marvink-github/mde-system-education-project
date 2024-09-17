@@ -40,7 +40,8 @@ if ($machineid) {
     $sql .= " AND s.machine_idMachine = '$machineid'";
 }
 
-$sql .= " LIMIT $limit OFFSET $offset";
+$sql .= " ORDER BY md.idMachinedata DESC LIMIT $limit OFFSET $offset";
+
 
 $result = $machineconn->query($sql);
 
@@ -66,5 +67,5 @@ if (empty($data)) {
 } else {
     http_response_code(200);
     echo json_encode($data, JSON_PRETTY_PRINT);
-    logDB($machineconn, 'info', "Machinedata retrieved successfully.");
+    logDB($machineconn, 'info', "Machinedata retrieved successfully: " . count($data) . " entries found.");
 }

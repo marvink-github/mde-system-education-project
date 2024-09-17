@@ -4,9 +4,16 @@ require 'connection.php';
 require 'functions.php';
 
 header('Content-Type: application/json');
+header("Access-Control-Allow-Origin: *"); 
+header("Access-Control-Allow-Methods: GET, POST, PATCH, DELETE"); 
+header("Access-Control-Allow-Headers: Content-Type, Authorization, ApiKey"); 
+
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS'){
+    http_response_code(200);
+    exit();
+}
 
 $apiKey = '694d3da45d8cbcc7fa3fa4d21649a47ff1bf1ad23dd145b0d26fec420f603a2c';
-
 if (!isset($_SERVER['HTTP_APIKEY']) || $_SERVER['HTTP_APIKEY'] != $apiKey) {
     http_response_code(403);
     echo json_encode(["message" => "Forbidden"]);
