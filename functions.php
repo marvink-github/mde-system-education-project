@@ -1,6 +1,5 @@
 <?php
 
-
 function logDB($machineconn, $logType, $logMessage) {
     if (is_array($logMessage)) {
         $logMessage = http_build_query($logMessage);

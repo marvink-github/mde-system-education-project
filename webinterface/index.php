@@ -10,20 +10,20 @@
     <header>
         <h1 id="page-title">Maschinendaten</h1>
         <nav>
-            <button onclick="loadData('device')">Device</button>
-            <button onclick="loadData('machine')">Maschine</button>
-            <button onclick="loadData('shift')">Schicht</button>
+            <button onclick="loadData('device')">Geräte</button>
+            <button onclick="loadData('machine')">Maschinen</button>
+            <button onclick="loadData('shift')">Schichten</button>
             <button onclick="loadData('machinedata')">Maschinendaten</button>
-            <button onclick="loadData('log')">Log</button>
+            <button onclick="loadData('log')">Logs</button>
         </nav>
     </header>
 
     <main>
         <div id="filter-form">
-            <label for="userid">User ID:</label>
+            <label for="userid">Benutzer:</label>
             <input type="text" id="userid" name="userid">
             
-            <label for="orderid">Order ID:</label>
+            <label for="orderid">Bestellung:</label>
             <input type="text" id="orderid" name="orderid">
 
             <button id="apply-filters">Filter anwenden</button>
