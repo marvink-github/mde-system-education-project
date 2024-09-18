@@ -36,7 +36,7 @@ try {
             'getDevice' => '/device/getDevice.php',
             'getBarcode' => '/barcode/getBarcode.php',
             'getAliveStatus' => '/alive/getAliveStatus.php',
-            'getTerminalDesign' => '/setup/getTerminalDesign.php',               
+            'updateDesign' => '/displaydesign/updateDesign.php',               
         ],
         'POST' => [
             'postMachinedata' => '/machinedata/postMachinedata.php',

@@ -334,7 +334,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "127.0.0.1/api/api/getMachinedata?from=2024-01-01&to=2024-12-31&userid=&shiftid=&orderid=&machineid=11&page=1&limit=200",
+							"raw": "127.0.0.1/api/api/getMachinedata",
 							"host": [
 								"127",
 								"0",
@@ -345,40 +345,6 @@
 								"api",
 								"api",
 								"getMachinedata"
-							],
-							"query": [
-								{
-									"key": "from",
-									"value": "2024-01-01"
-								},
-								{
-									"key": "to",
-									"value": "2024-12-31"
-								},
-								{
-									"key": "userid",
-									"value": ""
-								},
-								{
-									"key": "shiftid",
-									"value": ""
-								},
-								{
-									"key": "orderid",
-									"value": ""
-								},
-								{
-									"key": "machineid",
-									"value": "11"
-								},
-								{
-									"key": "page",
-									"value": "1"
-								},
-								{
-									"key": "limit",
-									"value": "200"
-								}
 							]
 						}
 					},
@@ -454,7 +420,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "127.0.0.1/api/api/getSum?machineid=&userid=&orderid=132178412&shiftid=",
+							"raw": "127.0.0.1/api/api/getSum?machineid=&userid=232C416A&orderid=&shiftid=",
 							"host": [
 								"127",
 								"0",
@@ -473,11 +439,11 @@
 								},
 								{
 									"key": "userid",
-									"value": ""
+									"value": "232C416A"
 								},
 								{
 									"key": "orderid",
-									"value": "132178412"
+									"value": ""
 								},
 								{
 									"key": "shiftid",
@@ -1278,6 +1244,39 @@
 								{
 									"key": "df_col_Count",
 									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Setup",
+			"item": [
+				{
+					"name": "Display Design updaten",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1/api/api/updateDesign?design_name=new_design.dfui",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"path": [
+								"api",
+								"api",
+								"updateDesign"
+							],
+							"query": [
+								{
+									"key": "design_name",
+									"value": "new_design.dfui"
 								}
 							]
 						}

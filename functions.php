@@ -222,6 +222,15 @@ function handleStopAction($machineconn, $timestamp, $terminal_id, $d_entry_start
 }
 
 
+function updateAliveStatus($machineconn, $timestamp, $terminal_id, $terminal_type) {
+    $sqlUpdate = "UPDATE device SET last_alive = '$timestamp' WHERE terminal_id = '$terminal_id' AND terminal_type = '$terminal_type'";
+
+    if (!$machineconn->query($sqlUpdate)) {
+        logDB($machineconn, 'alive', "error updating last_alive for ($terminal_id, $terminal_type): " . $machineconn->error);
+    }
+}
+
+
 function handleScannerAction($machineconn, $timestamp, $terminal_id, $terminal_type, $barcode, $badge) {
     // Devicecheck
     $deviceExistsSql = "SELECT 1 FROM device WHERE terminal_id = '$terminal_id' AND terminal_type = '$terminal_type'";
@@ -276,11 +285,3 @@ function handleScannerAction($machineconn, $timestamp, $terminal_id, $terminal_t
     }
 }
 
-
-function updateAliveStatus($machineconn, $timestamp, $terminal_id, $terminal_type) {
-    $sqlUpdate = "UPDATE device SET last_alive = '$timestamp' WHERE terminal_id = '$terminal_id' AND terminal_type = '$terminal_type'";
-
-    if (!$machineconn->query($sqlUpdate)) {
-        logDB($machineconn, 'alive', "error updating last_alive for ($terminal_id, $terminal_type): " . $machineconn->error);
-    }
-}
