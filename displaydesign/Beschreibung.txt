@@ -1,0 +1,7 @@
+Nutzen Sie einen Webserver, können Sie die Datei als Vorlage verwenden.
+
+Diese Datei muss auf dem Webserver abgelegter werden.
+
+Funktion: Es werden die abgelegten Datensätze in ein ASCII - Format abgeändert.
+Nun kann Datafox Talk über FTP (Zusatzlizenz Internet) die abgelegten Datensätze
+in Datafox Talk (Exportordner) exportieren.
