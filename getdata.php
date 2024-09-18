@@ -10,6 +10,25 @@ if (!isset($_GET['df_api']) || $_GET['df_api'] != 1) {
     logDB($machineconn, 'ERROR', 'df_api ist ungleich 1');
 };
 
+// Design-Upload
+if (isset($_GET['df_action']) && $_GET['df_action'] == 'upload_design') {
+    $designName = $_GET['design_name'] ?? 'default_design.iff';
+    $designPath = __DIR__ . "/displaydesign/design/" . $designName;
+
+    if (file_exists($designPath)) {
+        http_response_code(200);
+        echo json_encode([
+            'df_api' => 1,
+            'df_load_file' => "http://" . $_SERVER['SERVER_NAME'] . "/displaydesign/design/" . $designName
+        ]);
+        // echo "df_api=1&df_load_file=http://" . $_SERVER['SERVER_NAME'] . "/displaydesign/design/" . $designName ;
+    } else {
+        http_response_code(400);
+        echo json_encode(['error' => 'Design-Datei nicht gefunden']);
+    }
+    exit;
+}
+
 // logDB($machineconn, 'GET', $_GET); 
 
 $table = $machineconn->real_escape_string(trim($_GET['df_table'] ?? null));
