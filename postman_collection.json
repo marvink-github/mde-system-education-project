@@ -334,7 +334,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "127.0.0.1/api/api/getMachinedata",
+							"raw": "127.0.0.1/api/api/getMachinedata?userid=232C416A&orderid=dh971712&shiftid=269&machineid=11",
 							"host": [
 								"127",
 								"0",
@@ -345,6 +345,24 @@
 								"api",
 								"api",
 								"getMachinedata"
+							],
+							"query": [
+								{
+									"key": "userid",
+									"value": "232C416A"
+								},
+								{
+									"key": "orderid",
+									"value": "dh971712"
+								},
+								{
+									"key": "shiftid",
+									"value": "269"
+								},
+								{
+									"key": "machineid",
+									"value": "11"
+								}
 							]
 						}
 					},
@@ -1079,7 +1097,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "127.0.0.1/api/api/getBarcode?orderid=&userid=232C416A&value=",
+							"raw": "127.0.0.1/api/api/getBarcode?orderid=dh971712&userid=232C416A&value=",
 							"host": [
 								"127",
 								"0",
@@ -1094,7 +1112,7 @@
 							"query": [
 								{
 									"key": "orderid",
-									"value": ""
+									"value": "dh971712"
 								},
 								{
 									"key": "userid",
@@ -1276,7 +1294,8 @@
 							"query": [
 								{
 									"key": "design_name",
-									"value": "new_design.dfui"
+									"value": "new_design.dfui",
+									"description": "Beispiel: new_design.dfui"
 								}
 							]
 						}
