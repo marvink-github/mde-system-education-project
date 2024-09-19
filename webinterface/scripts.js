@@ -20,7 +20,7 @@ function loadData(type, filters = {}) {
             break;
         case 'shift':
             endpoint = 'http://127.0.0.1/api/api/getShift';
-            headers = ['ID', 'Startzeit', 'Endzeit', 'Maschinen_ID'];
+            headers = ['ID', 'Starttime', 'Endtime', 'Maschinen_ID'];
             updatePageTitle('Schichten');
             break;
         case 'machinedata':

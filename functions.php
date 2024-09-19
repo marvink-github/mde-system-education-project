@@ -230,8 +230,26 @@ function updateAliveStatus($machineconn, $timestamp, $terminal_id, $terminal_typ
 }
 
 
+function updateDisplayDesign($machineconn, $designName = 'new_design.dfui') {
+    $designPath = __DIR__ . '/displaydesign/' . $designName;
+
+    if (!file_exists($designPath)) {
+        logDB($machineconn, 'Design', "Failed to load $designPath");
+        return; 
+    }
+
+    $response = 'df_api=1&df_load_file=http://127.0.0.1' . dirname($_SERVER['PHP_SELF']) . '/displaydesign/' . rawurlencode($designName);
+
+    // var_dump($response);
+    // exit();
+
+    echo $response;
+    logDB($machineconn, 'Display', $response);
+    exit();
+}
+
+
 function handleScannerAction($machineconn, $timestamp, $terminal_id, $terminal_type, $barcode, $badge) {
-    // Devicecheck
     $deviceExistsSql = "SELECT 1 FROM device WHERE terminal_id = '$terminal_id' AND terminal_type = '$terminal_type'";
     $deviceExistsResult = $machineconn->query($deviceExistsSql);
 
@@ -283,4 +301,5 @@ function handleScannerAction($machineconn, $timestamp, $terminal_id, $terminal_t
         logDB($machineconn, 'scanner', "error: device not found for terminal_id: $terminal_id and terminal_type: $terminal_type. devicetime: $timestamp");
     }
 }
+
 

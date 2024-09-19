@@ -33,11 +33,11 @@
                 <thead id="table-header">
                     <tr>
                         <th>ID</th>
-                        <th>Timestamp</th>
-                        <th>User</th>
-                        <th>Value</th>
-                        <th>Order</th>
-                        <th>Shift</th>
+                        <th>Zeitstempel</th>
+                        <th>Benutzer</th>
+                        <th>Wert</th>
+                        <th>Bestellung</th>
+                        <th>Schicht_ID</th>
                     </tr>
                 </thead>
                 <tbody id="data-table-body">
