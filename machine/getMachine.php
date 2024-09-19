@@ -34,7 +34,6 @@ if ($result) {
 
         http_response_code(200);
         echo json_encode($data, JSON_PRETTY_PRINT);
-        logDB($machineconn, 'info', "Machines retrieved successfully. Count: " . count($data));
     } else {
         http_response_code(404);
         $errorMessage = "No machines found.";

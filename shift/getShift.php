@@ -64,5 +64,4 @@ if (empty($data)) {
     logDB($machineconn, 'warning', $errorMessage);
 } else {
     echo json_encode($data, JSON_PRETTY_PRINT);
-    logDB($machineconn, 'info', "Shifts retrieved successfully: " . count($data). " entries found");
 }

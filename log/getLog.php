@@ -57,5 +57,4 @@ if (empty($data)) {
 } else {
     http_response_code(200);
     echo json_encode($data, JSON_PRETTY_PRINT);
-    logDB($machineconn, 'info', "Logs retrieved successfully: " . count($data) . " entries found.");
 }
