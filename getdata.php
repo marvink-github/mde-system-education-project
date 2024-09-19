@@ -29,7 +29,7 @@ switch ($table) {
         //$machineconn->real_escape_string(trim($_GET['df_col_Projekt'] ?? null));
         
         if ($action === 'start' && $badge === '232C416A') {  
-            updateDisplayDesign($machineconn);  
+            updateDisplayDesign($machineconn, 'new_design.dfui');  
         }
         break;
 

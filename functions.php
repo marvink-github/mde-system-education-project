@@ -230,7 +230,7 @@ function updateAliveStatus($machineconn, $timestamp, $terminal_id, $terminal_typ
 }
 
 
-function updateDisplayDesign($machineconn, $designName = 'new_design.dfui') {
+function updateDisplayDesign($machineconn, $designName = 'default_design.dfui') {
     $designPath = __DIR__ . '/displaydesign/' . $designName;
 
     if (!file_exists($designPath)) {
@@ -239,9 +239,6 @@ function updateDisplayDesign($machineconn, $designName = 'new_design.dfui') {
     }
 
     $response = 'df_api=1&df_load_file=http://127.0.0.1' . dirname($_SERVER['PHP_SELF']) . '/displaydesign/' . rawurlencode($designName);
-
-    // var_dump($response);
-    // exit();
 
     echo $response;
     logDB($machineconn, 'Display', $response);
