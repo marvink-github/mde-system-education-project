@@ -45,7 +45,7 @@
         <div id="no-data-message" style="color: red;"></div> 
 
         <section id="dashboard">
-            <table id="data-table"> <!-- Hier eine ID hinzufügen -->
+            <table id="data-table"> 
                 <thead id="table-header">
                     <!-- Der Header wird dynamisch über JavaScript erzeugt -->
                 </thead>
