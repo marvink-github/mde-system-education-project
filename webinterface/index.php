@@ -8,46 +8,56 @@
 </head>
 <body>
     <header>
-        <h1 id="page-title">Maschinendaten</h1>
+        <h1 id="page-title"></h1>
         <nav>
-            <button onclick="loadData('device')">Geräte</button>
-            <button onclick="loadData('machine')">Maschinen</button>
-            <button onclick="loadData('shift')">Schichten</button>
-            <button onclick="loadData('machinedata')">Maschinendaten</button>
-            <button onclick="loadData('log')">Logs</button>
+            <button onclick="loadPage('device')">Geräte</button>
+            <button onclick="loadPage('machine')">Maschinen</button>
+            <button onclick="loadPage('shift')">Schichten</button>
+            <button onclick="loadPage('machinedata')">Maschinendaten</button>
+            <button onclick="loadPage('log')">Logs</button>
         </nav>
     </header>
 
     <main>
-        <div id="filter-form">
-            <label for="userid">Benutzer:</label>
-            <input type="text" id="userid" name="userid">
-            
-            <label for="orderid">Bestellung:</label>
-            <input type="text" id="orderid" name="orderid">
+        <div id="filter-form" style="display: flex; align-items: center;">
+            <div style="flex-grow: 1;">
+                <label for="userid">Benutzer:</label>
+                <input type="text" id="userid" name="userid">
+                
+                <label for="orderid">Bestellung:</label>
+                <input type="text" id="orderid" name="orderid">
 
-            <button id="apply-filters">Filter anwenden</button>
+                <label for="shiftid">Schicht:</label>
+                <input type="text" id="shiftid" name="shiftid">
+
+                <label for="machineid">Maschine:</label>
+                <input type="text" id="machineid" name="machineid">
+
+                <button id="apply-filters">Anwenden</button>
+                <button id="reset-filters">Zurücksetzen</button>
+            </div>
+
+            <div style="display: flex; align-items: center; margin-left: 10px;">
+                <span id="record-count" style="margin-left: 10px;"></span>
+            </div>
         </div>
+
+        <div id="no-data-message" style="color: red;"></div> 
+
         <section id="dashboard">
-            <table>
+            <table id="data-table"> <!-- Hier eine ID hinzufügen -->
                 <thead id="table-header">
-                    <tr>
-                        <th>ID</th>
-                        <th>Zeitstempel</th>
-                        <th>Benutzer</th>
-                        <th>Wert</th>
-                        <th>Bestellung</th>
-                        <th>Schicht_ID</th>
-                    </tr>
+                    <!-- Der Header wird dynamisch über JavaScript erzeugt -->
                 </thead>
                 <tbody id="data-table-body">
+                    <!-- Dynamische Daten werden hier eingefügt -->
                 </tbody>
             </table>
         </section>
     </main>
 
     <footer>
-        <p>&copy; 2024 ananas.codes</p>
+        <p>&copy; 2024 by Marvin Kafka von ananas.codes</p>
     </footer>
 
     <script src="scripts.js"></script>
