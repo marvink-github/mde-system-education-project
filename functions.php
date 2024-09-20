@@ -303,6 +303,18 @@ function handleScannerAction($machineconn, $timestamp, $terminal_id, $terminal_t
 
 // Funktion fehlt für match.php ob die Version mit dem Gerät kompatibel ist.
 
+function getFirmwareFromDevice($machineconn, $terminal_id, $terminal_type) {
+    $query = "SELECT firmware_version FROM device WHERE terminal_id = '$terminal_id' AND terminal_type = '$terminal_type'";
+    $result = mysqli_query($machineconn, $query);
+
+    if ($result && mysqli_num_rows($result) > 0) {
+        $row = mysqli_fetch_assoc($result);
+        return $row['firmware_version'];
+    }
+
+    return null;
+}
+
 function getLatestFirmwareVersion() {
     $url = 'http://127.0.0.1/api/firmware/query.php?fw=latest';    
     $response = file_get_contents($url);
@@ -321,5 +333,5 @@ function triggerFirmwareUpdate($download_url) {
     http_response_code(200);
     $response = "df_api=1&df_load_firmware=" . rawurlencode($download_url);    
     echo $response;
-    exit(); 
+    exit();
 }
