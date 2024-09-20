@@ -7,12 +7,39 @@ require 'functions.php';
 require 'connection.php'; 
 
 if (!isset($_GET['df_api']) || $_GET['df_api'] != 1) {
-    logDB($machineconn, 'ERROR', 'df_api ist ungleich 1');
+    logDB($machineconn, 'Error', 'df_api ist ungleich 1');
 };
 
-// logDB($machineconn, 'GET', $_GET); 
+logDB($machineconn, 'GET', $_GET); 
 
 $table = $machineconn->real_escape_string(trim($_GET['df_table'] ?? null));
+$type = $machineconn->real_escape_string(trim($_GET['df_type'] ?? null));
+
+// Hier weitermachen!
+if ($type === 'kvp') {
+    $kv = $_GET['kv'] ?? null;
+
+    if ($kv) {
+        $kv_parts = explode(',', $kv);
+        
+        if ($kv_parts[0] === 'firmwareversion' && isset($kv_parts[1])) {
+            $currentFirmware = $kv_parts[1];
+            logDB($machineconn, 'Firmware', "Current Firmware: $currentFirmware");
+
+            $query = "UPDATE device SET firmware_version = '$currentFirmware' WHERE terminal_id = '3533' AND terminal_type = 'EVO 4.6 FlexKey'";
+            $result = mysqli_query($machineconn, $query);
+
+            if (!$result) {
+                logDB($machineconn, 'Error', 'Failed to update firmware in database.');
+            }
+        }
+    }
+}
+
+
+// GET /api/getdata.php?df_api=1&df_type=kvp&kv=firmwareversion%2C04.03.22.09.35&kv=board%2C50007%2C5.0a&kv=module%2C102026%2C1.0a%2C0.12&kv=module%2C6%2C1.4a%2C1&kv=module%2C8%2C1.3a%2C2&kv=module%2C5%2C1.2f%2C5&
+// kv=module%2C50%2C1.1a%2C6&kv=module%2C103012%2C1.0a%2C6.2&kv=module%2C11%2C1.6b%2C7&kv=module%2C107%2C1.1a%2C8&kv=module%2C106001%2C1.1a%2C8.2&kv=module%2C106001%2C1.1a%2C8.3&kv=module%2C86%2C1.0a%2C9&kv=module
+// %2C110009%2C1.0a%2C9.1&kv=module%2C110104%2C1.0b%2C9.2&kv=module%2C85%2C1.0a%2C20&kv=module%2C49001%2C1.0a%2C22&kv=device%2C35&kv=serialnumber%2C3533&kv=setup%20terminal4.6.projekt.mde.alpha.conni.aes%2CDBED685
 
 if (empty($table)) exit;
 
@@ -28,9 +55,16 @@ switch ($table) {
         //$machineconn->real_escape_string(trim($_GET['df_col_Inputtyp'] ?? null));
         //$machineconn->real_escape_string(trim($_GET['df_col_Projekt'] ?? null));
         
+        // Display-Designer
+        // if ($action === 'start' && $badge === '232C416A') {  
+        //     updateDisplayDesign($machineconn, 'default_design.dfui');  
+        // }
+
         if ($action === 'start' && $badge === '232C416A') {  
-            updateDisplayDesign($machineconn, 'new_design.dfui');  
+            // echo 'df_api=1&df_kvp=extinfo';
+            echo 'df_api=1&df_kvp=firmwareversion&df_kvp=serialnumber';
         }
+        
         break;
 
     case 'MDE':   
@@ -81,7 +115,22 @@ switch ($table) {
         $terminal_type = $machineconn->real_escape_string(trim($_GET['df_col_T_Typ'] ?? null));
         $alive_count = $machineconn->real_escape_string(trim($_GET['df_col_Count'] ?? null));
 
-        updateAliveStatus($machineconn, $timestamp, $terminal_id, $terminal_type);    
+        updateAliveStatus($machineconn, $timestamp, $terminal_id, $terminal_type); 
+
+        // Version 2
+        // Firmware-Update
+        if (!empty($currentFirmware)) {
+            $latestFirmware = getLatestFirmwareVersion();
+            
+            if (isUpdateRequired($currentFirmware, $latestFirmware)) {
+                $download_url = "http://127.0.0.1/api/firmware/files/$latestFirmware"; 
+                triggerFirmwareUpdate($download_url);
+            } else {
+                logDB($machineconn, 'Firmware', 'Latest firmware installed, no update required');
+            }
+        } else {
+            logDB($machineconn, 'Firmware', 'No firmware version found.');
+        }
         break;
 
     case 'System':

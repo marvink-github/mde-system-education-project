@@ -220,17 +220,7 @@ function handleStopAction($machineconn, $timestamp, $terminal_id, $d_entry_start
     logDB($machineconn, 'stop', "success: machine and shift stopped. devicetime: $timestamp");
 }
 
-
-function updateAliveStatus($machineconn, $timestamp, $terminal_id, $terminal_type) {
-    $sqlUpdate = "UPDATE device SET last_alive = '$timestamp' WHERE terminal_id = '$terminal_id' AND terminal_type = '$terminal_type'";
-
-    if (!$machineconn->query($sqlUpdate)) {
-        logDB($machineconn, 'alive', "error updating last_alive for ($terminal_id, $terminal_type): " . $machineconn->error);
-    }
-}
-
-
-function updateDisplayDesign($machineconn, $designName = 'default_design.dfui') {
+function updateDisplayDesign($machineconn, $designName) {
     $designPath = __DIR__ . '/displaydesign/' . $designName;
 
     if (!file_exists($designPath)) {
@@ -245,6 +235,14 @@ function updateDisplayDesign($machineconn, $designName = 'default_design.dfui') 
     exit();
 }
 
+
+function updateAliveStatus($machineconn, $timestamp, $terminal_id, $terminal_type) {
+    $sqlUpdate = "UPDATE device SET last_alive = '$timestamp' WHERE terminal_id = '$terminal_id' AND terminal_type = '$terminal_type'";
+
+    if (!$machineconn->query($sqlUpdate)) {
+        logDB($machineconn, 'alive', "error updating last_alive for ($terminal_id, $terminal_type): " . $machineconn->error);
+    }
+}
 
 function handleScannerAction($machineconn, $timestamp, $terminal_id, $terminal_type, $barcode, $badge) {
     $deviceExistsSql = "SELECT 1 FROM device WHERE terminal_id = '$terminal_id' AND terminal_type = '$terminal_type'";
@@ -299,4 +297,29 @@ function handleScannerAction($machineconn, $timestamp, $terminal_id, $terminal_t
     }
 }
 
+########################################################################################################################################
+### Firmware Update 
+########################################################################################################################################
 
+// Funktion fehlt für match.php ob die Version mit dem Gerät kompatibel ist.
+
+function getLatestFirmwareVersion() {
+    $url = 'http://127.0.0.1/api/firmware/query.php?fw=latest';    
+    $response = file_get_contents($url);
+    parse_str($response, $output); 
+    return $output['detail1']; 
+}
+
+function isUpdateRequired($currentVersion, $latestVersion) {
+    $currentVersion = preg_replace('/[^0-9.]/', '', $currentVersion);
+    $latestVersion = preg_replace('/[^0-9.]/', '', $latestVersion);
+
+    return version_compare($currentVersion, $latestVersion, '<');
+}
+
+function triggerFirmwareUpdate($download_url) {
+    http_response_code(200);
+    $response = "df_api=1&df_load_firmware=" . rawurlencode($download_url);    
+    echo $response;
+    exit(); 
+}

@@ -1269,40 +1269,6 @@
 					"response": []
 				}
 			]
-		},
-		{
-			"name": "Setup",
-			"item": [
-				{
-					"name": "Display Design updaten",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "127.0.0.1/api/api/updateDesign?design_name=new_design.dfui",
-							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"path": [
-								"api",
-								"api",
-								"updateDesign"
-							],
-							"query": [
-								{
-									"key": "design_name",
-									"value": "new_design.dfui",
-									"description": "Beispiel: new_design.dfui"
-								}
-							]
-						}
-					},
-					"response": []
-				}
-			]
 		}
 	],
 	"auth": {
