@@ -7,7 +7,7 @@ function loadData(type, filters = {}) {
     switch (type) {
         case 'device':
             endpoint = 'http://127.0.0.1/api/api/getDevice';
-            headers = ['ID', 'Geräte_ID', 'Geräte_Typ', 'Zuletzt am Leben'];
+            headers = ['ID', 'Geräte_ID', 'Geräte_Typ', 'Zuletzt am Leben', 'Firmware_Version'];
             updatePageTitle('Geräte');
             break;
         case 'machine':
