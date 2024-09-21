@@ -2,5 +2,5 @@
 
 include 'functions.php';
 
-$a = getLatestFirmwareVersion();
-echo $a;
+// $a = getLatestFirmwareVersion();
+// echo $a;
