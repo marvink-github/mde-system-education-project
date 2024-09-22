@@ -131,11 +131,10 @@ switch ($table) {
                 logDB($machineconn, 'firmware', 'firmware updated to latest.');
                 exit;
             } else {
-                echo 'df_api=1&df_kvp=firmwareversion';
                 logDB($machineconn, 'firmware', 'latest firmware installed, no update required');
-                exit;
             }
         } else {
+            echo 'df_api=1&df_kvp=firmwareversion';
             logDB($machineconn, 'firmware', 'no firmware version found.');
         }
         break;
