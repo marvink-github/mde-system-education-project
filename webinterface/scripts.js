@@ -7,22 +7,22 @@ function loadData(type, filters = {}) {
     switch (type) {
         case 'device':
             endpoint = 'http://127.0.0.1/api/api/getDevice';
-            headers = ['ID', 'Geräte_ID', 'Geräte_Typ', 'Zuletzt am Leben', 'Firmware_Version'];
+            headers = ['ID', 'Seriennummer', 'Gerätetyp', 'Zuletzt am Leben', 'Firmware Version'];
             updatePageTitle('Geräte');
             break;
         case 'machine':
             endpoint = buildEndpointWithParams('http://127.0.0.1/api/api/getMachine', filters);
-            headers = ['ID', 'Name', 'Benutzer', 'Bestellung', 'Status', 'D_Eingang Start/Stopp', 'D_Eingang Zähler', 'GerätID'];
+            headers = ['ID', 'Name', 'Benutzer', 'Bestellung', 'Status', 'D-Eingang Start/Stopp', 'D-Eingang Zähler', 'GeräteID'];
             updatePageTitle('Maschinen');
             break;
         case 'shift':
             endpoint = 'http://127.0.0.1/api/api/getShift';
-            headers = ['ID', 'Startzeit', 'Endzeit', 'Maschineid'];
+            headers = ['ID', 'Startzeit', 'Endzeit', 'MaschinenID'];
             updatePageTitle('Schichten');
             break;
         case 'machinedata':
             endpoint = buildEndpointWithParams('http://127.0.0.1/api/api/getMachinedata', filters);
-            headers = ['ID', 'Zeitstempel', 'Benutzer', 'Wert', 'Bestellung', 'Schichtid'];
+            headers = ['ID', 'Zeitstempel', 'Benutzer', 'Wert', 'Bestellung', 'SchichtID'];
             updatePageTitle('Maschinendaten');
             break;
         case 'log':

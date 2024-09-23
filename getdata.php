@@ -25,27 +25,17 @@ if ($type === 'kvp') {
         
         if ($kv_parts[0] === 'firmwareversion' && isset($kv_parts[1])) {
             $currentFirmware = $kv_parts[1];
-            logDB($machineconn, 'firmware', "current Firmware: $currentFirmware");
+            logDB($machineconn, 'firmware', "Current firmware: $currentFirmware");
 
-            // WHERE noch dynamisch machen evtl. über eins der folgenden Parameter
-            // kv=device%2C35 -> kv=serialnumber%2C3533 -> kv=setup%20terminal4.6.projekt.mde.alpha.conni.aes%2CDBED685
             $query = "UPDATE device SET firmware_version = '$currentFirmware' WHERE terminal_id = '3533' AND terminal_type = 'EVO 4.6 FlexKey'";
             $result = mysqli_query($machineconn, $query);
 
             if (!$result) {
-                logDB($machineconn, 'error', 'failed to update firmware in database.');
+                logDB($machineconn, 'error', 'Failed to update firmware in database.');
             }
         }
     }
 }
-
-// Antwort auf df_api=1&df_kvp=firmwareversion
-// GET /api/getdata.php?df_api=1&df_type=kvp&kv=firmwareversion%2C04.03.22.09.35
-
-// Antwort auf df_api=1&df_kvp=extinfo
-// GET /api/getdata.php?df_api=1&df_type=kvp&kv=firmwareversion%2C04.03.22.09.35&kv=board%2C50007%2C5.0a&kv=module%2C102026%2C1.0a%2C0.12&kv=module%2C6%2C1.4a%2C1&kv=module%2C8%2C1.3a%2C2&kv=module%2C5%2C1.2f%2C5&
-// kv=module%2C50%2C1.1a%2C6&kv=module%2C103012%2C1.0a%2C6.2&kv=module%2C11%2C1.6b%2C7&kv=module%2C107%2C1.1a%2C8&kv=module%2C106001%2C1.1a%2C8.2&kv=module%2C106001%2C1.1a%2C8.3&kv=module%2C86%2C1.0a%2C9&kv=module
-// %2C110009%2C1.0a%2C9.1&kv=module%2C110104%2C1.0b%2C9.2&kv=module%2C85%2C1.0a%2C20&kv=module%2C49001%2C1.0a%2C22&kv=device%2C35&kv=serialnumber%2C3533&kv=setup%20terminal4.6.projekt.mde.alpha.conni.aes%2CDBED685
 
 switch ($table) {
     case 'Daten':           
@@ -64,7 +54,7 @@ switch ($table) {
         //     updateDisplayDesign($machineconn, 'default_design.dfui');  
         // }
 
-        // Firmware-Version triggern
+        // Firmware-Version 
         // if ($action === 'start' && $badge === '232C416A') {  
         //     echo 'df_api=1&df_kvp=firmwareversion';
         // }
@@ -110,7 +100,7 @@ switch ($table) {
             $machineconn->real_escape_string(trim($_GET['df_col_T_ID'] ?? null)),
             $machineconn->real_escape_string(trim($_GET['df_col_T_Typ'] ?? null)),
         ];
-        logDB($machineconn, 'Einstellung', $data);
+        logDB($machineconn, 'settings', $data);
         break;
 
     case 'Alive':                   
@@ -124,20 +114,30 @@ switch ($table) {
         $currentFirmware = getFirmwareFromDevice($machineconn, $terminal_id, $terminal_type);
 
         if (!empty($currentFirmware)) {
-            $latestFirmware = getLatestFirmwareVersion();            
+            $latestFirmware = getFirmwareFromFileserver('latest');            
             if (isUpdateRequired($currentFirmware, $latestFirmware)) {
                 $download_url = "http://127.0.0.1/api/firmware/files/$latestFirmware";         
-                echo "df_api=1&df_load_firmware=" . rawurlencode($download_url);
-                logDB($machineconn, 'firmware', 'firmware updated to latest.');
+                echo "df_api=1&df_load_file=$download_url"; 
+                logDB($machineconn, 'firmware', 'Firmware updating to latest...');
                 exit;
             } else {
-                logDB($machineconn, 'firmware', 'latest firmware installed, no update required');
+                logDB($machineconn, 'firmware', 'Latest firmware installed, no update required');
             }
         } else {
-            echo 'df_api=1&df_kvp=firmwareversion';
-            logDB($machineconn, 'firmware', 'no firmware version found.');
+            echo 'df_api=1&df_kvp=extinfo';
+            // echo 'df_api=1&df_kvp=firmwareversion';
+            logDB($machineconn, 'firmware', 'No firmware version found, requesting now.');
+            exit;
         }
         break;
+        
+        // Antwort auf df_api=1&df_kvp=firmwareversion
+        // GET /api/getdata.php?df_api=1&df_type=kvp&kv=firmwareversion%2C04.03.22.09.35
+
+        // Antwort auf df_api=1&df_kvp=extinfo
+        // GET /api/getdata.php?df_api=1&df_type=kvp&kv=firmwareversion%2C04.03.22.09.35&kv=board%2C50007%2C5.0a&kv=module%2C102026%2C1.0a%2C0.12&kv=module%2C6%2C1.4a%2C1&kv=module%2C8%2C1.3a%2C2&kv=module%2C5%2C1.2f%2C5&
+        // kv=module%2C50%2C1.1a%2C6&kv=module%2C103012%2C1.0a%2C6.2&kv=module%2C11%2C1.6b%2C7&kv=module%2C107%2C1.1a%2C8&kv=module%2C106001%2C1.1a%2C8.2&kv=module%2C106001%2C1.1a%2C8.3&kv=module%2C86%2C1.0a%2C9&kv=module
+        // %2C110009%2C1.0a%2C9.1&kv=module%2C110104%2C1.0b%2C9.2&kv=module%2C85%2C1.0a%2C20&kv=module%2C49001%2C1.0a%2C22&kv=device%2C35&kv=serialnumber%2C3533&kv=setup%20terminal4.6.projekt.mde.alpha.conni.aes%2CDBED685
 
     case 'System':
         $data = [              
@@ -154,7 +154,7 @@ switch ($table) {
             $machineconn->real_escape_string(trim($_GET['df_col_Detail_2'] ?? null)),
             $machineconn->real_escape_string(trim($_GET['df_col_Detail_3'] ?? null)),
         ];
-        logDB($machineconn, 'System', $data);
+        logDB($machineconn, 'system', $data);
         break;
 
     default:
