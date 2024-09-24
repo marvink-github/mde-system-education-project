@@ -4,7 +4,7 @@
   # MD5 Fingerprints
   $ex_fwdir = "C:/xampp/htdocs/api/firmware/files/";
   $g_verbose = false;
-  $g_ign_md5 = false;
+  $g_ign_md5 = true;
 
   // Define global variable, so they do produce warnings
   $g_par_fw = "";

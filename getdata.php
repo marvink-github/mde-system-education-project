@@ -1,6 +1,5 @@
 <?php
 
-// Datensatzcache im Datafox Terminal clearen 
 // echo 'df_api=1'; 
 // exit;
 
@@ -52,11 +51,6 @@ switch ($table) {
         // Display-Designer
         // if ($action === 'start' && $badge === '232C416A') {  
         //     updateDisplayDesign($machineconn, 'default_design.dfui');  
-        // }
-
-        // Firmware-Version 
-        // if ($action === 'start' && $badge === '232C416A') {  
-        //     echo 'df_api=1&df_kvp=firmwareversion';
         // }
         
         break;
@@ -112,7 +106,7 @@ switch ($table) {
         updateAliveStatus($machineconn, $timestamp, $terminal_id, $terminal_type); 
 
         $currentFirmware = getFirmwareFromDevice($machineconn, $terminal_id, $terminal_type);
-
+        
         if (!empty($currentFirmware)) {
             $latestFirmware = getFirmwareFromFileserver('latest');            
             if (isUpdateRequired($currentFirmware, $latestFirmware)) {
@@ -124,20 +118,20 @@ switch ($table) {
                 logDB($machineconn, 'firmware', 'Latest firmware installed, no update required');
             }
         } else {
-            echo 'df_api=1&df_kvp=extinfo';
-            // echo 'df_api=1&df_kvp=firmwareversion';
-            logDB($machineconn, 'firmware', 'No firmware version found, requesting now.');
+            // echo 'df_api=1&df_kvp=extinfo'; // Für Alle Infos vom Terminal
+            echo 'df_api=1&df_kvp=firmwareversion';
+            logDB($machineconn, 'firmware', 'No firmware version found, requesting now from device...');
             exit;
         }
         break;
         
         // Antwort auf df_api=1&df_kvp=firmwareversion
-        // GET /api/getdata.php?df_api=1&df_type=kvp&kv=firmwareversion%2C04.03.22.09.35
+        // GET /api/getdata.php?df_api=1&df_type=kvp&kv=firmwareversion%2C04.03.22.10.35
 
         // Antwort auf df_api=1&df_kvp=extinfo
-        // GET /api/getdata.php?df_api=1&df_type=kvp&kv=firmwareversion%2C04.03.22.09.35&kv=board%2C50007%2C5.0a&kv=module%2C102026%2C1.0a%2C0.12&kv=module%2C6%2C1.4a%2C1&kv=module%2C8%2C1.3a%2C2&kv=module%2C5%2C1.2f%2C5&
+        // GET /api/getdata.php?df_api=1&df_type=kvp&kv=firmwareversion%2C04.03.22.10.35&kv=board%2C50007%2C5.0a&kv=module%2C102026%2C1.0a%2C0.12&kv=module%2C6%2C1.4a%2C1&kv=module%2C8%2C1.3a%2C2&kv=module%2C5%2C1.2f%2C5&
         // kv=module%2C50%2C1.1a%2C6&kv=module%2C103012%2C1.0a%2C6.2&kv=module%2C11%2C1.6b%2C7&kv=module%2C107%2C1.1a%2C8&kv=module%2C106001%2C1.1a%2C8.2&kv=module%2C106001%2C1.1a%2C8.3&kv=module%2C86%2C1.0a%2C9&kv=module
-        // %2C110009%2C1.0a%2C9.1&kv=module%2C110104%2C1.0b%2C9.2&kv=module%2C85%2C1.0a%2C20&kv=module%2C49001%2C1.0a%2C22&kv=device%2C35&kv=serialnumber%2C3533&kv=setup%20terminal4.6.projekt.mde.alpha.conni.aes%2CDBED685
+        // %2C110009%2C1.0a%2C9.1&kv=module%2C110104%2C1.0b%2C9.2&kv=module%2C85%2C1.0a%2C20&kv=module%2C49001%2C1.0a%2C22&kv=device%2C35&kv=serialnumber%2C3533&kv=setup%20terminal4.6.projekt.mde.alpha.conni.aes%2CDBED685B
 
     case 'System':
         $data = [              
