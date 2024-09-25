@@ -11,7 +11,7 @@ function loadData(type, filters = {}) {
             updatePageTitle('Geräte');
             break;
         case 'machine':
-            endpoint = buildEndpointWithParams('http://127.0.0.1/api/api/getMachine', filters);
+            endpoint = 'http://127.0.0.1/api/api/getMachine';
             headers = ['ID', 'Name', 'Benutzer', 'Bestellung', 'Status', 'D-Eingang Start/Stopp', 'D-Eingang Zähler', 'GeräteID'];
             updatePageTitle('Maschinen');
             break;
@@ -51,8 +51,6 @@ function loadData(type, filters = {}) {
         return response.json();
     })
     .then(data => {
-        console.log(data);
-        updateRecordCount(data.length);
         if (data.length === 0) {
             document.getElementById('no-data-message').textContent = 'Keine Einträge gefunden.'; 
             document.getElementById('data-table').style.display = 'none'; 
@@ -66,28 +64,42 @@ function loadData(type, filters = {}) {
 }
 
 
-
 document.getElementById('apply-filters').addEventListener('click', function () {
-    const userId = document.getElementById('userid').value;
-    const orderId = document.getElementById('orderid').value;
-    const shiftId = document.getElementById('shiftid').value;
-    const machineId = document.getElementById('machineid').value;
-
-    localStorage.setItem('filter_userid', userId);
-    localStorage.setItem('filter_orderid', orderId);
-    localStorage.setItem('filter_shiftid', shiftId);
-    localStorage.setItem('filter_machineid', machineId);
-
+    const currentPage = localStorage.getItem('currentPage');  
     const filters = {};
-    if (userId) filters.userid = userId;
-    if (orderId) filters.orderid = orderId;
-    if (shiftId) filters.shiftid = shiftId;
-    if (machineId) filters.machineid = machineId;
 
-    loadData('machinedata', filters); 
+    if (currentPage === 'machinedata') {
+        const userId = document.getElementById('userid').value;
+        const orderId = document.getElementById('orderid').value;
+        const shiftId = document.getElementById('shiftid').value;
+        const machineId = document.getElementById('machineid').value;
+        const timestampFrom = document.getElementById('timestamp_from').value;
+        const timestampTo = document.getElementById('timestamp_to').value;
+        const page = document.getElementById('page').value;
+        const limit = document.getElementById('limit').value;
 
-    location.reload();
+        localStorage.setItem('filter_userid', userId);
+        localStorage.setItem('filter_orderid', orderId);
+        localStorage.setItem('filter_shiftid', shiftId);
+        localStorage.setItem('filter_machineid', machineId);
+        localStorage.setItem('filter_timestamp_from', timestampFrom);
+        localStorage.setItem('filter_timestamp_to', timestampTo);
+        localStorage.setItem('filter_page', page);
+        localStorage.setItem('filter_limit', limit);
+
+        if (userId) filters.userid = userId;
+        if (orderId) filters.orderid = orderId;
+        if (shiftId) filters.shiftid = shiftId;
+        if (machineId) filters.machineid = machineId;
+        if (timestampFrom) filters.timestamp_from = timestampFrom;
+        if (timestampTo) filters.timestamp_to = timestampTo;
+        if (page) filters.page = page;
+        if (limit) filters.limit = limit;
+    }
+
+    loadData(currentPage, filters); 
 });
+
 
 
 document.getElementById('reset-filters').addEventListener('click', function() {
@@ -156,7 +168,13 @@ function buildEndpointWithParams(baseUrl, filters) {
     const queryParams = new URLSearchParams();
     for (const key in filters) {
         if (filters[key]) {
-            queryParams.append(key, filters[key]);
+            // Wenn es sich um timestamp_from oder timestamp_to handelt, 
+            // verwandle das Datum in das gewünschte Format
+            if (key === 'timestamp_from' || key === 'timestamp_to') {
+                queryParams.append(key, filters[key] + 'T00:00:00'); // Datum ohne Zeit hinzufügen
+            } else {
+                queryParams.append(key, filters[key]);
+            }
         }
     }
     return `${baseUrl}?${queryParams.toString()}`;
@@ -201,6 +219,11 @@ function updatePageTitle(pageName) {
     titleElement.textContent = pageName;
 }
 
-function updateRecordCount(count) {
-    document.getElementById('record-count').textContent = `Anzahl: ${count}`;
-}
+document.getElementById('toggle-filter').addEventListener('click', function() {
+    const filterForm = document.getElementById('filter-form');
+    if (filterForm.style.display === 'none' || filterForm.style.display === '') {
+        filterForm.style.display = 'flex'; 
+    } else {
+        filterForm.style.display = 'none'; 
+    }
+});
