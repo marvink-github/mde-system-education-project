@@ -1,0 +1,57 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; 
+    color: #333;
+}
+
+main {
+    flex: 1; 
+    background-color: #f7f7f7;
+}
+
+footer {
+    background-color: #f8f9fa;
+    padding: 10px 0;
+    text-align: center;
+    margin-top: auto; /* Footer bleibt unten, wenn der Inhalt kürzer ist */
+}
+
+.btn-get {
+    background-color: #28a745;
+    color: white;
+    padding: 20px 40px;
+    font-size: 1.5rem;
+}
+
+.btn-post {
+    background-color: #ffc107;
+    color: black;
+    padding: 20px 40px;
+    font-size: 1.5rem;
+}
+
+.btn-patch {
+    background-color: #6f42c1;
+    color: white;
+    padding: 20px 40px;
+    font-size: 1.5rem;
+}
+
+.btn-delete {
+    background-color: #dc3545;
+    color: white;
+    padding: 20px 40px;
+    font-size: 1.5rem;
+}
+
+/* Optionally for better button appearance */
+.btn {
+    width: 100%;
+    margin: 10px 0;
+}

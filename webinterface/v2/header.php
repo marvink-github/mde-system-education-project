@@ -18,7 +18,7 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link" href="restapi.php">API</a>
+                            <a class="nav-link" href="api.php">API</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="visualization.php">Visualisierung</a>
