@@ -154,33 +154,50 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 $(document).ready(function() {
-    $('#submitPostButton').click(function() {
-        // Holen der Eingabewerte
-        const name = $('#machineName').val();
-        const dEntryStartstop = $('#dEntryStartstop').val();
-        const dEntryCounter = $('#dEntryCounter').val();
-        const deviceId = $('#deviceId').val();
+    $('#submitPatchButton').click(function() {
+        const machineId = $('#machineId').val();
+        const updatedUserId = $('#updatedUserId').val(); 
+        const updatedOrderId = $('#updatedOrderId').val();  
+        const updatedName = $('#updatedName').val();
+        const updatedState = $('#updatedState').val();
+        const updatedDEntryStartstop = $('#updatedDEntryStartstop').val();
+        const updatedDEntryCounter = $('#updatedDEntryCounter').val();
+        const updatedDeviceId = $('#updatedDeviceId').val();
+        const apiKey = "694d3da45d8cbcc7fa3fa4d21649a47ff1bf1ad23dd145b0d26fec420f603a2c";
 
-        // POST-Anfrage
+        const requestData = {
+            machineid: machineId,
+            userid: updatedUserId,  
+            orderid: updatedOrderId,  
+            name: updatedName,
+            state: updatedState,
+            d_entry_startstop: updatedDEntryStartstop,
+            d_entry_counter: updatedDEntryCounter,
+            device_idDevice: updatedDeviceId
+        };
+
         $.ajax({
-            url: 'http://127.0.0.1/api/api/postMachine',
-            type: 'POST',
+            url: 'http://127.0.0.1/api/api/patchMachine',
+            type: 'PATCH',
             contentType: 'application/json',
-            data: JSON.stringify({
-                name: name,
-                d_entry_startstop: dEntryStartstop,
-                d_entry_counter: dEntryCounter,
-                device_idDevice: deviceId
-            }),
+            dataType: 'json', 
+            headers: {
+                'ApiKey': apiKey
+            }, 
+            data: JSON.stringify(requestData),
             success: function(response) {
-                $('#successMessageText').text(response.message);
-                $('#successModal').modal('show');
+                $('#success-message').text(response.message).show();
+                $('#patchModal').modal('hide');
+                $('#error-message').hide();
             },
             error: function(xhr) {
-                $('#error-message').text('Fehler: ' + xhr.responseJSON.message);
-                $('#error-message').show();
+                console.error(xhr.responseText);
+                console.log(xhr);
+                $('#error-message').text(xhr.responseJSON ? xhr.responseJSON.message : 'Unknown error').show();
+                $('#success-message').hide();
             }
-        });
+        });        
     });
 });
+
 

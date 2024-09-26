@@ -90,40 +90,6 @@ include 'header.php';
     </div>
 </div>
 
-<!-- Modal für POST-Anfrage -->
-<div class="modal fade" id="postModal" tabindex="-1" aria-labelledby="postModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="postModalLabel">POST</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="postForm"> 
-                    <label for="entityType" class="form-label">Wählen Sie den Typ:</label>
-                    <select id="entityType" class="form-select mb-3">
-                        <option value="machine">Maschine</option>
-                        <option value="device">Gerät</option>
-                    </select>
-
-                    <div id="machineFields">
-                        <h6>Maschineninformationen:</h6>
-                        <input type="text" id="machineName" class="form-control mt-2" placeholder="Maschinenname (required)" required>
-                        <input type="text" id="deviceId" class="form-control mt-2" placeholder="Geräte-ID (required)" required>
-                        <input type="text" id="dEntryStartstop" class="form-control mt-2" placeholder="Digital Eingang Start/Stopp (optional)">
-                        <input type="text" id="dEntryCounter" class="form-control mt-2" placeholder="Digital Eingang Zähler (optional)">
-                    </div>
-
-                    <button type="submit" id="submitPostButton" class="btn btn-success mt-3">Daten senden</button>
-                </form> 
-
-                <div id="success-message" class="alert alert-primary mt-3" style="display: none;"></div>
-                <div id="error-message" class="alert alert-danger mt-3" style="display: none;"></div>
-            </div>
-        </div>
-    </div>
-</div>
-
 <?php // if(isset($_GET['berengar']) && $_GET['berengar'] === 'true'):?>
     <!-- Container zum Anzeigen der Daten -->
     <div id="dataDisplay" class="container my-5" style="display: none;">
@@ -152,6 +118,68 @@ include 'header.php';
         </div>
     </div>    
 <?php // endif; ?>
+
+<!-- Modal für POST-Anfrage -->
+<div class="modal fade" id="postModal" tabindex="-1" aria-labelledby="postModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="postModalLabel">POST</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="postForm"> 
+                    <label for="entityType" class="form-label">Wählen Sie den Typ:</label>
+                    <select id="entityType" class="form-select mb-3">
+                        <option value="machine">Maschine</option>
+                        <option value="device">Gerät</option>
+                    </select>
+
+                    <div id="machineFields">
+                        <h6>Maschineninformationen:</h6>
+                        <input type="text" id="machineName" class="form-control mt-2" placeholder="Maschinenname (erforderlich)" required>
+                        <input type="text" id="deviceId" class="form-control mt-2" placeholder="Geräte-ID (erforderlich)" required>
+                        <input type="text" id="dEntryStartstop" class="form-control mt-2" placeholder="Digital Eingang Start/Stopp (optional)">
+                        <input type="text" id="dEntryCounter" class="form-control mt-2" placeholder="Digital Eingang Zähler (optional)">
+                    </div>
+
+                    <button type="submit" id="submitPostButton" class="btn btn-success mt-3">Daten senden</button>
+                </form> 
+
+                <div id="success-message" class="alert alert-primary mt-3" style="display: none;"></div>
+                <div id="error-message" class="alert alert-danger mt-3" style="display: none;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal für PATCH-Anfrage -->
+<div class="modal fade" id="patchModal" tabindex="-1" aria-labelledby="patchModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="patchModalLabel">PATCH</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="machineId" class="form-control mb-3" placeholder="Maschinen-ID (erforderlich)" required>
+                <input type="text" id="updatedUserId" class="form-control mb-3" placeholder="Benutzer (optional)">
+                <input type="text" id="updatedOrderId" class="form-control mb-3" placeholder="Bestellung (optional)">
+                <input type="text" id="updatedName" class="form-control mb-3" placeholder="Maschinenname (optional)">
+                <input type="text" id="updatedState" class="form-control mb-3" placeholder="Status (optional)">
+                <input type="text" id="updatedDEntryStartstop" class="form-control mb-3" placeholder="Digital Eingang Start/Stopp (optional)">
+                <input type="text" id="updatedDEntryCounter" class="form-control mb-3" placeholder="Digital Eingang Zähler (optional)">
+                <input type="text" id="updatedDeviceId" class="form-control mb-3" placeholder="Geräte-ID (optional)">
+                
+                <button type="button" id="submitPatchButton" class="btn btn-primary mt-3">Daten aktualisieren</button>
+
+                <div id="success-message" class="alert alert-primary mt-3" style="display: none;"></div>
+                <div id="error-message" class="alert alert-danger mt-3" style="display: none;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 </main>
 
