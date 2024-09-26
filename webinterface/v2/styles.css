@@ -55,3 +55,23 @@ footer {
     width: 100%;
     margin: 10px 0;
 }
+
+.table-dark th {
+    background-color: #343a40; /* Dunkler Hintergrund */
+    color: #ffffff; /* Weißer Text */
+    text-align: center; /* Zentrierter Text */
+    padding: 10px; /* Etwas mehr Innenabstand */
+    border-bottom: 2px solid #ffffff; /* Weiße Unterlinie */
+}
+
+.table-dark th:hover {
+    background-color: #495057; /* Etwas hellerer Hintergrund beim Hover */
+    cursor: pointer; /* Zeiger-Cursor beim Hover */
+}
+
+/* Optionale CSS-Anpassungen für kleinere Bildschirme */
+@media (max-width: 576px) {
+    .table th, .table td {
+        font-size: 12px; /* Kleinere Schriftgröße */
+    }
+}

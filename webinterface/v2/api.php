@@ -4,41 +4,47 @@ include 'header.php';
 
 <main>
 <div class="container my-5">
-    <div class="row justify-content-center text-center">
+    <div class="row">
         <!-- GET Card -->
-        <div class="col-md-6 col-lg-4 mb-3">
-            <div class="card text-center" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#getModal">
-                <div class="card-body" style="background-color: green; color: black; height: 200px; display: flex; align-items: center; justify-content: center;">
-                    <h1 class="card-title" style="font-size: 48px; font-family: 'Roboto', sans-serif;">GET</h1>
+        <div class="col-md-6 col-lg-6 d-flex justify-content-center mb-3">
+            <div class="card text-white bg-dark mb-3" style="width: 24rem; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#getModal">
+                <div class="card-body">
+                    <h5 class="card-title">GET</h5>
+                    <p class="card-text">Sende eine GET-Anfrage an die API, um Daten abzurufen.</p>
+                    <a href="#" class="btn btn-primary">Anwenden</a>
                 </div>
             </div>
         </div>
 
         <!-- POST Card -->
-        <div class="col-md-6 col-lg-4 mb-3">
-            <div class="card text-center" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#postModal">
-                <div class="card-body" style="background-color: yellow; color: black; height: 200px; display: flex; align-items: center; justify-content: center;">
-                    <h1 class="card-title" style="font-size: 48px; font-family: 'Roboto', sans-serif;">POST</h1>
+        <div class="col-md-6 col-lg-6 d-flex justify-content-center mb-3">
+            <div class="card text-white bg-dark mb-3" style="width: 24rem; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#postModal">
+                <div class="card-body">
+                    <h5 class="card-title">POST</h5>
+                    <p class="card-text">Sende eine POST-Anfrage an die API, um Daten zu speichern.</p>
+                    <a href="#" class="btn btn-primary">Anwenden</a>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="row justify-content-center text-center">
         <!-- PATCH Card -->
-        <div class="col-md-6 col-lg-4 mb-3">
-            <div class="card text-center" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#patchModal">
-                <div class="card-body" style="background-color: purple; color: black; height: 200px; display: flex; align-items: center; justify-content: center;">
-                    <h1 class="card-title" style="font-size: 48px; font-family: 'Roboto', sans-serif;">PATCH</h1>
+        <div class="col-md-6 col-lg-6 d-flex justify-content-center mb-3">
+            <div class="card text-white bg-dark mb-3" style="width: 24rem; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#patchModal">
+                <div class="card-body">
+                    <h5 class="card-title">PATCH</h5>
+                    <p class="card-text">Sende eine PATCH-Anfrage, um vorhandene Daten zu aktualisieren.</p>
+                    <a href="#" class="btn btn-primary">Anwenden</a>
                 </div>
             </div>
         </div>
 
         <!-- DELETE Card -->
-        <div class="col-md-6 col-lg-4 mb-3">
-            <div class="card text-center" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#deleteModal">
-                <div class="card-body" style="background-color: red; color: black; height: 200px; display: flex; align-items: center; justify-content: center;">
-                    <h1 class="card-title" style="font-size: 48px; font-family: 'Roboto', sans-serif;">DELETE</h1>
+        <div class="col-md-6 col-lg-6 d-flex justify-content-center mb-3">
+            <div class="card text-white bg-dark mb-3" style="width: 24rem; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                <div class="card-body">
+                    <h5 class="card-title">DELETE</h5>
+                    <p class="card-text">Sende eine DELETE-Anfrage, um Daten zu löschen.</p>
+                    <a href="#" class="btn btn-primary">Anwenden</a>
                 </div>
             </div>
         </div>
@@ -46,12 +52,12 @@ include 'header.php';
 </div>
 
 
-<!-- Modal für GET-Anfrage -->
+<!-- GET Modal -->
 <div class="modal fade" id="getModal" tabindex="-1" aria-labelledby="getModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="getModalLabel">GET-Anfrage</h5>
+                <h5 class="modal-title" id="getModalLabel">GET</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -76,8 +82,7 @@ include 'header.php';
                 <input type="number" id="page-input" class="form-control mt-3" placeholder="Seite (optional)" value="1">
                 <input type="number" id="limit-input" class="form-control mt-3" placeholder="Limit (optional)" value="200">
 
-                <button id="fetchDataButton" class="btn btn-primary mt-3">Daten abrufen</button>
-
+                <button id="fetchDataButton" class="btn btn-success mt-3">Daten abrufen</button>
                 <div id="error-message" class="alert alert-danger mt-3" style="display: none;"></div>
             </div>
             </div>
@@ -85,34 +90,68 @@ include 'header.php';
     </div>
 </div>
 
+<!-- Modal für POST-Anfrage -->
+<div class="modal fade" id="postModal" tabindex="-1" aria-labelledby="postModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="postModalLabel">POST</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="postForm"> 
+                    <label for="entityType" class="form-label">Wählen Sie den Typ:</label>
+                    <select id="entityType" class="form-select mb-3">
+                        <option value="machine">Maschine</option>
+                        <option value="device">Gerät</option>
+                    </select>
 
-<!-- Container zum Anzeigen der Daten -->
-<div id="dataDisplay" class="container my-5" style="display: none;">
-    <h2 class="text-center display-4">Maschinendaten</h2>
-    <div class="d-flex justify-content-between mb-3">
-        <button id="openFilterButton" class="btn btn-info mx-4">Filter öffnen</button>
-        <button id="backButton" class="btn btn-secondary mx-4">Zurück zu den Operationen</button>
-    </div>
-    
-    <div class="table-responsive">
-        <table class="table table-striped table-hover table-bordered table-sm align-middle">
-            <thead class="table-dark">
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Zeitstempel</th>
-                    <th scope="col">Benutzer</th>
-                    <th scope="col">Wert</th>
-                    <th scope="col">Bestellung</th>
-                    <th scope="col">SchichtId</th>
-                </tr>
-            </thead>
-            <tbody id="data-body">
-                <!-- Hier werden die Daten eingefügt -->
-            </tbody>
-        </table>
+                    <div id="machineFields">
+                        <h6>Maschineninformationen:</h6>
+                        <input type="text" id="machineName" class="form-control mt-2" placeholder="Maschinenname (required)" required>
+                        <input type="text" id="deviceId" class="form-control mt-2" placeholder="Geräte-ID (required)" required>
+                        <input type="text" id="dEntryStartstop" class="form-control mt-2" placeholder="Digital Eingang Start/Stopp (optional)">
+                        <input type="text" id="dEntryCounter" class="form-control mt-2" placeholder="Digital Eingang Zähler (optional)">
+                    </div>
+
+                    <button type="submit" id="submitPostButton" class="btn btn-success mt-3">Daten senden</button>
+                </form> 
+
+                <div id="success-message" class="alert alert-primary mt-3" style="display: none;"></div>
+                <div id="error-message" class="alert alert-danger mt-3" style="display: none;"></div>
+            </div>
+        </div>
     </div>
 </div>
 
+<?php // if(isset($_GET['berengar']) && $_GET['berengar'] === 'true'):?>
+    <!-- Container zum Anzeigen der Daten -->
+    <div id="dataDisplay" class="container my-5" style="display: none;">
+        <h2 class="text-center display-4">Maschinendaten</h2>
+        <div class="d-flex justify-content-between mb-3">
+            <button id="openFilterButton" class="btn btn-info mx-4">Filter öffnen</button>
+            <button id="backButton" class="btn btn-secondary mx-4">Zurück</button>
+        </div>
+        
+        <div class="table-responsive">
+            <table class="table table-striped table-hover table-bordered table-sm align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Zeitstempel</th>
+                        <th scope="col">Benutzer</th>
+                        <th scope="col">Wert</th>
+                        <th scope="col">Bestellung</th>
+                        <th scope="col">SchichtId</th>
+                    </tr>
+                </thead>
+                <tbody id="data-body">
+                    <!-- Hier werden die Daten eingefügt -->
+                </tbody>
+            </table>
+        </div>
+    </div>    
+<?php // endif; ?>
 
 </main>
 
