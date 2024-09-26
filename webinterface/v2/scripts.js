@@ -20,7 +20,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Funktion zum Abrufen der Daten
     fetchDataButton.addEventListener("click", function () {
-        // Werte aus den Filterfeldern holen
         const userid = document.getElementById("userid-input").value;
         const orderid = document.getElementById("orderid-input").value;
         const shiftid = document.getElementById("shiftid-input").value;
@@ -30,7 +29,6 @@ document.addEventListener("DOMContentLoaded", function () {
         const page = document.getElementById("page-input").value;
         const limit = document.getElementById("limit-input").value;
 
-        // Erstelle die URL-Parameter
         let params = [];
         if (userid) params.push(`userid=${userid}`);
         if (orderid) params.push(`orderid=${orderid}`);
@@ -41,12 +39,10 @@ document.addEventListener("DOMContentLoaded", function () {
         if (page) params.push(`page=${page}`);
         if (limit) params.push(`limit=${limit}`);
 
-        // Verbinde die Parameter zu einem String
         const endpoint = document.getElementById("endpoint-select").value;
         const apiKey = "694d3da45d8cbcc7fa3fa4d21649a47ff1bf1ad23dd145b0d26fec420f603a2c";
         const paramString = params.length ? `?${params.join('&')}&apikey=${apiKey}` : `?apikey=${apiKey}`;        
 
-        // API-Anfrage senden
         fetch(`http://127.0.0.1/api/api/${endpoint}${paramString}`, {
             method: 'GET',
             headers: {
@@ -60,32 +56,28 @@ document.addEventListener("DOMContentLoaded", function () {
             return response.json();
         })
         .then(data => {
-            displayData(data); // Daten anzeigen
+            displayData(data); 
             const modalElement = document.getElementById('getModal');
             const modalInstance = bootstrap.Modal.getInstance(modalElement);
-            modalInstance.hide(); // Schließt das Modal
+            modalInstance.hide(); 
         })
         .catch(error => console.error('Fehler beim Abrufen der Daten:', error));
     });
 
-    // Back-Button Logik
     backButton.addEventListener("click", function () {
         dataDisplay.style.display = "none";
         document.querySelector(".container").style.display = "block"; 
     });
 
-    // Modal für Filter öffnen
     openFilterButton.addEventListener("click", function () {
         const getModal = new bootstrap.Modal(document.getElementById('getModal')); 
         getModal.show();
     });
 
-    // Funktion zum Anzeigen der Daten
     function displayData(data) {
         const dataBody = document.getElementById("data-body");
-        dataBody.innerHTML = ""; // Leere den vorherigen Inhalt
+        dataBody.innerHTML = ""; 
 
-        // Durchlaufe die Daten und füge sie der Tabelle hinzu
         data.forEach(item => {
             const row = document.createElement("tr");
             row.innerHTML = `
@@ -99,7 +91,6 @@ document.addEventListener("DOMContentLoaded", function () {
             dataBody.appendChild(row);
         });
 
-        // Datenanzeige aktivieren und Buttons ausblenden
         dataDisplay.style.display = "block";
         document.querySelector(".container").style.display = "none";
     }
@@ -107,7 +98,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // POST-Anfrage senden, wenn das Formular abgeschickt wird
     const postForm = document.getElementById("postForm");
     postForm.addEventListener("submit", function (event) {
-        event.preventDefault(); // Verhindert das Standard-Formularverhalten
+        event.preventDefault(); 
         const apiKey = "694d3da45d8cbcc7fa3fa4d21649a47ff1bf1ad23dd145b0d26fec420f603a2c";
         let postData = {};
 
@@ -200,4 +191,30 @@ $(document).ready(function() {
     });
 });
 
+document.getElementById('submitDeleteButton').addEventListener('click', function() {
+    const machineId = document.getElementById('deleteMachineId').value;
+    const apiKey = '694d3da45d8cbcc7fa3fa4d21649a47ff1bf1ad23dd145b0d26fec420f603a2c'; 
+
+    fetch(`http://127.0.0.1/api/api/deleteMachine?machineid=${machineId}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'ApiKey': apiKey 
+        }
+    })
+    .then(response => {
+        if (response.ok) {
+            console.log('Maschine erfolgreich gelöscht.');
+            const modalElement = document.getElementById('deleteModal');
+            const modalInstance = bootstrap.Modal.getInstance(modalElement);
+            modalInstance.hide(); 
+            document.getElementById('deleteMachineId').value = ''; 
+        } else {
+            console.error('Fehler beim Löschen der Maschine.');
+        }
+    })
+    .catch(error => {
+        console.error('Ein unerwarteter Fehler ist aufgetreten:', error);
+    });
+});
 

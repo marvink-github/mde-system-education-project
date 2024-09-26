@@ -38,19 +38,18 @@ include 'header.php';
             </div>
         </div>
 
-        <!-- DELETE Card -->
+       <!-- DELETE Card -->
         <div class="col-md-6 col-lg-6 d-flex justify-content-center mb-3">
             <div class="card text-white bg-dark mb-3" style="width: 24rem; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#deleteModal">
                 <div class="card-body">
                     <h5 class="card-title">DELETE</h5>
                     <p class="card-text">Sende eine DELETE-Anfrage, um Daten zu löschen.</p>
-                    <a href="#" class="btn btn-primary">Anwenden</a>
+                    <a href="#" class="btn btn-primary" id="openDeleteModalButton">Anwenden</a>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 
 <!-- GET Modal -->
 <div class="modal fade" id="getModal" tabindex="-1" aria-labelledby="getModalLabel" aria-hidden="true">
@@ -83,7 +82,6 @@ include 'header.php';
                 <input type="number" id="limit-input" class="form-control mt-3" placeholder="Limit (optional)" value="200">
 
                 <button id="fetchDataButton" class="btn btn-success mt-3">Daten abrufen</button>
-                <div id="error-message" class="alert alert-danger mt-3" style="display: none;"></div>
             </div>
             </div>
         </div>
@@ -119,7 +117,7 @@ include 'header.php';
     </div>    
 <?php // endif; ?>
 
-<!-- Modal für POST-Anfrage -->
+<!-- POST Modal -->
 <div class="modal fade" id="postModal" tabindex="-1" aria-labelledby="postModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -145,15 +143,12 @@ include 'header.php';
 
                     <button type="submit" id="submitPostButton" class="btn btn-success mt-3">Daten senden</button>
                 </form> 
-
-                <div id="success-message" class="alert alert-primary mt-3" style="display: none;"></div>
-                <div id="error-message" class="alert alert-danger mt-3" style="display: none;"></div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Modal für PATCH-Anfrage -->
+<!-- PATCH Modal -->
 <div class="modal fade" id="patchModal" tabindex="-1" aria-labelledby="patchModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -171,10 +166,28 @@ include 'header.php';
                 <input type="text" id="updatedDEntryCounter" class="form-control mb-3" placeholder="Digital Eingang Zähler (optional)">
                 <input type="text" id="updatedDeviceId" class="form-control mb-3" placeholder="Geräte-ID (optional)">
                 
-                <button type="button" id="submitPatchButton" class="btn btn-primary mt-3">Daten aktualisieren</button>
+                <button type="button" id="submitPatchButton" class="btn btn-success mt-3">Daten aktualisieren</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-                <div id="success-message" class="alert alert-primary mt-3" style="display: none;"></div>
-                <div id="error-message" class="alert alert-danger mt-3" style="display: none;"></div>
+<!-- DELETE Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">DELETE</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <label for="machineid" class="form-label">Wählen Sie den Typ:</label>
+                    <select id="machineid" class="form-select mb-3">
+                        <option value="machine">Maschine</option>
+                        <option value="device">Gerät</option>
+                    </select>
+                <input type="text" id="deleteMachineId" class="form-control mb-3" placeholder="ID (erforderlich)" required>
+                <button type="button" id="submitDeleteButton" class="btn btn-danger mt-3">Daten löschen</button>
             </div>
         </div>
     </div>
