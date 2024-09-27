@@ -10,19 +10,20 @@
 </head>
 <body>
     <header>
+        <?php $current_page = basename($_SERVER['PHP_SELF']); ?>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
-                <a class="navbar-brand" href="index.php">Home</a>
+                <a class="navbar-brand <?php echo $current_page == 'index.php' ? 'active' : ''; ?>" href="index.php">Home</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link" href="api.php">API</a>
+                            <a class="nav-link <?php echo $current_page == 'api.php' ? 'active' : ''; ?>" href="api.php">API</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="visualization.php">Visualisierung</a>
+                            <a class="nav-link <?php echo $current_page == 'visualization.php' ? 'active' : ''; ?>" href="visualization.php">Visualisierung</a>
                         </li>
                     </ul>
                 </div>

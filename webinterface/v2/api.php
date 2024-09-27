@@ -7,49 +7,51 @@ include 'header.php';
     <div class="row">
         <!-- GET Card -->
         <div class="col-md-6 col-lg-6 d-flex justify-content-center mb-3">
-            <div class="card text-white bg-dark mb-3" style="width: 24rem; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#getModal">
-                <div class="card-body">
-                    <h5 class="card-title">GET</h5>
-                    <p class="card-text">Sende eine GET-Anfrage an die API, um Daten abzurufen.</p>
-                    <a href="#" class="btn btn-primary">Anwenden</a>
+            <div class="card text-white bg-dark mb-3" style="width: 34rem; height: 20rem; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#getModal">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">GET - Maschinendaten anfragen</h5>
+                    <p class="card-text flex-grow-1">Sende eine GET-Anfrage an die API, um die neuesten Maschinendaten abzurufen oder die aktuelle Systemkonfiguration anzuzeigen. Diese Anfragen sind ideal, um unveränderliche Daten zu erhalten.</p>
+                    <a href="#" class="btn btn-primary mt-auto align-self-end">Anwenden</a>
                 </div>
             </div>
         </div>
 
         <!-- POST Card -->
         <div class="col-md-6 col-lg-6 d-flex justify-content-center mb-3">
-            <div class="card text-white bg-dark mb-3" style="width: 24rem; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#postModal">
-                <div class="card-body">
-                    <h5 class="card-title">POST</h5>
-                    <p class="card-text">Sende eine POST-Anfrage an die API, um Daten zu speichern.</p>
-                    <a href="#" class="btn btn-primary">Anwenden</a>
+            <div class="card text-white bg-dark mb-3" style="width: 34rem; height: 20rem; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#postModal">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">POST - Maschinendaten erstellen</h5>
+                    <p class="card-text flex-grow-1">Sende eine POST-Anfrage an die API, um neue Maschineneinträge zu speichern oder Geräteinformationen hinzuzufügen. Verwenden Sie POST, um neue Daten zu erstellen oder hochzuladen.</p>
+                    <a href="#" class="btn btn-primary mt-auto align-self-end">Anwenden</a>
                 </div>
             </div>
         </div>
 
         <!-- PATCH Card -->
         <div class="col-md-6 col-lg-6 d-flex justify-content-center mb-3">
-            <div class="card text-white bg-dark mb-3" style="width: 24rem; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#patchModal">
-                <div class="card-body">
-                    <h5 class="card-title">PATCH</h5>
-                    <p class="card-text">Sende eine PATCH-Anfrage, um vorhandene Daten zu aktualisieren.</p>
-                    <a href="#" class="btn btn-primary">Anwenden</a>
+            <div class="card text-white bg-dark mb-3" style="width: 34rem; height: 20rem; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#patchModal">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">PATCH - Maschinendaten aktualisieren</h5>
+                    <p class="card-text flex-grow-1">Verwenden Sie PATCH-Anfragen, um bestehende Daten zu aktualisieren. Diese Anfragen sind hilfreich, wenn Sie nur Teile von Daten ändern möchten, ohne alles zu ersetzen.</p>
+                    <a href="#" class="btn btn-primary mt-auto align-self-end">Anwenden</a>
                 </div>
             </div>
         </div>
 
-       <!-- DELETE Card -->
+        <!-- DELETE Card -->
         <div class="col-md-6 col-lg-6 d-flex justify-content-center mb-3">
-            <div class="card text-white bg-dark mb-3" style="width: 24rem; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#deleteModal">
-                <div class="card-body">
-                    <h5 class="card-title">DELETE</h5>
-                    <p class="card-text">Sende eine DELETE-Anfrage, um Daten zu löschen.</p>
-                    <a href="#" class="btn btn-primary" id="openDeleteModalButton">Anwenden</a>
+            <div class="card text-white bg-dark mb-3" style="width: 34rem; height: 20rem; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">DELETE - Maschinendaten löschen</h5>
+                    <p class="card-text flex-grow-1">Sende eine DELETE-Anfrage, um Daten aus dem System zu entfernen. Verwenden Sie diese Funktion, um veraltete oder fehlerhafte Einträge zu löschen.</p>
+                    <a href="#" class="btn btn-primary mt-auto align-self-end">Anwenden</a>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<?php include 'alert_fadeaway.php'; ?>
 
 <!-- GET Modal -->
 <div class="modal fade" id="getModal" tabindex="-1" aria-labelledby="getModalLabel" aria-hidden="true">
@@ -81,7 +83,7 @@ include 'header.php';
                 <input type="number" id="page-input" class="form-control mt-3" placeholder="Seite (optional)" value="1">
                 <input type="number" id="limit-input" class="form-control mt-3" placeholder="Limit (optional)" value="200">
 
-                <button id="fetchDataButton" class="btn btn-success mt-3">Daten abrufen</button>
+                <button id="fetchDataButton" class="btn btn-success mt-3">Daten anfragen</button>
             </div>
             </div>
         </div>
@@ -141,7 +143,7 @@ include 'header.php';
                         <input type="text" id="dEntryCounter" class="form-control mt-2" placeholder="Digital Eingang Zähler (optional)">
                     </div>
 
-                    <button type="submit" id="submitPostButton" class="btn btn-success mt-3">Daten senden</button>
+                    <button type="submit" id="submitPostButton" class="btn btn-success mt-3">Daten erstellen</button>
                 </form> 
             </div>
         </div>
