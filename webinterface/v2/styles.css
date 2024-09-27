@@ -50,35 +50,69 @@ footer {
     font-size: 1.5rem;
 }
 
-/* Optionally for better button appearance */
+/* Buttons konsistent gestalten */
 .btn {
     width: 100%;
     margin: 10px 0;
 }
 
+/* Tabellenkopf Design */
 .table-dark th {
-    background-color: #343a40; /* Dunkler Hintergrund */
-    color: #ffffff; /* Weißer Text */
-    text-align: center; /* Zentrierter Text */
-    padding: 10px; /* Etwas mehr Innenabstand */
-    border-bottom: 2px solid #ffffff; /* Weiße Unterlinie */
+    background-color: #343a40;
+    color: #ffffff;
+    text-align: center;
+    padding: 10px;
+    border-bottom: 2px solid #ffffff;
 }
 
+/* Hover Effekt im Tabellenkopf */
 .table-dark th:hover {
-    background-color: #495057; /* Etwas hellerer Hintergrund beim Hover */
-    cursor: pointer; /* Zeiger-Cursor beim Hover */
+    background-color: #495057;
+    cursor: pointer;
 }
 
-/* Optionale CSS-Anpassungen für kleinere Bildschirme */
-@media (max-width: 576px) {
-    .table th, .table td {
-        font-size: 12px; /* Kleinere Schriftgröße */
-    }
+/* Tabellenzeilen abwechselnd einfärben für bessere Lesbarkeit */
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #f8f9fa; /* Hellgrau für ungerade Zeilen */
 }
 
+.table-striped tbody tr:nth-of-type(even) {
+    background-color: #e9ecef; /* Etwas dunkleres Grau für gerade Zeilen */
+}
+
+/* Tabellenzellen anpassen */
+.table td, .table th {
+    padding: 15px;
+    vertical-align: middle;
+}
+
+/* Karten Design */
 .card {
     margin: 10px;
-    flex: 1 1 300px; /* Ermöglicht die flexible Anpassung der Kartenbreite */
-    min-height: 300px; /* Stellen Sie sicher, dass die Karten eine Mindesthöhe haben */
+    flex: 1 1 300px; /* Flexible Breite für Karten */
+    min-height: 300px;
+    border: none; /* Keine Ränder */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Schattierung */
+    border-radius: 10px; /* Abgerundete Ecken */
 }
 
+/* Hover Effekt für Karten */
+.card:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Stärkere Schattierung beim Hover */
+}
+
+/* Anpassung für kleinere Bildschirme */
+@media (max-width: 576px) {
+    .table th, .table td {
+        font-size: 12px; /* Kleinere Schriftgröße für mobile Geräte */
+    }
+
+    .btn {
+        font-size: 1.2rem; /* Kleinere Buttons für mobile Geräte */
+    }
+
+    .card {
+        margin: 5px; /* Weniger Abstand zwischen Karten */
+        min-height: 250px; /* Kleinere Mindesthöhe für mobile Geräte */
+    }
+}

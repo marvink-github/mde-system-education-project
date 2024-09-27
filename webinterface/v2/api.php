@@ -56,12 +56,12 @@ include 'header.php';
 <!-- GET Modal -->
 <div class="modal fade" id="getModal" tabindex="-1" aria-labelledby="getModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content">
+        <div class="modal-content bg-dark text-white">
             <div class="modal-header">
                 <h5 class="modal-title" id="getModalLabel">GET</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body bg-dark text-white">
                 <!-- Auswahl des Endpunkts -->
                 <select id="endpoint-select" class="form-select">
                     <option value="getMachinedata">Maschinendaten</option>
@@ -98,25 +98,25 @@ include 'header.php';
             <button id="openFilterButton" class="btn btn-info mx-4">Filter öffnen</button>
             <button id="backButton" class="btn btn-secondary mx-4">Zurück</button>
         </div>
-        
+
         <div class="table-responsive">
-            <table class="table table-striped table-hover table-bordered table-sm align-middle">
-                <thead class="table-dark">
+            <table class="table table-striped table-hover table-bordered table-sm align-middle" style="border-radius: 10px; overflow: hidden; box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);">
+                <thead class="table-dark" style="font-size: 1.2rem; text-transform: uppercase;">
                     <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Zeitstempel</th>
-                        <th scope="col">Benutzer</th>
-                        <th scope="col">Wert</th>
-                        <th scope="col">Bestellung</th>
-                        <th scope="col">SchichtId</th>
+                        <th scope="col" class="text-center">ID</th>
+                        <th scope="col" class="text-center">Zeitstempel</th>
+                        <th scope="col" class="text-center">Benutzer</th>
+                        <th scope="col" class="text-center">Wert</th>
+                        <th scope="col" class="text-center">Bestellung</th>
+                        <th scope="col" class="text-center">SchichtId</th>
                     </tr>
                 </thead>
-                <tbody id="data-body">
+                <tbody id="data-body" style="font-size: 1rem;">
                     <!-- Hier werden die Daten eingefügt -->
                 </tbody>
             </table>
         </div>
-    </div>    
+    </div>  
 <?php // endif; ?>
 
 <!-- POST Modal -->
