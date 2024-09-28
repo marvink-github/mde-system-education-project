@@ -1,59 +1,59 @@
-html, body {
-    height: 100%;
-    margin: 0;
+/* Karten Design */
+.card {
+    margin: 10px;
+    flex: 1 1 300px; /* Flexible Breite für Karten */
+    min-height: 250px; /* Kleinere Mindesthöhe der Karten */
+    border: none; /* Keine Ränder */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Schattierung */
+    border-radius: 10px; /* Abgerundete Ecken */
+    display: flex;
+    flex-direction: column; /* Inhalte in Spalten anordnen */
 }
 
-body {
+/* Karteninhalt soll flexibel sein */
+.card-body {
     display: flex;
     flex-direction: column;
-    min-height: 100vh; 
-    color: #333;
+    flex-grow: 1; /* Füllt den restlichen Platz in der Karte aus */
 }
 
-main {
-    flex: 1; 
-    background-color: #f7f7f7;
-}
-
-footer {
-    background-color: #f8f9fa;
-    padding: 10px 0;
-    text-align: center;
-    margin-top: auto; /* Footer bleibt unten, wenn der Inhalt kürzer ist */
-}
-
-.btn-get {
-    background-color: #28a745;
-    color: white;
-    padding: 20px 40px;
-    font-size: 1.5rem;
-}
-
-.btn-post {
-    background-color: #ffc107;
-    color: black;
-    padding: 20px 40px;
-    font-size: 1.5rem;
-}
-
-.btn-patch {
-    background-color: #6f42c1;
-    color: white;
-    padding: 20px 40px;
-    font-size: 1.5rem;
-}
-
-.btn-delete {
-    background-color: #dc3545;
-    color: white;
-    padding: 20px 40px;
-    font-size: 1.5rem;
-}
-
-/* Buttons konsistent gestalten */
-.btn {
+/* Canvas responsive machen */
+.card-body canvas {
+    flex-grow: 1; /* Füllt den restlichen Platz in der Karte aus */
     width: 100%;
-    margin: 10px 0;
+    height: 100%; /* Die Höhe passt sich dem Container an */
+}
+
+/* Text unten in der Karte platzieren */
+.card-text {
+    margin-top: auto; /* Text wird am Ende der Karte platziert */
+    color: white; /* Textfarbe */
+}
+
+/* Hover Effekt für Karten */
+.card:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Stärkere Schattierung beim Hover */
+}
+
+/* Modal Karte für vergrößerte Charts */
+.modal-content {
+    min-height: 400px; /* Höhe des Modals etwas verringern */
+}
+
+/* Anpassung der Chart-Größe in der Karte */
+canvas {
+    height: 200px !important; /* Kleinere Höhe der Diagramme */
+}
+
+/* Kleinere Karten auf mobilen Geräten */
+@media (max-width: 576px) {
+    .card {
+        margin: 5px; /* Weniger Abstand zwischen Karten */
+        min-height: 200px; /* Kleinere Mindesthöhe für mobile Geräte */
+    }
+    canvas {
+        height: 150px !important; /* Kleinere Höhe des Diagramms auf mobilen Geräten */
+    }
 }
 
 /* Tabellenkopf Design */
@@ -86,33 +86,52 @@ footer {
     vertical-align: middle;
 }
 
-/* Karten Design */
-.card {
-    margin: 10px;
-    flex: 1 1 300px; /* Flexible Breite für Karten */
-    min-height: 300px;
-    border: none; /* Keine Ränder */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Schattierung */
-    border-radius: 10px; /* Abgerundete Ecken */
+/* Buttons konsistent gestalten */
+.btn-get, .btn-post, .btn-patch, .btn-delete {
+    padding: 20px 40px;
+    font-size: 1.5rem;
+    width: 100%;
+    margin: 10px 0;
 }
 
-/* Hover Effekt für Karten */
-.card:hover {
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Stärkere Schattierung beim Hover */
+.btn-get { background-color: #28a745; color: white; }
+.btn-post { background-color: #ffc107; color: black; }
+.btn-patch { background-color: #6f42c1; color: white; }
+.btn-delete { background-color: #dc3545; color: white; }
+
+/* Allgemeine Layout-Anpassungen */
+html, body {
+    height: 100%;
+    margin: 0;
 }
 
-/* Anpassung für kleinere Bildschirme */
-@media (max-width: 576px) {
-    .table th, .table td {
-        font-size: 12px; /* Kleinere Schriftgröße für mobile Geräte */
-    }
-
-    .btn {
-        font-size: 1.2rem; /* Kleinere Buttons für mobile Geräte */
-    }
-
-    .card {
-        margin: 5px; /* Weniger Abstand zwischen Karten */
-        min-height: 250px; /* Kleinere Mindesthöhe für mobile Geräte */
-    }
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; 
+    color: #333;
 }
+
+main {
+    flex: 1; 
+    background-color: #f7f7f7;
+}
+
+footer {
+    background-color: #f8f9fa;
+    padding: 10px 0;
+    text-align: center;
+    margin-top: auto; /* Footer bleibt unten, wenn der Inhalt kürzer ist */
+}
+
+.modal-body {
+    padding: 0; /* Entferne Padding, um den Platz optimal zu nutzen */
+}
+
+.modal-body canvas {
+    width: 100% !important; /* Stellt sicher, dass das Canvas die volle Breite einnimmt */
+    height: 100% !important; /* Stellt sicher, dass das Canvas die volle Höhe einnimmt */
+}
+
+
+

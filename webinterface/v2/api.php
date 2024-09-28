@@ -11,7 +11,7 @@ include 'header.php';
                 <div class="card-body d-flex flex-column">
                     <h5 class="card-title">GET - Maschinendaten anfragen</h5>
                     <p class="card-text flex-grow-1">Sende eine GET-Anfrage an die API, um die neuesten Maschinendaten abzurufen oder die aktuelle Systemkonfiguration anzuzeigen. Diese Anfragen sind ideal, um unveränderliche Daten zu erhalten.</p>
-                    <a href="#" class="btn btn-primary mt-auto align-self-end">Anwenden</a>
+                    <a href="#" class="btn btn-primary mt-auto align-self-end">Anfragen</a>
                 </div>
             </div>
         </div>
@@ -22,7 +22,7 @@ include 'header.php';
                 <div class="card-body d-flex flex-column">
                     <h5 class="card-title">POST - Maschinendaten erstellen</h5>
                     <p class="card-text flex-grow-1">Sende eine POST-Anfrage an die API, um neue Maschineneinträge zu speichern oder Geräteinformationen hinzuzufügen. Verwenden Sie POST, um neue Daten zu erstellen oder hochzuladen.</p>
-                    <a href="#" class="btn btn-primary mt-auto align-self-end">Anwenden</a>
+                    <a href="#" class="btn btn-primary mt-auto align-self-end">Erstellen</a>
                 </div>
             </div>
         </div>
@@ -33,7 +33,7 @@ include 'header.php';
                 <div class="card-body d-flex flex-column">
                     <h5 class="card-title">PATCH - Maschinendaten aktualisieren</h5>
                     <p class="card-text flex-grow-1">Verwenden Sie PATCH-Anfragen, um bestehende Daten zu aktualisieren. Diese Anfragen sind hilfreich, wenn Sie nur Teile von Daten ändern möchten, ohne alles zu ersetzen.</p>
-                    <a href="#" class="btn btn-primary mt-auto align-self-end">Anwenden</a>
+                    <a href="#" class="btn btn-primary mt-auto align-self-end">Aktualisieren</a>
                 </div>
             </div>
         </div>
@@ -44,7 +44,7 @@ include 'header.php';
                 <div class="card-body d-flex flex-column">
                     <h5 class="card-title">DELETE - Maschinendaten löschen</h5>
                     <p class="card-text flex-grow-1">Sende eine DELETE-Anfrage, um Daten aus dem System zu entfernen. Verwenden Sie diese Funktion, um veraltete oder fehlerhafte Einträge zu löschen.</p>
-                    <a href="#" class="btn btn-primary mt-auto align-self-end">Anwenden</a>
+                    <a href="#" class="btn btn-primary mt-auto align-self-end">Löschen</a>
                 </div>
             </div>
         </div>

@@ -59,7 +59,7 @@ const chart2 = new Chart(document.getElementById('chart2').getContext('2d'), {
     },
     options: {
         scales: {
-            x: { title: { display: true, text: 'Benutzer ID' }},
+            x: { title: { display: true, text: 'Benutzer' }},
             y: { title: { display: true, text: 'Stückzahl' }}
         }
     }
@@ -80,7 +80,7 @@ const enlargedChart2 = new Chart(document.getElementById('enlargedChart2').getCo
     },
     options: {
         scales: {
-            x: { title: { display: true, text: 'Benutzer ID' }},
+            x: { title: { display: true, text: 'Benutzer' }},
             y: { title: { display: true, text: 'Stückzahl' }}
         }
     }

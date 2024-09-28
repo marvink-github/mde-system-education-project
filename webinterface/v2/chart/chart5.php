@@ -1,16 +1,5 @@
 <?php
 include '../../connection.php';
-
-$query = "SELECT DATE(timestamp) as date, SUM(value) AS piece_count FROM machinedata GROUP BY DATE(timestamp)";
-$result = $machineconn->query($query);
-
-$labels = [];
-$pieceCounts = [];
-
-while ($row = $result->fetch_assoc()) {
-    $labels[] = $row['date'];
-    $pieceCounts[] = $row['piece_count'];
-}
 ?>
 
 <div class="card bg-dark" style="min-height: 350px; margin: 15px;">
@@ -79,7 +68,7 @@ const chart1 = new Chart(document.getElementById('chart1').getContext('2d'), {
 
 // Vergrößerte Version für chart1
 const enlargedChart1 = new Chart(document.getElementById('enlargedChart1').getContext('2d'), {
-    type: 'line', // Typ des Diagramms auf 'bar' ändern
+    type: 'bar', // Typ des Diagramms auf 'bar' ändern
     data: {
         labels: <?php echo json_encode($labels); ?>,
         datasets: [{
