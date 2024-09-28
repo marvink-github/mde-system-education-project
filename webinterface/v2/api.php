@@ -51,8 +51,6 @@ include 'header.php';
     </div>
 </div>
 
-<?php include 'alert_fadeaway.php'; ?>
-
 <!-- GET Modal -->
 <div class="modal fade" id="getModal" tabindex="-1" aria-labelledby="getModalLabel" aria-hidden="true">
     <div class="modal-dialog">
