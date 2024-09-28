@@ -62,14 +62,14 @@ const chart4 = new Chart(document.getElementById('chart4').getContext('2d'), {
             x: {
                 title: {
                     display: true,
-                    text: 'Stückzahl'
+                    text: 'Bestellungen'
                 },
                 beginAtZero: true
             },
             y: {
                 title: {
                     display: true,
-                    text: 'Bestellungen'
+                    text: 'Stückzahl'
                 },
                 ticks: {
                     autoSkip: false // Alle Bestellungen auf der y-Achse anzeigen
