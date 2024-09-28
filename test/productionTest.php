@@ -350,27 +350,29 @@
 
 // $machineconn->close();
 
-include '../connection.php';
 
-// Hole alle Machinedata-Einträge
-$sql = "SELECT idMachinedata FROM machinedata ORDER BY idMachinedata ASC";
-$result = $machineconn->query($sql);
 
-if ($result->num_rows > 0) {
-    // Aktualisiere die value auf einen zufälligen Wert zwischen 1 und 20 für jeden Eintrag
-    $updateSql = "UPDATE machinedata SET `value` = ? WHERE idMachinedata = ?";
-    $stmt = $machineconn->prepare($updateSql);
+// include '../connection.php';
 
-    while ($row = $result->fetch_assoc()) {
-        $randomValue = rand(1, 12); // Zufälliger Wert zwischen 1 und 20
-        $stmt->bind_param("ii", $randomValue, $row['idMachinedata']);
-        $stmt->execute();
-    }
+// // Hole alle Machinedata-Einträge
+// $sql = "SELECT idMachinedata FROM machinedata ORDER BY idMachinedata ASC";
+// $result = $machineconn->query($sql);
 
-    echo "Die value in der machinedata Tabelle wurde erfolgreich auf zufällige Werte zwischen 1 und 20 gesetzt.";
-} else {
-    echo "Keine Datensätze gefunden.";
-}
+// if ($result->num_rows > 0) {
+//     // Aktualisiere die value auf einen zufälligen Wert zwischen 1 und 20 für jeden Eintrag
+//     $updateSql = "UPDATE machinedata SET `value` = ? WHERE idMachinedata = ?";
+//     $stmt = $machineconn->prepare($updateSql);
 
-$machineconn->close();
+//     while ($row = $result->fetch_assoc()) {
+//         $randomValue = rand(1, 12); // Zufälliger Wert zwischen 1 und 20
+//         $stmt->bind_param("ii", $randomValue, $row['idMachinedata']);
+//         $stmt->execute();
+//     }
+
+//     echo "Die value in der machinedata Tabelle wurde erfolgreich auf zufällige Werte zwischen 1 und 20 gesetzt.";
+// } else {
+//     echo "Keine Datensätze gefunden.";
+// }
+
+// $machineconn->close();
 ?>

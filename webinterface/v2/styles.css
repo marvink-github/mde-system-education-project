@@ -101,10 +101,6 @@ footer {
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Stärkere Schattierung beim Hover */
 }
 
-.modal-backdrop {
-    z-index: -1;
-  }
-
 /* Anpassung für kleinere Bildschirme */
 @media (max-width: 576px) {
     .table th, .table td {

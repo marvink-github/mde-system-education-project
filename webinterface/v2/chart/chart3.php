@@ -49,7 +49,7 @@ function openModal(modalId) {
 
 // Diagramm für die Maschinenaktivität
 const chart3 = new Chart(document.getElementById('chart3').getContext('2d'), {
-    type: 'bar', // Verwendung von Säulen für die Aktivität
+    type: 'bar', // Verwendung von vertikalem Balkendiagramm
     data: {
         labels: <?php echo json_encode($labels); ?>,
         datasets: [{
@@ -84,7 +84,7 @@ const chart3 = new Chart(document.getElementById('chart3').getContext('2d'), {
 
 // Vergrößerte Version für chart3
 const enlargedChart3 = new Chart(document.getElementById('enlargedChart3').getContext('2d'), {
-    type: 'bar', // Verwendung von Säulen für die Aktivität
+    type: 'bar', // Verwendung von vertikalem Balkendiagramm
     data: {
         labels: <?php echo json_encode($labels); ?>,
         datasets: [{
@@ -117,3 +117,4 @@ const enlargedChart3 = new Chart(document.getElementById('enlargedChart3').getCo
     }
 });
 </script>
+
