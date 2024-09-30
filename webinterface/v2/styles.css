@@ -100,9 +100,6 @@ canvas {
     }
 }
 
-
-
-
 /* Tabellenkopf Design */
 .table-dark th {
     background-color: #343a40;
@@ -198,5 +195,9 @@ footer {
 /* Optional: Entfernt die Schatten, wenn gewünscht */
 .modal {
     box-shadow: none; /* Entfernt den Schatten um das Modal */
+}
+
+.alert {
+    transition: opacity 0.7s ease; /* Dauer der Fade-Animation anpassen */
 }
 

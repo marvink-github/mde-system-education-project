@@ -242,14 +242,16 @@ function showAlert(message, type) {
     // Automatisches Schließen der Alert-Nachricht nach 4 Sekunden
     setTimeout(() => {
         alert.classList.remove('show');
-        alert.classList.add('fade'); // Klasse für das Ausblenden hinzufügen
+        // Hier bleibt die fade-Klasse, damit die Animation erfolgt
+        alert.classList.add('fade');
 
         // Entferne das Alert-Element nach der Animation
         alert.addEventListener('transitionend', () => {
             alert.remove();
         });
-    }, 3000);
+    }, 4000); // Wartezeit für das automatische Schließen auf 4 Sekunden erhöhen
 }
+
 
 
 
