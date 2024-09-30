@@ -248,7 +248,7 @@ function showAlert(message, type) {
         alert.addEventListener('transitionend', () => {
             alert.remove();
         });
-    }, 4000);
+    }, 3000);
 }
 
 
