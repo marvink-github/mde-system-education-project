@@ -155,6 +155,34 @@
 
 
 
+include '../connection.php';
+
+// Zähler für die gewünschten Maschinen
+$machineIds = [1, 2]; // Maschinen 1 und 2
+$totalRecords = 261; // Gesamte Datensätze
+$recordsPerMachine = $totalRecords / count($machineIds); // Anzahl der Einträge pro Maschine
+
+// Array für die Verteilung der Maschinen
+$machineDistribution = [];
+
+// Maschinen zufällig verteilen
+for ($i = 0; $i < $totalRecords; $i++) {
+    $randomMachineId = $machineIds[array_rand($machineIds)]; // Zufällige Maschine wählen
+    $machineDistribution[] = $randomMachineId; // Maschine zum Array hinzufügen
+}
+
+// Hier kannst du dann die $machineDistribution verwenden, um die `shift`-Tabelle zu aktualisieren
+foreach ($machineDistribution as $index => $machineId) {
+    $shiftId = $index + 1; // Beispielweise: die ID für die `shift`-Tabelle
+    // Aktualisiere die shift-Tabelle mit der entsprechenden machine_id
+    $updateQuery = "UPDATE shift SET machine_idMachine = $machineId WHERE idshift = $shiftId";
+    $machineconn->query($updateQuery);
+}
+
+echo "Die Maschinen-IDs wurden erfolgreich verteilt!";
+
+
+
 // include '../connection.php';
 
 // $sql = "SELECT idshift FROM shift ORDER BY idshift ASC LIMIT 261";

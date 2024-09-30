@@ -7,7 +7,7 @@ include 'header.php';
     <div class="row">
         <!-- GET Card -->
         <div class="col-md-6 col-lg-6 d-flex justify-content-center mb-3">
-            <div class="card text-white bg-dark mb-3" style="width: 34rem; height: 20rem; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#getModal">
+            <div class="card text-white bg-dark mb-3" style="width: 34rem; height: 15rem; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#getModal">
                 <div class="card-body d-flex flex-column">
                     <h5 class="card-title">GET - Maschinendaten anfragen</h5>
                     <p class="card-text flex-grow-1">Sende eine GET-Anfrage an die API, um die neuesten Maschinendaten abzurufen oder die aktuelle Systemkonfiguration anzuzeigen. Diese Anfragen sind ideal, um unveränderliche Daten zu erhalten.</p>
@@ -18,9 +18,9 @@ include 'header.php';
 
         <!-- POST Card -->
         <div class="col-md-6 col-lg-6 d-flex justify-content-center mb-3">
-            <div class="card text-white bg-dark mb-3" style="width: 34rem; height: 20rem; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#postModal">
+            <div class="card text-white bg-dark mb-3" style="width: 34rem; height: 15rem; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#postModal">
                 <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">POST - Maschinendaten erstellen</h5>
+                    <h5 class="card-title">POST - Maschine erstellen</h5>
                     <p class="card-text flex-grow-1">Sende eine POST-Anfrage an die API, um neue Maschineneinträge zu speichern oder Geräteinformationen hinzuzufügen. Verwenden Sie POST, um neue Daten zu erstellen oder hochzuladen.</p>
                     <a href="#" class="btn btn-primary mt-auto align-self-end">Erstellen</a>
                 </div>
@@ -29,9 +29,9 @@ include 'header.php';
 
         <!-- PATCH Card -->
         <div class="col-md-6 col-lg-6 d-flex justify-content-center mb-3">
-            <div class="card text-white bg-dark mb-3" style="width: 34rem; height: 20rem; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#patchModal">
+            <div class="card text-white bg-dark mb-3" style="width: 34rem; height: 15rem; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#patchModal">
                 <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">PATCH - Maschinendaten aktualisieren</h5>
+                    <h5 class="card-title">PATCH - Maschine aktualisieren</h5>
                     <p class="card-text flex-grow-1">Verwenden Sie PATCH-Anfragen, um bestehende Daten zu aktualisieren. Diese Anfragen sind hilfreich, wenn Sie nur Teile von Daten ändern möchten, ohne alles zu ersetzen.</p>
                     <a href="#" class="btn btn-primary mt-auto align-self-end">Aktualisieren</a>
                 </div>
@@ -40,9 +40,9 @@ include 'header.php';
 
         <!-- DELETE Card -->
         <div class="col-md-6 col-lg-6 d-flex justify-content-center mb-3">
-            <div class="card text-white bg-dark mb-3" style="width: 34rem; height: 20rem; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#deleteModal">
+            <div class="card text-white bg-dark mb-3" style="width: 34rem; height: 15rem; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#deleteModal">
                 <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">DELETE - Maschinendaten löschen</h5>
+                    <h5 class="card-title">DELETE - Maschine löschen</h5>
                     <p class="card-text flex-grow-1">Sende eine DELETE-Anfrage, um Daten aus dem System zu entfernen. Verwenden Sie diese Funktion, um veraltete oder fehlerhafte Einträge zu löschen.</p>
                     <a href="#" class="btn btn-primary mt-auto align-self-end">Löschen</a>
                 </div>
@@ -50,6 +50,7 @@ include 'header.php';
         </div>
     </div>
 </div>
+
 
 <!-- GET Modal -->
 <div class="modal fade" id="getModal" tabindex="-1" aria-labelledby="getModalLabel" aria-hidden="true">
@@ -81,7 +82,9 @@ include 'header.php';
                 <input type="number" id="page-input" class="form-control mt-3" placeholder="Seite (optional)" value="1">
                 <input type="number" id="limit-input" class="form-control mt-3" placeholder="Limit (optional)" value="200">
 
-                <button id="fetchDataButton" class="btn btn-success mt-3">Daten anfragen</button>
+                <div class="modal-footer justify-content-center">
+                    <button id="fetchDataButton" class="btn btn-success mt-3">Daten anfragen</button>
+                </div>
             </div>
             </div>
         </div>
@@ -141,7 +144,9 @@ include 'header.php';
                         <input type="text" id="dEntryCounter" class="form-control mt-2" placeholder="Digital Eingang Zähler (optional)">
                     </div>
 
-                    <button type="submit" id="submitPostButton" class="btn btn-success mt-3">Daten erstellen</button>
+                    <div class="modal-footer justify-content-center">
+                        <button type="submit" id="submitPostButton" class="btn btn-success mt-3">Daten erstellen</button>
+                    </div>
                 </form> 
             </div>
         </div>
@@ -166,7 +171,9 @@ include 'header.php';
                 <input type="text" id="updatedDEntryCounter" class="form-control mb-3" placeholder="Digital Eingang Zähler (optional)">
                 <input type="text" id="updatedDeviceId" class="form-control mb-3" placeholder="Geräte-ID (optional)">
                 
-                <button type="button" id="submitPatchButton" class="btn btn-success mt-3">Daten aktualisieren</button>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" id="submitPatchButton" class="btn btn-success mt-3">Daten aktualisieren</button>
+                </div>
             </div>
         </div>
     </div>
@@ -182,16 +189,19 @@ include 'header.php';
             </div>
             <div class="modal-body">
                 <label for="machineid" class="form-label">Wählen Sie den Typ:</label>
-                    <select id="machineid" class="form-select mb-3">
-                        <option value="machine">Maschine</option>
-                        <option value="device">Gerät</option>
-                    </select>
+                <select id="machineid" class="form-select mb-3">
+                    <option value="machine">Maschine</option>
+                    <option value="device">Gerät</option>
+                </select>
                 <input type="text" id="deleteMachineId" class="form-control mb-3" placeholder="ID (erforderlich)" required>
-                <button type="button" id="submitDeleteButton" class="btn btn-danger mt-3">Daten löschen</button>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" id="submitDeleteButton" class="btn btn-danger">Daten löschen</button>
             </div>
         </div>
     </div>
 </div>
+
 
 
 </main>

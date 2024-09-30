@@ -1,13 +1,13 @@
 /* Karten Design */
 .card {
-    margin: 10px;
-    flex: 1 1 300px; /* Flexible Breite für Karten */
-    min-height: 250px; /* Kleinere Mindesthöhe der Karten */
-    border: none; /* Keine Ränder */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Schattierung */
+    background-color: #343a40; /* Dunkler Hintergrund */
+    color: white; /* Weißer Text */
     border-radius: 10px; /* Abgerundete Ecken */
-    display: flex;
-    flex-direction: column; /* Inhalte in Spalten anordnen */
+    min-height: 350px;
+    width: 100%; /* Standardbreite für kleine Bildschirme */
+    margin: 15px; /* Abstand um die Karte herum */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Schatten für eine leichte Erhebung */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Animation beim Hover */
 }
 
 /* Karteninhalt soll flexibel sein */
@@ -32,13 +32,10 @@
 
 /* Hover Effekt für Karten */
 .card:hover {
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Stärkere Schattierung beim Hover */
+    transform: translateY(-10px); /* Leichtes Heben beim Hover */
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.3); /* Verstärkter Schatten */
 }
 
-/* Modal Karte für vergrößerte Charts */
-.modal-content {
-    min-height: 400px; /* Höhe des Modals etwas verringern */
-}
 
 /* Anpassung der Chart-Größe in der Karte */
 canvas {
@@ -49,12 +46,34 @@ canvas {
 @media (max-width: 576px) {
     .card {
         margin: 5px; /* Weniger Abstand zwischen Karten */
-        min-height: 200px; /* Kleinere Mindesthöhe für mobile Geräte */
+        min-height: 180px; /* Kleinere Mindesthöhe für mobile Geräte */
     }
     canvas {
-        height: 150px !important; /* Kleinere Höhe des Diagramms auf mobilen Geräten */
+        height: 120px !important; /* Kleinere Höhe des Diagramms auf mobilen Geräten */
     }
 }
+
+@media (min-width: 576px) and (max-width: 768px) {
+    .card {
+        margin: 10px; /* Ein bisschen mehr Abstand auf kleinen Tablets */
+        min-height: 200px; /* Höhere Mindesthöhe für Tablets */
+    }
+    canvas {
+        height: 150px !important; /* Höhere Höhe des Diagramms auf Tablets */
+    }
+}
+
+@media (min-width: 768px) {
+    .card {
+        margin: 15px; /* Abstand für größere Bildschirme */
+        min-height: 220px; /* Noch größere Mindesthöhe für größere Bildschirme */
+    }
+    canvas {
+        height: 180px !important; /* Höhe des Diagramms auf großen Bildschirmen */
+    }
+}
+
+
 
 /* Tabellenkopf Design */
 .table-dark th {
@@ -124,6 +143,16 @@ footer {
     margin-top: auto; /* Footer bleibt unten, wenn der Inhalt kürzer ist */
 }
 
+/* Modal Karte für vergrößerte Charts */
+.modal-content {
+    min-height: 400px; /* Höhe des Modals etwas verringern */
+    border: none; /* Entfernt die Grenze um das Modal */
+}
+
+.modal-header {
+    border-bottom: none; /* Entfernt die untere Linie im Header */
+}
+
 .modal-body {
     padding: 0; /* Entferne Padding, um den Platz optimal zu nutzen */
 }
@@ -133,5 +162,14 @@ footer {
     height: 100% !important; /* Stellt sicher, dass das Canvas die volle Höhe einnimmt */
 }
 
+.modal-footer {
+    border-top: none; /* Entfernt die obere Linie */
+    justify-content: center; /* Zentriert die Buttons im Footer */
+}
+
+/* Optional: Entfernt die Schatten, wenn gewünscht */
+.modal {
+    box-shadow: none; /* Entfernt den Schatten um das Modal */
+}
 
 
