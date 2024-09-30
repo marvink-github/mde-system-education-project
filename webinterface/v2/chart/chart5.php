@@ -1,177 +1,88 @@
 <?php
 include '../../connection.php';
 
-// Abfrage zum Ermitteln des `last_alive` Zeitstempels für das Gerät
-$query = "SELECT last_alive FROM device WHERE idDevice = 1"; 
+// SQL-Abfrage, um die Summe der Stückzahlen pro Benutzer-ID zu ermitteln und nach Stückzahl absteigend zu sortieren
+$query = "SELECT userId, SUM(value) AS piece_count FROM machinedata GROUP BY userId ORDER BY piece_count DESC";
 $result = $machineconn->query($query);
-$lastAliveTimestamp = null;
 
-if ($result->num_rows > 0) {
-    $row = $result->fetch_assoc();
-    $lastAliveTimestamp = $row['last_alive'];
+$labels = [];
+$pieceCounts = [];
+
+// Daten in Arrays für die Visualisierung speichern
+while ($row = $result->fetch_assoc()) {
+    $labels[] = $row['userId'];
+    $pieceCounts[] = $row['piece_count'];
 }
 ?>
 
 <div class="card bg-dark" style="min-height: 350px; margin: 15px;">
     <div class="card-body">
-        <h5 class="card-title" style="color:white;">Terminalaktivität</h5>
-        <canvas id="chart5" style="height: 300px;" onclick="openModal('chart5Modal')"></canvas>
-        <p class="card-text" style="color:white;">Diese Visualisierung zeigt die Aktivität des Terminals basierend auf dem Aktivitätszeitstempel.</p>
+        <h5 class="card-title" style="color:white;">Benutzerleistung</h5>
+        <canvas id="chart2" style="height: 300px;" onclick="openModal('chart2Modal')"></canvas>
+        <p class="card-text" style="color:white;">Diese Visualisierung zeigt die produzierten Teile, sortiert nach Leistung.</p>
     </div>
 </div>
 
-<!-- Modal für das erweiterte Diagramm -->
-<div class="modal fade" id="chart5Modal" tabindex="-1" aria-labelledby="chart5ModalLabel" aria-hidden="true">
+<!-- Modal für das vergrößerte Diagramm -->
+<div class="modal fade" id="chart2Modal" tabindex="-1" aria-labelledby="chart2ModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content bg-dark">
             <div class="modal-header">
-                <h5 class="modal-title text-white" id="chart5ModalLabel">Erweiterte Terminalaktivität</h5>
+                <h5 class="modal-title text-white" id="chart2ModalLabel">Benutzerleistung</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <canvas id="enlargedChart5"></canvas>
+                <canvas id="enlargedChart2"></canvas>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-// Modal-Öffnungsfunktion
 function openModal(modalId) {
     var myModal = new bootstrap.Modal(document.getElementById(modalId));
     myModal.show();
 }
 
-// Daten und Logik für das Hauptdiagramm mit Legende im Ring
-const lastAlive = new Date("<?php echo $lastAliveTimestamp; ?>");
-const now = new Date();
-let backgroundColor, statusText;
-
-const diff = (now - lastAlive) / 1000; // Unterschied in Sekunden
-
-if (diff > 86400) { 
-    backgroundColor = 'rgba(255, 99, 132, 1)'; // Rot
-    statusText = 'Offline > 24h';
-} else if (diff > 3600) {
-    backgroundColor = 'rgba(255, 206, 86, 1)'; // Gelb
-    statusText = 'Offline > 1h';
-} else {
-    backgroundColor = 'rgba(75, 192, 192, 1)'; // Grün
-    statusText = 'Online < 1h';
-}
-
-// Plugin für die Legende im Ring
-const legendInRingPlugin = {
-    id: 'legendInRing',
-    afterDraw: function(chart) {
-        if (chart.canvas.id === 'chart5') {
-            const ctx = chart.ctx;
-            const width = chart.width;
-            const height = chart.height;
-            ctx.restore();
-            const fontSize = (height / 150).toFixed(2);
-            ctx.font = fontSize + "em Arial";
-            ctx.textBaseline = "middle";
-
-            const text = statusText;
-            const textX = Math.round((width - ctx.measureText(text).width) / 2);
-            const textY = height / 2;
-
-            ctx.fillStyle = 'white'; 
-            ctx.fillText(text, textX, textY);
-            ctx.save();
-        }
-    }
-};
-
-// Erstellen des Hauptdiagramms (Doughnut)
-const chart5 = new Chart(document.getElementById('chart5').getContext('2d'), {
-    type: 'doughnut',
+// Diagramm für die Benutzerleistung
+const chart2 = new Chart(document.getElementById('chart2').getContext('2d'), {
+    type: 'bar', // Typ des Diagramms auf 'bar' ändern, um die Benutzerleistung darzustellen
     data: {
-        labels: ['Online < 1h', 'Offline > 1h', 'Offline > 24h'],
+        labels: <?php echo json_encode($labels); ?>,
         datasets: [{
-            label: 'Aktivität',
-            data: [1],
-            backgroundColor: [backgroundColor],
-            borderColor: 'rgba(255, 255, 255, 1)',
+            label: 'Stückzahl',
+            data: <?php echo json_encode($pieceCounts); ?>,
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            borderColor: 'rgba(75, 192, 192, 1)',
             borderWidth: 1
         }]
     },
     options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        cutout: '80%',
-        plugins: {
-            legend: {
-                display: false 
-            }
-        },
-        animation: {
-            animateScale: true,
-            animateRotate: true,
-            duration: 1500
+        scales: {
+            x: { title: { display: true, text: 'Benutzer' }},
+            y: { title: { display: true, text: 'Stückzahl' }}
         }
-    },
-    plugins: [legendInRingPlugin]
+    }
 });
 
-// Funktion zum Speichern und Abrufen von Zeitstempeln aus LocalStorage
-function updateEnlargedChart() {
-    let timestamps = JSON.parse(localStorage.getItem('timestamps')) || [];
-    
-    // Füge den neuen Zeitstempel hinzu
-    timestamps.push(lastAlive.toISOString().split('.')[0]); // Millisekunden entfernen
-    localStorage.setItem('timestamps', JSON.stringify(timestamps));
-
-    // Diagramm erstellen
-    const enlargedChart5 = new Chart(document.getElementById('enlargedChart5').getContext('2d'), {
-        type: 'line',
-        data: {
-            labels: timestamps,
-            datasets: [{
-                label: 'Terminal Aktivität',
-                data: timestamps.map(ts => {
-                    const timeDiff = (new Date() - new Date(ts)) / 1000; // Zeitdifferenz in Sekunden
-                    return timeDiff > 86400 ? 0 : (timeDiff > 3600 ? 1 : 2);
-                }),
-                backgroundColor: 'rgba(75, 192, 192, 1)',
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1,
-                fill: false
-            }]
-        },
-        options: {
-            scales: {
-                x: {
-                    title: {
-                        display: true,
-                        text: 'Zeitstempel'
-                    },
-                    ticks: {
-                        autoSkip: true,
-                        maxTicksLimit: 10
-                    }
-                },
-                y: {
-                    title: {
-                        display: true,
-                        text: 'Status'
-                    },
-                    ticks: {
-                        callback: function(value) {
-                            // Nur die Statuswerte anzeigen
-                            return value === 0 ? 'Offline > 24h' : (value === 1 ? 'Offline > 1h' : (value === 2 ? 'Online < 1h' : ''));
-                        },
-                        stepSize: 1
-                    },
-                    min: 0,
-                    max: 2
-                }
-            }
+// Vergrößerte Version für chart2
+const enlargedChart2 = new Chart(document.getElementById('enlargedChart2').getContext('2d'), {
+    type: 'bar', // Typ des Diagramms auf 'bar' ändern
+    data: {
+        labels: <?php echo json_encode($labels); ?>,
+        datasets: [{
+            label: 'Stückzahl',
+            data: <?php echo json_encode($pieceCounts); ?>,
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            x: { title: { display: true, text: 'Benutzer' }},
+            y: { title: { display: true, text: 'Stückzahl' }}
         }
-    });
-}
-
-// Ruft die updateEnlargedChart-Funktion auf, wenn das Modal geöffnet wird
-document.getElementById('chart5Modal').addEventListener('show.bs.modal', updateEnlargedChart);
+    }
+});
 </script>

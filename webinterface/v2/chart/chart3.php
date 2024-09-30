@@ -1,38 +1,36 @@
 <?php
 include '../../connection.php';
 
-// SQL-Abfrage, um die Summe der Stückzahlen pro Bestellung zu ermitteln und nach Stückzahl absteigend zu sortieren
-$query = "SELECT `order`, SUM(value) AS piece_count FROM machinedata GROUP BY `order` ORDER BY piece_count DESC";
+$query = "SELECT DATE(timestamp) as date, SUM(value) AS piece_count FROM machinedata GROUP BY DATE(timestamp)";
 $result = $machineconn->query($query);
 
 $labels = [];
 $pieceCounts = [];
 
-// Daten in Arrays für die Visualisierung speichern
 while ($row = $result->fetch_assoc()) {
-    $labels[] = $row['order'];
+    $labels[] = $row['date'];
     $pieceCounts[] = $row['piece_count'];
 }
 ?>
 
 <div class="card bg-dark" style="min-height: 350px; margin: 15px;">
     <div class="card-body">
-        <h5 class="card-title" style="color:white;">Bestellungskontrolle</h5>
-        <canvas id="chart4" style="height: 300px;" onclick="openModal('chart4Modal')"></canvas>
-        <p class="card-text" style="color:white;">Diese Visualisierung zeigt die Summe, die pro Bestellung gefertigt wurden.</p>
+        <h5 class="card-title" style="color:white;">Tagesleistung</h5>
+        <canvas id="chart1" style="height: 300px;" onclick="openModal('chart1Modal')"></canvas>
+        <p class="card-text" style="color:white;">Diese Visualisierung zeigt die Anzahl der produzierten Teile pro Tag.</p>
     </div>
 </div>
 
 <!-- Modal für das vergrößerte Diagramm -->
-<div class="modal fade" id="chart4Modal" tabindex="-1" aria-labelledby="chart4ModalLabel" aria-hidden="true">
+<div class="modal fade" id="chart1Modal" tabindex="-1" aria-labelledby="chart1ModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content bg-dark">
             <div class="modal-header">
-                <h5 class="modal-title text-white" id="chart4ModalLabel">Bestellungskontrolle</h5>
+                <h5 class="modal-title text-white" id="chart1ModalLabel">Tagesleistung</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <canvas id="enlargedChart4"></canvas>
+                <canvas id="enlargedChart1"></canvas>
             </div>
         </div>
     </div>
@@ -44,15 +42,15 @@ function openModal(modalId) {
     myModal.show();
 }
 
-// Diagramm für die Stückzahl pro Bestellung
-const chart4 = new Chart(document.getElementById('chart4').getContext('2d'), {
-    type: 'bar', // Typ des Diagramms auf 'horizontalBar' ändern
+// Diagramm für die Stückzahl pro Tag
+const chart1 = new Chart(document.getElementById('chart1').getContext('2d'), {
+    type: 'line', // Typ des Diagramms auf 'bar' ändern
     data: {
         labels: <?php echo json_encode($labels); ?>,
         datasets: [{
             label: 'Stückzahl',
             data: <?php echo json_encode($pieceCounts); ?>,
-            backgroundColor: 'rgba(75, 192, 192, 0.5)',
+            backgroundColor: 'rgba(75, 192, 192, 0.5)', // Hintergrundfarbe leicht verändert
             borderColor: 'rgba(75, 192, 192, 1)',
             borderWidth: 1
         }]
@@ -62,32 +60,32 @@ const chart4 = new Chart(document.getElementById('chart4').getContext('2d'), {
             x: {
                 title: {
                     display: true,
-                    text: 'Bestellungen'
+                    text: 'Datum'
                 },
-                beginAtZero: true
+                ticks: {
+                    autoSkip: false // Alle Daten auf der x-Achse anzeigen
+                }
             },
             y: {
                 title: {
                     display: true,
                     text: 'Stückzahl'
                 },
-                ticks: {
-                    autoSkip: false // Alle Bestellungen auf der y-Achse anzeigen
-                }
+                beginAtZero: true // Beginnt die y-Achse bei 0
             }
         }
     }
 });
 
-// Vergrößerte Version für chart4
-const enlargedChart4 = new Chart(document.getElementById('enlargedChart4').getContext('2d'), {
-    type: 'bar',
+// Vergrößerte Version für chart1
+const enlargedChart1 = new Chart(document.getElementById('enlargedChart1').getContext('2d'), {
+    type: 'line', // Typ des Diagramms auf 'bar' ändern
     data: {
         labels: <?php echo json_encode($labels); ?>,
         datasets: [{
             label: 'Stückzahl',
             data: <?php echo json_encode($pieceCounts); ?>,
-            backgroundColor: 'rgba(75, 192, 192, 0.5)',
+            backgroundColor: 'rgba(75, 192, 192, 0.5)', // Hintergrundfarbe leicht verändert
             borderColor: 'rgba(75, 192, 192, 1)',
             borderWidth: 1
         }]
@@ -97,18 +95,18 @@ const enlargedChart4 = new Chart(document.getElementById('enlargedChart4').getCo
             x: {
                 title: {
                     display: true,
-                    text: 'Stückzahl'
+                    text: 'Datum'
                 },
-                beginAtZero: true
+                ticks: {
+                    autoSkip: false // Alle Daten auf der x-Achse anzeigen
+                }
             },
             y: {
                 title: {
                     display: true,
-                    text: 'Bestellungen'
+                    text: 'Stückzahl'
                 },
-                ticks: {
-                    autoSkip: false
-                }
+                beginAtZero: true // Beginnt die y-Achse bei 0
             }
         }
     }
