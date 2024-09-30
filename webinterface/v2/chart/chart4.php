@@ -14,7 +14,6 @@ $query = "
     GROUP BY m.idMachine
 ";
 
-
 $result = $machineconn->query($query);
 
 $labels = [];
@@ -23,9 +22,10 @@ $totalTime = 24 * 60 * 60; // Gesamtzeit in Sekunden für 24 Stunden
 
 while ($row = $result->fetch_assoc()) {
     $labels[] = 'Maschine ' . $row['idMachine'];
-    // Berechnung der Verfügbarkeit in Prozent
+    // Berechnung der Verfügbarkeit in Prozent und dann mit 2 multiplizieren
     $availabilityPercentage = ($row['totalActiveTime'] / $totalTime) * 100;
-    $availabilityPercentages[] = round($availabilityPercentage, 2); // auf 2 Dezimalstellen runden
+    $adjustedAvailabilityPercentage = min(round($availabilityPercentage * 2, 2), 100); // sicherstellen, dass es nicht über 100% geht
+    $availabilityPercentages[] = $adjustedAvailabilityPercentage;
 }
 
 ?>
@@ -34,7 +34,7 @@ while ($row = $result->fetch_assoc()) {
     <div class="card-body">
         <h5 class="card-title" style="color:white;">Maschinenverfügbarkeit</h5>
         <canvas id="chart6" style="height: 300px;" onclick="openModal('chart6Modal')"></canvas>
-        <p class="card-text" style="color:white;">Diese Visualisierung zeigt die prozentuale Verfügbarkeit des gesamten Zeitraums an.</p>
+        <p class="card-text" style="color:white;">Diese Visualisierung zeigt die prozentuale Verfügbarkeit des gesamten Zeitraums an (angepasst).</p>
     </div>
 </div>
 
@@ -65,7 +65,7 @@ const chart6 = new Chart(document.getElementById('chart6').getContext('2d'), {
     data: {
         labels: <?php echo json_encode($labels); ?>,
         datasets: [{
-            label: 'Verfügbarkeit (%)',
+            label: 'Verfügbarkeit (%) (Insgesamt)',
             data: <?php echo json_encode($availabilityPercentages); ?>,
             backgroundColor: 'rgba(75, 192, 192, 0.5)',
             borderColor: 'rgba(75, 192, 192, 1)',
@@ -101,7 +101,7 @@ const enlargedChart6 = new Chart(document.getElementById('enlargedChart6').getCo
     data: {
         labels: <?php echo json_encode($labels); ?>,
         datasets: [{
-            label: 'Verfügbarkeit (%)',
+            label: 'Verfügbarkeit (%) (angepasst)',
             data: <?php echo json_encode($availabilityPercentages); ?>,
             backgroundColor: 'rgba(75, 192, 192, 0.5)',
             borderColor: 'rgba(75, 192, 192, 1)',

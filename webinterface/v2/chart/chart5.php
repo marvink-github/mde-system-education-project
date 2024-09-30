@@ -17,7 +17,7 @@ while ($row = $result->fetch_assoc()) {
 
 <div class="card bg-dark" style="min-height: 350px; margin: 15px;">
     <div class="card-body">
-        <h5 class="card-title" style="color:white;">Benutzerleistung</h5>
+        <h5 class="card-title" style="color:white;">Mitarbeiterleistung</h5>
         <canvas id="chart2" style="height: 300px;" onclick="openModal('chart2Modal')"></canvas>
         <p class="card-text" style="color:white;">Diese Visualisierung zeigt die produzierten Teile, sortiert nach Leistung.</p>
     </div>
@@ -28,7 +28,7 @@ while ($row = $result->fetch_assoc()) {
     <div class="modal-dialog modal-xl">
         <div class="modal-content bg-dark">
             <div class="modal-header">
-                <h5 class="modal-title text-white" id="chart2ModalLabel">Benutzerleistung</h5>
+                <h5 class="modal-title text-white" id="chart2ModalLabel">Mitarbeiterleistung</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">

@@ -60,8 +60,12 @@ document.addEventListener("DOMContentLoaded", function () {
             const modalElement = document.getElementById('getModal');
             const modalInstance = bootstrap.Modal.getInstance(modalElement);
             modalInstance.hide(); 
+            showAlert("Erfolg!", "success");
         })
-        .catch(error => console.error('Fehler beim Abrufen der Daten:', error));
+        .catch(error => {
+            console.error('Fehler beim Abrufen der Daten:', error);
+            showAlert("Fehler beim Abrufen der Daten: " + error.message, "danger");
+        });
     });
 
     backButton.addEventListener("click", function () {
@@ -112,7 +116,6 @@ document.addEventListener("DOMContentLoaded", function () {
         } else if (entityTypeSelect.value === "device") {
             postData = {
                 name: document.getElementById("deviceName").value
-                // +++
             };
         }
 
@@ -138,8 +141,12 @@ document.addEventListener("DOMContentLoaded", function () {
             const modalInstance = bootstrap.Modal.getInstance(modalElement);
             modalInstance.hide(); 
             postForm.reset(); 
+            showAlert("Erfolg!", "success");
         })
-        .catch(error => console.error('Fehler beim Senden der Daten:', error));
+        .catch(error => {
+            console.error('Fehler beim Senden der Daten:', error);
+            showAlert("Fehler beim Senden der Daten: " + error.message, "danger");
+        });
     });
 
 });
@@ -180,12 +187,14 @@ $(document).ready(function() {
                 $('#success-message').text(response.message).show();
                 $('#patchModal').modal('hide');
                 $('#error-message').hide();
+                showAlert("Erfolg!", "success");
             },
             error: function(xhr) {
                 console.error(xhr.responseText);
                 console.log(xhr);
-                $('#error-message').text(xhr.responseJSON ? xhr.responseJSON.message : 'Unknown error').show();
+                $('#error-message').text(xhr.responseJSON ? xhr.responseJSON.message : 'Unbekannter Fehler').show();
                 $('#success-message').hide();
+                showAlert("Fehler beim Aktualisieren: " + (xhr.responseJSON ? xhr.responseJSON.message : 'Unbekannter Fehler'), "danger");
             }
         });        
     });
@@ -199,22 +208,48 @@ document.getElementById('submitDeleteButton').addEventListener('click', function
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
-            'ApiKey': apiKey 
+            'ApiKey': apiKey
         }
     })
     .then(response => {
-        if (response.ok) {
-            console.log('Maschine erfolgreich gelöscht.');
-            const modalElement = document.getElementById('deleteModal');
-            const modalInstance = bootstrap.Modal.getInstance(modalElement);
-            modalInstance.hide(); 
-            document.getElementById('deleteMachineId').value = ''; 
-        } else {
-            console.error('Fehler beim Löschen der Maschine.');
+        if (!response.ok) {
+            throw new Error('Netzwerkantwort war nicht okay');
         }
+        return response.json();
+    })
+    .then(data => {
+        console.log("Erfolgreich gelöscht:", data);
+        $('#deleteModal').modal('hide');
+        showAlert("Erfolg!", "success");
     })
     .catch(error => {
-        console.error('Ein unerwarteter Fehler ist aufgetreten:', error);
+        console.error('Fehler beim Löschen:', error);
+        showAlert("Fehler beim Löschen: " + error.message, "danger");
     });
 });
+
+
+function showAlert(message, type) {
+    const alertPlaceholder = document.getElementById('alertPlaceholder');
+    const alert = document.createElement('div');
+    alert.className = `alert alert-${type} alert-dismissible fade show`;
+    alert.role = 'alert';
+    alert.innerHTML = message + 
+        '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
+
+    alertPlaceholder.appendChild(alert);
+
+    // Automatisches Schließen der Alert-Nachricht nach 4 Sekunden
+    setTimeout(() => {
+        alert.classList.remove('show');
+        alert.classList.add('fade'); // Klasse für das Ausblenden hinzufügen
+
+        // Entferne das Alert-Element nach der Animation
+        alert.addEventListener('transitionend', () => {
+            alert.remove();
+        });
+    }, 4000);
+}
+
+
 

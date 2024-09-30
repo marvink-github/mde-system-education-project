@@ -2,6 +2,8 @@
 include 'header.php';
 ?>
 
+<div id="alertPlaceholder"></div>
+
 <main>
 <div class="container my-5">
     <div class="row">
@@ -60,32 +62,32 @@ include 'header.php';
                 <h5 class="modal-title" id="getModalLabel">GET</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body bg-dark text-white">
-                <!-- Auswahl des Endpunkts -->
-                <select id="endpoint-select" class="form-select">
-                    <option value="getMachinedata">Maschinendaten</option>
-                </select>
+                <div class="modal-body bg-dark text-white">
+                    <!-- Auswahl des Endpunkts -->
+                    <select id="endpoint-select" class="form-select">
+                        <option value="getMachinedata">Maschinendaten</option>
+                    </select>
 
-                <!-- Filterfelder für die GET-Anfrage -->
-                <input type="text" id="userid-input" class="form-control mt-3" placeholder="Benutzer-ID (optional)">
-                <input type="text" id="orderid-input" class="form-control mt-3" placeholder="Bestell-ID (optional)">
-                <input type="text" id="shiftid-input" class="form-control mt-3" placeholder="Schicht-ID (optional)">
-                <input type="text" id="machineid-input" class="form-control mt-3" placeholder="Maschinen-ID (optional)">
+                    <!-- Filterfelder für die GET-Anfrage -->
+                    <input type="text" id="userid-input" class="form-control mt-3" placeholder="Benutzer-ID (optional)">
+                    <input type="text" id="orderid-input" class="form-control mt-3" placeholder="Bestell-ID (optional)">
+                    <input type="text" id="shiftid-input" class="form-control mt-3" placeholder="Schicht-ID (optional)">
+                    <input type="text" id="machineid-input" class="form-control mt-3" placeholder="Maschinen-ID (optional)">
 
-                <!-- Datumsfilter -->
-                <label for="from-date" class="mt-3">Von (Datum):</label>
-                <input type="date" id="from-date" class="form-control">
-                <label for="to-date" class="mt-3">Bis (Datum):</label>
-                <input type="date" id="to-date" class="form-control">
+                    <!-- Datumsfilter -->
+                    <label for="from-date" class="mt-3">Von (Datum):</label>
+                    <input type="date" id="from-date" class="form-control">
+                    <label for="to-date" class="mt-3">Bis (Datum):</label>
+                    <input type="date" id="to-date" class="form-control">
 
-                <!-- Paginierung -->
-                <input type="number" id="page-input" class="form-control mt-3" placeholder="Seite (optional)" value="1">
-                <input type="number" id="limit-input" class="form-control mt-3" placeholder="Limit (optional)" value="200">
-
-                <div class="modal-footer justify-content-center">
-                    <button id="fetchDataButton" class="btn btn-success mt-3">Daten anfragen</button>
+                    <!-- Paginierung -->
+                    <input type="number" id="page-input" class="form-control mt-3" placeholder="Seite (optional)" value="1">
+                    <input type="number" id="limit-input" class="form-control mt-3" placeholder="Limit (optional)" value="200">
+                    
+                    <div class="modal-footer justify-content-center">
+                        <button id="fetchDataButton" class="btn btn-success mt-3">Daten anfragen</button>
+                    </div>                
                 </div>
-            </div>
             </div>
         </div>
     </div>

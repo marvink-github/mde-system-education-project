@@ -16,7 +16,7 @@ if ($result->num_rows > 0) {
     <div class="card-body">
         <h5 class="card-title" style="color:white;">Terminalaktivität</h5>
         <canvas id="chart5" style="height: 300px;" onclick="openModal('chart5Modal')"></canvas>
-        <p class="card-text" style="color:white;">Diese Visualisierung zeigt die Aktivität des Terminals basierend auf dem Aktivitätszeitstempel.</p>
+        <p class="card-text" style="color:white;">Diese Visualisierung zeigt die Aktivität basierend auf dem Aktivitätszeitstempel.</p>
     </div>
 </div>
 
@@ -115,16 +115,32 @@ const chart5 = new Chart(document.getElementById('chart5').getContext('2d'), {
     plugins: [legendInRingPlugin]
 });
 
+// Funktion zum Formatieren des Zeitstempels ohne `.0000Z`
+function formatTimestamp(date) {
+    const year = date.getFullYear();
+    const month = ('0' + (date.getMonth() + 1)).slice(-2);
+    const day = ('0' + date.getDate()).slice(-2);
+    const hours = ('0' + date.getHours()).slice(-2);
+    const minutes = ('0' + date.getMinutes()).slice(-2);
+    const seconds = ('0' + date.getSeconds()).slice(-2);
+    return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
+}
+
 // Funktion zum Speichern und Abrufen von Zeitstempeln aus LocalStorage
 function updateEnlargedChart() {
     let timestamps = JSON.parse(localStorage.getItem('timestamps')) || [];
     
-    // Füge den neuen Zeitstempel hinzu
-    timestamps.push(lastAlive.toISOString().split('.')[0]); // Millisekunden entfernen
+    // Füge den neuen Zeitstempel hinzu und formatiere ihn ohne `.0000Z`
+    timestamps.push(formatTimestamp(lastAlive));
     localStorage.setItem('timestamps', JSON.stringify(timestamps));
 
+    // Prüfen, ob das Diagramm bereits existiert, um Fehler zu vermeiden
+    if (window.enlargedChartInstance) {
+        window.enlargedChartInstance.destroy(); // Zerstört das alte Diagramm, bevor es ein neues gibt
+    }
+
     // Diagramm erstellen
-    const enlargedChart5 = new Chart(document.getElementById('enlargedChart5').getContext('2d'), {
+    window.enlargedChartInstance = new Chart(document.getElementById('enlargedChart5').getContext('2d'), {
         type: 'line',
         data: {
             labels: timestamps,
@@ -171,6 +187,19 @@ function updateEnlargedChart() {
         }
     });
 }
+
+// Datenpunkte kontinuierlich jede Minute hinzufügen
+setInterval(function() {
+    const lastAlive = new Date("<?php echo $lastAliveTimestamp; ?>");
+    let timestamps = JSON.parse(localStorage.getItem('timestamps')) || [];
+
+    // Füge den aktuellen Zeitstempel hinzu
+    timestamps.push(formatTimestamp(lastAlive));
+    localStorage.setItem('timestamps', JSON.stringify(timestamps));
+
+    // Aktualisiere das Diagramm bei jedem neuen Datenpunkt
+    updateEnlargedChart();
+}, 60000); // 60.000 Millisekunden = 1 Minute
 
 // Ruft die updateEnlargedChart-Funktion auf, wenn das Modal geöffnet wird
 document.getElementById('chart5Modal').addEventListener('show.bs.modal', updateEnlargedChart);
