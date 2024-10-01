@@ -1,31 +1,43 @@
 <?php
 include '../../connection.php';
 
+// Setze den Start- und Endzeitpunkt des 24-Stunden-Zeitraums
 $startDate = date('Y-m-d H:i:s', strtotime('-24 hours'));
 $endDate = date('Y-m-d H:i:s');
 
-// Abrufen der Maschinen und deren Verfügbarkeit
+// Abrufen der Maschinen und deren Verfügbarkeit innerhalb des 24-Stunden-Zeitraums
 $query = "
     SELECT m.idMachine, 
-           SUM(TIMESTAMPDIFF(SECOND, s.startTime, IFNULL(s.endTime, NOW()))) AS totalActiveTime
+        SUM(TIMESTAMPDIFF(SECOND, GREATEST(s.startTime, '$startDate'), LEAST(IFNULL(s.endTime, '$endDate'), '$endDate'))) AS totalActiveTime
     FROM machine m
-    LEFT JOIN shift s ON m.idMachine = s.machine_idMachine AND s.startTime <= '$endDate' 
-        AND (s.endTime IS NULL OR s.endTime >= '$startDate')
-    GROUP BY m.idMachine
+    LEFT JOIN shift s ON m.idMachine = s.machine_idMachine
+    WHERE s.startTime < '$endDate' 
+    AND (s.endTime IS NULL OR s.endTime > '$startDate')
+    GROUP BY m.idMachine;
 ";
 
 $result = $machineconn->query($query);
 
 $labels = [];
-$availabilityPercentages = [];
-$totalTime = 24 * 60 * 60; // Gesamtzeit in Sekunden für 24 Stunden
+$activeTimes = [];
+$totalActiveTimeAllMachines = 0; // Gesamte aktive Zeit für alle Maschinen
 
 while ($row = $result->fetch_assoc()) {
     $labels[] = 'Maschine ' . $row['idMachine'];
-    // Berechnung der Verfügbarkeit in Prozent und dann mit 2 multiplizieren
-    $availabilityPercentage = ($row['totalActiveTime'] / $totalTime) * 100;
-    $adjustedAvailabilityPercentage = min(round($availabilityPercentage * 2, 2), 100); // sicherstellen, dass es nicht über 100% geht
-    $availabilityPercentages[] = $adjustedAvailabilityPercentage;
+    $activeTime = (int)$row['totalActiveTime'];
+    $activeTimes[$row['idMachine']] = $activeTime;
+    $totalActiveTimeAllMachines += $activeTime; // Gesamte aktive Zeit summieren
+}
+
+// Berechne die Verfügbarkeit in Prozent basierend auf der gesamten aktiven Zeit
+$availabilityPercentages = [];
+foreach ($activeTimes as $machineId => $activeTime) {
+    if ($totalActiveTimeAllMachines > 0) { // Vermeide Division durch Null
+        $availabilityPercentage = ($activeTime / $totalActiveTimeAllMachines) * 100;
+        $availabilityPercentages[$machineId] = round($availabilityPercentage, 2);
+    } else {
+        $availabilityPercentages[$machineId] = 0; // Falls keine aktive Zeit vorhanden ist
+    }
 }
 
 ?>
@@ -66,7 +78,7 @@ const chart6 = new Chart(document.getElementById('chart6').getContext('2d'), {
         labels: <?php echo json_encode($labels); ?>,
         datasets: [{
             label: 'Verfügbarkeit (%) (Insgesamt)',
-            data: <?php echo json_encode($availabilityPercentages); ?>,
+            data: <?php echo json_encode(array_values($availabilityPercentages)); ?>,
             backgroundColor: 'rgba(75, 192, 192, 0.5)',
             borderColor: 'rgba(75, 192, 192, 1)',
             borderWidth: 1
@@ -102,7 +114,7 @@ const enlargedChart6 = new Chart(document.getElementById('enlargedChart6').getCo
         labels: <?php echo json_encode($labels); ?>,
         datasets: [{
             label: 'Verfügbarkeit (%) (angepasst)',
-            data: <?php echo json_encode($availabilityPercentages); ?>,
+            data: <?php echo json_encode(array_values($availabilityPercentages)); ?>,
             backgroundColor: 'rgba(75, 192, 192, 0.5)',
             borderColor: 'rgba(75, 192, 192, 1)',
             borderWidth: 1
