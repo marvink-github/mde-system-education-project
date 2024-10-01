@@ -42,11 +42,11 @@ foreach ($activeTimes as $machineId => $activeTime) {
 
 ?>
 
-<div class="card bg-dark" style="min-height: 350px; margin: 15px;">
+<div class="card bg-dark" style="min-height: 350px; width: 100%;">
     <div class="card-body">
         <h5 class="card-title" style="color:white;">Maschinenverfügbarkeit</h5>
         <canvas id="chart6" style="height: 300px;" onclick="openModal('chart6Modal')"></canvas>
-        <p class="card-text" style="color:white;">Diese Visualisierung zeigt die prozentuale Verfügbarkeit des gesamten Zeitraums an (angepasst).</p>
+        <p class="card-text" style="color:white;">Diese Visualisierung zeigt die prozentuale Verfügbarkeit des gesamten Zeitraums an (Gesamt).</p>
     </div>
 </div>
 
@@ -77,7 +77,7 @@ const chart6 = new Chart(document.getElementById('chart6').getContext('2d'), {
     data: {
         labels: <?php echo json_encode($labels); ?>,
         datasets: [{
-            label: 'Verfügbarkeit (%) (Insgesamt)',
+            label: 'Verfügbarkeit (%) (Gesamt)',
             data: <?php echo json_encode(array_values($availabilityPercentages)); ?>,
             backgroundColor: 'rgba(75, 192, 192, 0.5)',
             borderColor: 'rgba(75, 192, 192, 1)',
@@ -113,7 +113,7 @@ const enlargedChart6 = new Chart(document.getElementById('enlargedChart6').getCo
     data: {
         labels: <?php echo json_encode($labels); ?>,
         datasets: [{
-            label: 'Verfügbarkeit (%) (angepasst)',
+            label: 'Verfügbarkeit (%) (Gesamt)',
             data: <?php echo json_encode(array_values($availabilityPercentages)); ?>,
             backgroundColor: 'rgba(75, 192, 192, 0.5)',
             borderColor: 'rgba(75, 192, 192, 1)',

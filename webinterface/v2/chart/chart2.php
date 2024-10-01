@@ -15,7 +15,7 @@ while ($row = $result->fetch_assoc()) {
 }
 ?>
 
-<div class="card bg-dark" style="min-height: 350px; margin: 15px;">
+<div class="card bg-dark" style="min-height: 350px; width: 100%;">
     <div class="card-body">
         <h5 class="card-title" style="color:white;">Bestellungskontrolle</h5>
         <canvas id="chart4" style="height: 300px;" onclick="openModal('chart4Modal')"></canvas>

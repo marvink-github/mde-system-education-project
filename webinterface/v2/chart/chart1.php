@@ -38,7 +38,7 @@ while ($row = $result->fetch_assoc()) {
 $uniqueDates = array_values(array_unique($dates));
 ?>
 
-<div class="card bg-dark" style="min-height: 350px; margin: 15px;">
+<div class="card bg-dark" style="min-height: 350px; width: 100%;">
     <div class="card-body">
         <h5 class="card-title" style="color:white;">Maschinenproduktivität</h5>
         <canvas id="chart3" style="height: 300px;" onclick="openModal('chart3Modal')"></canvas>

@@ -12,9 +12,12 @@ document.addEventListener("DOMContentLoaded", function () {
         if (entityTypeSelect.value === "machine") {
             machineFields.classList.remove("d-none");
             deviceFields.classList.add("d-none");
-        } else {
+        } else if(entityTypeSelect.value === 'device') {
             deviceFields.classList.remove("d-none");
             machineFields.classList.add("d-none");
+        } else {
+            deviceFields.classList.remove("d-none");
+            machineFields.classList.remove("d-none");
         }
     });
 
@@ -51,7 +54,9 @@ document.addEventListener("DOMContentLoaded", function () {
         })
         .then(response => {
             if (!response.ok) {
-                throw new Error('Netzwerkantwort war nicht okay');
+                return response.json().then(errorData => {
+                    throw new Error(errorData.message || 'Netzwerkantwort war nicht okay');
+                });
             }
             return response.json();
         })
@@ -60,11 +65,14 @@ document.addEventListener("DOMContentLoaded", function () {
             const modalElement = document.getElementById('getModal');
             const modalInstance = bootstrap.Modal.getInstance(modalElement);
             modalInstance.hide(); 
-            showAlert("Erfolg!", "success");
+            showAlert("Daten erfolgreich abgerufen!", "success");
         })
         .catch(error => {
-            console.error('Fehler beim Abrufen der Daten:', error);
-            showAlert("Fehler beim Abrufen der Daten: " + error.message, "danger");
+            const modalElement = document.getElementById('getModal');
+            const modalInstance = bootstrap.Modal.getInstance(modalElement);
+            modalInstance.hide(); 
+            console.error('Fehler beim Abrufen der Daten:', error);            
+            showAlert(error.message, "danger");
         });
     });
 
@@ -131,7 +139,9 @@ document.addEventListener("DOMContentLoaded", function () {
         })
         .then(response => {
             if (!response.ok) {
-                throw new Error('Netzwerkantwort war nicht okay');
+                return response.json().then(errorData => {
+                    throw new Error(errorData.message || 'Netzwerkantwort war nicht okay');
+                });
             }
             return response.json();
         })
@@ -141,11 +151,14 @@ document.addEventListener("DOMContentLoaded", function () {
             const modalInstance = bootstrap.Modal.getInstance(modalElement);
             modalInstance.hide(); 
             postForm.reset(); 
-            showAlert("Erfolg!", "success");
+            showAlert(data.message, "success");
         })
         .catch(error => {
+            const modalElement = document.getElementById('postModal');
+            const modalInstance = bootstrap.Modal.getInstance(modalElement);
+            modalInstance.hide(); 
             console.error('Fehler beim Senden der Daten:', error);
-            showAlert("Fehler beim Senden der Daten: " + error.message, "danger");
+            showAlert(error.message, "danger");
         });
     });
 
@@ -187,14 +200,15 @@ $(document).ready(function() {
                 $('#success-message').text(response.message).show();
                 $('#patchModal').modal('hide');
                 $('#error-message').hide();
-                showAlert("Erfolg!", "success");
+                showAlert("Daten erfolgreich aktualisiert!", "success");
             },
             error: function(xhr) {
                 console.error(xhr.responseText);
                 console.log(xhr);
-                $('#error-message').text(xhr.responseJSON ? xhr.responseJSON.message : 'Unbekannter Fehler').show();
+                const errorMessage = xhr.responseJSON ? xhr.responseJSON.message : 'Unbekannter Fehler';
+                $('#error-message').text(errorMessage).show();
                 $('#success-message').hide();
-                showAlert("Fehler beim Aktualisieren: " + (xhr.responseJSON ? xhr.responseJSON.message : 'Unbekannter Fehler'), "danger");
+                showAlert(errorMessage, "danger");
             }
         });        
     });
@@ -213,30 +227,29 @@ document.getElementById('submitDeleteButton').addEventListener('click', function
     })
     .then(response => {
         if (!response.ok) {
-            throw new Error('Netzwerkantwort war nicht okay');
+            return response.json().then(errorData => {
+                throw new Error(errorData.message || 'Netzwerkantwort war nicht okay');
+            });
         }
         return response.json();
     })
     .then(data => {
         console.log("Erfolgreich gelöscht:", data);
         $('#deleteModal').modal('hide');
-        showAlert("Erfolg!", "success");
+        showAlert(data.message, "success");
     })
     .catch(error => {
         console.error('Fehler beim Löschen:', error);
-        showAlert("Fehler beim Löschen: " + error.message, "danger");
+        showAlert(error.message, "danger");
     });
 });
-
 
 function showAlert(message, type) {
     const alertPlaceholder = document.getElementById('alertPlaceholder');
     const alert = document.createElement('div');
     alert.className = `alert alert-${type} alert-dismissible fade show`;
     alert.role = 'alert';
-    alert.innerHTML = message + 
-        '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
-
+    alert.innerHTML = message;
     alertPlaceholder.appendChild(alert);
 
     // Automatisches Schließen der Alert-Nachricht nach 4 Sekunden
@@ -249,9 +262,5 @@ function showAlert(message, type) {
         alert.addEventListener('transitionend', () => {
             alert.remove();
         });
-    }, 4000); // Wartezeit für das automatische Schließen auf 4 Sekunden erhöhen
+    }, 4000); // Wartezeit für das automatische Schließen auf 4 Sekunden
 }
-
-
-
-

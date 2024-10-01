@@ -5,10 +5,10 @@
     border-radius: 10px; /* Abgerundete Ecken */
     min-height: 350px;
     width: 100%; /* Standardbreite für kleine Bildschirme */
-    margin: 15px; /* Abstand um die Karte herum */
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Schatten für eine leichte Erhebung */
     transition: transform 0.3s ease, box-shadow 0.3s ease; /* Animation beim Hover */
 }
+
 
 /* Karteninhalt soll flexibel sein */
 .card-body {
@@ -200,4 +200,17 @@ footer {
 .alert {
     transition: opacity 0.7s ease; /* Dauer der Fade-Animation anpassen */
 }
+
+#alertPlaceholder .alert {
+    position: absolute; /* oder fixed, wenn du möchtest, dass es beim Scrollen bleibt */
+    top: 50px; /* Passe diesen Wert an die Höhe deines Headers an */
+    left: 0;
+    right: 0;
+    z-index: 1050; /* Höher als der Rest des Inhalts, damit es sichtbar bleibt */
+    padding: 5px 15px; /* Reduziertes Padding */
+    margin: 5px 0; /* Reduzierte Margin */
+    font-size: 1rem; /* Kleinere Schriftgröße */
+}
+
+
 

@@ -15,7 +15,7 @@ while ($row = $result->fetch_assoc()) {
 }
 ?>
 
-<div class="card bg-dark" style="min-height: 350px; margin: 15px;">
+<div class="card bg-dark" style="min-height: 350px; width: 100%;">
     <div class="card-body">
         <h5 class="card-title" style="color:white;">Mitarbeiterleistung</h5>
         <canvas id="chart2" style="height: 300px;" onclick="openModal('chart2Modal')"></canvas>
@@ -52,7 +52,7 @@ const chart2 = new Chart(document.getElementById('chart2').getContext('2d'), {
         datasets: [{
             label: 'Stückzahl',
             data: <?php echo json_encode($pieceCounts); ?>,
-            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            backgroundColor: 'rgba(75, 192, 192, 0.5)',
             borderColor: 'rgba(75, 192, 192, 1)',
             borderWidth: 1
         }]
@@ -73,7 +73,7 @@ const enlargedChart2 = new Chart(document.getElementById('enlargedChart2').getCo
         datasets: [{
             label: 'Stückzahl',
             data: <?php echo json_encode($pieceCounts); ?>,
-            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            backgroundColor: 'rgba(75, 192, 192, 0.5)',
             borderColor: 'rgba(75, 192, 192, 1)',
             borderWidth: 1
         }]
