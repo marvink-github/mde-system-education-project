@@ -62,7 +62,7 @@ const chart4 = new Chart(document.getElementById('chart4').getContext('2d'), {
             x: {
                 title: {
                     display: true,
-                    text: 'Bestellungen'
+                    text: 'Bestellungs-ID'
                 },
                 beginAtZero: true
             },
@@ -97,14 +97,14 @@ const enlargedChart4 = new Chart(document.getElementById('enlargedChart4').getCo
             x: {
                 title: {
                     display: true,
-                    text: 'Stückzahl'
+                    text: 'Bestellungs-ID'
                 },
                 beginAtZero: true
             },
             y: {
                 title: {
                     display: true,
-                    text: 'Bestellungen'
+                    text: 'Stückzahl'
                 },
                 ticks: {
                     autoSkip: false
