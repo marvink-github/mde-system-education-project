@@ -50,7 +50,7 @@ $availabilityPercentages = array_values($sortedAvailability); // Aktualisierte V
 
 ?>
 
-<div class="col-12 col-sm-6 col-md-4 d-flex justify-content-center mb-3">
+<div class="col-12 col-sm-6 col-md-4 d-flex justify-content-center">
     <div class="card bg-dark" style="min-height: 350px; width: 100%; cursor: pointer;">
         <div class="card-body">
             <h5 class="card-title" style="color:white;">Maschinenaktivität</h5>

@@ -1,100 +1,123 @@
-<?php
+<?php 
 include '../../connection.php';
 
-// SQL-Abfrage, um die Summe der Stückzahlen pro Benutzer-ID zu ermitteln und nach Stückzahl absteigend zu sortieren
-$query = "SELECT userId, SUM(value) AS piece_count FROM machinedata GROUP BY userId ORDER BY piece_count DESC";
+// Abfrage zum Ermitteln der `last_alive` Zeitstempel für das Gerät und andere Details
+$query = "SELECT last_alive, idDevice, terminal_type FROM device WHERE idDevice = 1"; 
 $result = $machineconn->query($query);
+$lastAliveTimestamp = null;
+$terminalId = null;
+$terminalType = null;
 
-$labels = [];
-$pieceCounts = [];
-
-// Daten in Arrays für die Visualisierung speichern
-while ($row = $result->fetch_assoc()) {
-    $labels[] = $row['userId'];
-    $pieceCounts[] = $row['piece_count'];
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $lastAliveTimestamp = $row['last_alive'];
+    $terminalId = $row['idDevice']; // Terminal-ID speichern
+    $terminalType = $row['terminal_type'];
 }
 ?>
 
-<div class="col-12 col-sm-6 col-md-4 d-flex justify-content-center mb-3">
+<div class="col-12 col-sm-6 col-md-4 d-flex justify-content-center">
     <div class="card bg-dark" style="min-height: 350px; width: 100%; cursor: pointer;">
         <div class="card-body">
-            <h5 class="card-title" style="color:white;">Mitarbeiterleistung</h5>
-            <canvas id="chart2" style="height: 300px;" onclick="openModal('chart2Modal')"></canvas>
-            <p class="card-text" style="color:white;">Diese Visualisierung zeigt die produzierten Teile, sortiert nach Leistung.</p>
+            <h5 class="card-title" style="color:white;">Terminalaktivität (letzten 24 Stunden)</h5>
+            <canvas id="chart5" style="height: 300px;"></canvas>
+            <p class="card-text" style="color:white;">Diese Visualisierung zeigt die Aktivität basierend auf dem Aktivitätszeitstempel.</p>
         </div>
     </div>
 </div>
 
-
-<!-- Modal für das vergrößerte Diagramm -->
-<div class="modal fade" id="chart2Modal" tabindex="-1" aria-labelledby="chart2ModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content bg-dark">
-            <div class="modal-header">
-                <h5 class="modal-title text-white" id="chart2ModalLabel">Mitarbeiterleistung</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <canvas id="enlargedChart2"></canvas>
-            </div>
-        </div>
-    </div>
-</div>
 
 <script>
-function openModal(modalId) {
-    var myModal = new bootstrap.Modal(document.getElementById(modalId));
-    myModal.show();
+// Daten und Logik für das Hauptdiagramm mit Legende im Ring
+const lastAlive = new Date("<?php echo $lastAliveTimestamp; ?>");
+const now = new Date();
+let onlineTime = 0, maintenanceTime = 0, offlineTime = 0;
+
+const diff = (now - lastAlive) / 1000; // Unterschied in Sekunden
+
+// Berechnung der Zeiten
+if (diff <= 3600) { // Online: letzte Stunde
+    onlineTime = diff;
+} else if (diff <= 86400) { // Wartung: 1 Stunde bis 24 Stunden
+    onlineTime = 3600; // Maximal 1 Stunde online
+    maintenanceTime = diff - 3600; // Zeit in Wartung
+} else { // Offline: mehr als 24 Stunden
+    onlineTime = 3600; // Maximal 1 Stunde online
+    maintenanceTime = 86400 - 3600; // Zeit in Wartung
+    offlineTime = diff - 86400; // Zeit offline
 }
 
-// Diagramm für die Benutzerleistung
-const chart2 = new Chart(document.getElementById('chart2').getContext('2d'), {
-    type: 'bar', // Typ des Diagramms auf 'bar' ändern, um die Benutzerleistung darzustellen
+// Gesamte Zeit berechnen
+const totalTime = onlineTime + maintenanceTime + offlineTime;
+
+// Erstellen des Hauptdiagramms (Doughnut)
+const chart5 = new Chart(document.getElementById('chart5').getContext('2d'), {
+    type: 'doughnut',
     data: {
-        labels: <?php echo json_encode($labels); ?>,
+        labels: ['Online', 'Wartung', 'Offline'],
         datasets: [{
-            label: 'Stückzahl',
-            data: <?php echo json_encode($pieceCounts); ?>,
-            backgroundColor: 'rgba(75, 192, 192, 0.5)',
-            borderColor: 'rgba(75, 192, 192, 1)',
-            borderWidth: 1
+            label: 'Aktivität',
+            data: [onlineTime, maintenanceTime, offlineTime],
+            backgroundColor: [
+                'rgba(75, 192, 192, 1)',  // Grün: Online
+                'rgba(255, 206, 86, 1)',  // Gelb: Wartung
+                'rgba(255, 99, 132, 1)'    // Rot: Offline
+            ],
+            borderColor: 'rgba(255, 255, 255, 1)',
+            borderWidth: 1,
+            hoverOffset: 20 // Vergrößert den Hover-Bereich
         }]
     },
     options: {
-        scales: {
-            x: { title: { display: true, text: 'Benutzer-ID' }},
-            y: { title: { display: true, text: 'Stückzahl' }}
-        },
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: '80%',
+        radius: '80%',
         plugins: {
             legend: {
+                display: true,
                 onClick: (e) => e.stopPropagation() // Verhindert das Klicken auf die Legende
+            },
+            tooltip: {
+                enabled: true,
+                mode: 'nearest',
+                intersect: true,
+                animation: false, // Deaktiviert die Animation des Tooltips
+                callbacks: {
+                    label: function(tooltipItem) {
+                        const status = tooltipItem.label;
+                        const timeSpent = tooltipItem.raw;
+                        const percentage = ((timeSpent / totalTime) * 100).toFixed(2);
+                        return `${status}: ${percentage}%`;
+                    }
+                }
             }
+        },
+        animation: {
+            animateScale: true,
+            animateRotate: true,
+            duration: 1500
         }
     }
 });
 
-// Vergrößerte Version für chart2
-const enlargedChart2 = new Chart(document.getElementById('enlargedChart2').getContext('2d'), {
-    type: 'bar', // Typ des Diagramms auf 'bar' ändern
-    data: {
-        labels: <?php echo json_encode($labels); ?>,
-        datasets: [{
-            label: 'Stückzahl',
-            data: <?php echo json_encode($pieceCounts); ?>,
-            backgroundColor: 'rgba(75, 192, 192, 0.5)',
-            borderColor: 'rgba(75, 192, 192, 1)',
-            borderWidth: 1
-        }]
-    },
-    options: {
-        scales: {
-            x: { title: { display: true, text: 'Benutzer-ID' }},
-            y: { title: { display: true, text: 'Stückzahl' }}
-        },
-        plugins: {
-            legend: {
-                onClick: (e) => e.stopPropagation() // Verhindert das Klicken auf die Legende
-            }
+// Text in der Mitte des Donuts anzeigen
+Chart.plugins.register({
+    beforeDraw: function(chart) {
+        if (chart.config.options.elements.center) {
+            const ctx = chart.ctx;
+            const txt = `ID: ${<?php echo $terminalId; ?>}`; // Terminal-ID
+            const txt2 = 'Aktivität'; // Optionale Beschriftung
+            const fontSize = 18;
+            ctx.restore();
+            ctx.font = fontSize + "px Arial";
+            ctx.fillStyle = "white"; // Textfarbe
+            ctx.textBaseline = "middle";
+            const textX = Math.round((chart.width - ctx.measureText(txt).width) / 2);
+            const textY = Math.round(chart.height / 2);
+            ctx.fillText(txt, textX, textY);
+            ctx.fillText(txt2, textX, textY + 25); // Optionaler Text
+            ctx.save();
         }
     }
 });

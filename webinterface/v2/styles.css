@@ -3,11 +3,11 @@
     background-color: #343a40; /* Dunkler Hintergrund */
     color: white; /* Weißer Text */
     border-radius: 10px; /* Abgerundete Ecken */
-    min-height: 350px;
+    min-height: 300px;
     width: 100%; /* Standardbreite für kleine Bildschirme */
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Schatten für eine leichte Erhebung */
     transition: transform 0.3s ease, box-shadow 0.3s ease; /* Animation beim Hover */
-    margin: 15px; /* Einheitliche Margin für Karten */
+    margin: 10px; /* Einheitliche Margin für Karten */
     box-sizing: border-box; /* Einschließen von Padding und Border in die Breite und Höhe */
 }
 

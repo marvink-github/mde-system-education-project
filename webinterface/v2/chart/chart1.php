@@ -53,7 +53,7 @@ while ($row = $result->fetch_assoc()) {
 $uniqueDates = array_values(array_unique($dates));
 ?>
 
-<div class="col-12 col-sm-6 col-md-4 d-flex justify-content-center mb-3">
+<div class="col-12 col-sm-6 col-md-4 d-flex justify-content-center">
     <div class="card bg-dark" style="min-height: 350px; width: 100%; cursor: pointer;">
         <div class="card-body">
             <h5 class="card-title" style="color:white;">Maschinenproduktivität</h5>
@@ -166,7 +166,7 @@ const enlargedChart3 = new Chart(document.getElementById('enlargedChart3').getCo
         scales: {
             x: {
                 title: {
-                    display: true,
+                    display: false,
                     text: 'Datum'
                 },
                 ticks: {
@@ -175,7 +175,7 @@ const enlargedChart3 = new Chart(document.getElementById('enlargedChart3').getCo
             },
             y: {
                 title: {
-                    display: true,
+                    display: false,
                     text: 'Stückzahl'
                 },
                 beginAtZero: true
