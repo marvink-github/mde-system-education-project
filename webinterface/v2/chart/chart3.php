@@ -13,13 +13,16 @@ while ($row = $result->fetch_assoc()) {
 }
 ?>
 
-<div class="card bg-dark" style="min-height: 350px; width: 100%;">
-    <div class="card-body">
-        <h5 class="card-title" style="color:white;">Tagesleistung</h5>
-        <canvas id="chart1" style="height: 300px;" onclick="openModal('chart1Modal')"></canvas>
-        <p class="card-text" style="color:white;">Diese Visualisierung zeigt die Anzahl der produzierten Teile pro Tag.</p>
+<div class="col-12 col-sm-6 col-md-4 d-flex justify-content-center mb-3">
+    <div class="card bg-dark" style="min-height: 350px; width: 100%; cursor: pointer;">
+        <div class="card-body">
+            <h5 class="card-title" style="color:white;">Tagesleistung</h5>
+            <canvas id="chart1" style="height: 300px;" onclick="openModal('chart1Modal')"></canvas>
+            <p class="card-text" style="color:white;">Diese Visualisierung zeigt die Anzahl der produzierten Teile pro Tag.</p>
+        </div>
     </div>
 </div>
+
 
 <!-- Modal für das vergrößerte Diagramm -->
 <div class="modal fade" id="chart1Modal" tabindex="-1" aria-labelledby="chart1ModalLabel" aria-hidden="true">
@@ -44,7 +47,7 @@ function openModal(modalId) {
 
 // Diagramm für die Stückzahl pro Tag
 const chart1 = new Chart(document.getElementById('chart1').getContext('2d'), {
-    type: 'line', // Typ des Diagramms auf 'bar' ändern
+    type: 'line', // Typ des Diagramms auf 'line' ändern
     data: {
         labels: <?php echo json_encode($labels); ?>,
         datasets: [{
@@ -73,13 +76,18 @@ const chart1 = new Chart(document.getElementById('chart1').getContext('2d'), {
                 },
                 beginAtZero: true // Beginnt die y-Achse bei 0
             }
+        },
+        plugins: {
+            legend: {
+                onClick: (e) => e.stopPropagation() // Verhindert das Klicken auf die Legende
+            }
         }
     }
 });
 
 // Vergrößerte Version für chart1
 const enlargedChart1 = new Chart(document.getElementById('enlargedChart1').getContext('2d'), {
-    type: 'line', // Typ des Diagramms auf 'bar' ändern
+    type: 'line', // Typ des Diagramms auf 'line' ändern
     data: {
         labels: <?php echo json_encode($labels); ?>,
         datasets: [{
@@ -107,6 +115,11 @@ const enlargedChart1 = new Chart(document.getElementById('enlargedChart1').getCo
                     text: 'Stückzahl'
                 },
                 beginAtZero: true // Beginnt die y-Achse bei 0
+            }
+        },
+        plugins: {
+            legend: {
+                onClick: (e) => e.stopPropagation() // Verhindert das Klicken auf die Legende
             }
         }
     }

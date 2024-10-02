@@ -1,6 +1,21 @@
 <?php
 include '../../connection.php';
 
+// SQL-Abfrage, um die früheste Startzeit und die späteste Endzeit zu ermitteln
+$timeQuery = "
+    SELECT 
+        MIN(shift.startTime) AS min_start_time,
+        MAX(shift.endTime) AS max_end_time
+    FROM shift";
+
+// Führe die Abfrage aus
+$timeResult = $machineconn->query($timeQuery);
+$timeRow = $timeResult->fetch_assoc();
+
+// Setze die Start- und Endzeit basierend auf den Ergebnissen der Abfrage
+$startTime = $timeRow['min_start_time'];
+$endTime = $timeRow['max_end_time'];
+
 // SQL-Abfrage, um die Stückzahlen pro Tag und Maschine zu ermitteln
 $query = "
     SELECT 
@@ -10,10 +25,10 @@ $query = "
     FROM machinedata
     JOIN shift ON machinedata.shift_idshift = shift.idshift
     JOIN machine ON shift.machine_idMachine = machine.idMachine
-    WHERE shift.startTime BETWEEN '2024-09-30' AND '2024-10-11'
+    WHERE shift.startTime BETWEEN '$startTime' AND '$endTime'
     GROUP BY date, machine.idMachine
     ORDER BY date ASC";
-    
+
 $result = $machineconn->query($query);
 
 $dates = [];
@@ -38,13 +53,16 @@ while ($row = $result->fetch_assoc()) {
 $uniqueDates = array_values(array_unique($dates));
 ?>
 
-<div class="card bg-dark" style="min-height: 350px; width: 100%;">
-    <div class="card-body">
-        <h5 class="card-title" style="color:white;">Maschinenproduktivität</h5>
-        <canvas id="chart3" style="height: 300px;" onclick="openModal('chart3Modal')"></canvas>
-        <p class="card-text" style="color:white;">Diese Visualisierung zeigt die Anzahl pro Maschine über einen Zeitraum.</p>
+<div class="col-12 col-sm-6 col-md-4 d-flex justify-content-center mb-3">
+    <div class="card bg-dark" style="min-height: 350px; width: 100%; cursor: pointer;">
+        <div class="card-body">
+            <h5 class="card-title" style="color:white;">Maschinenproduktivität</h5>
+            <canvas id="chart3" style="height: 300px;"></canvas>
+            <p class="card-text" style="color:white;">Diese Visualisierung zeigt die Anzahl pro Maschine über einen Zeitraum.</p>
+        </div>
     </div>
 </div>
+
 
 <!-- Modal für das vergrößerte Diagramm -->
 <div class="modal fade" id="chart3Modal" tabindex="-1" aria-labelledby="chart3ModalLabel" aria-hidden="true">
@@ -126,6 +144,12 @@ const chart3 = new Chart(document.getElementById('chart3').getContext('2d'), {
             tooltip: {
                 mode: 'index',
                 intersect: false
+            }
+        },
+        onClick: (event) => {
+            const activePoints = chart3.getElementsAtEventForMode(event, 'nearest', { intersect: true }, true);
+            if (activePoints.length === 0) {
+                openModal('chart3Modal'); // Öffne das Modal, wenn nicht auf die Legende geklickt wird
             }
         }
     }

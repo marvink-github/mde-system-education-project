@@ -15,11 +15,13 @@ while ($row = $result->fetch_assoc()) {
 }
 ?>
 
-<div class="card bg-dark" style="min-height: 350px; width: 100%;">
-    <div class="card-body">
-        <h5 class="card-title" style="color:white;">Bestellungskontrolle</h5>
-        <canvas id="chart4" style="height: 300px;" onclick="openModal('chart4Modal')"></canvas>
-        <p class="card-text" style="color:white;">Diese Visualisierung zeigt die Summe, die pro Bestellung gefertigt wurden.</p>
+<div class="col-12 col-sm-6 col-md-4 d-flex justify-content-center mb-3">
+    <div class="card bg-dark" style="min-height: 350px; width: 100%; cursor: pointer;">
+        <div class="card-body">
+            <h5 class="card-title" style="color:white;">Bestellungskontrolle</h5>
+            <canvas id="chart4" style="height: 300px;" onclick="openModal('chart4Modal')"></canvas>
+            <p class="card-text" style="color:white;">Diese Visualisierung zeigt die Summe, die pro Bestellung gefertigt wurden.</p>
+        </div>
     </div>
 </div>
 
@@ -46,7 +48,7 @@ function openModal(modalId) {
 
 // Diagramm für die Stückzahl pro Bestellung
 const chart4 = new Chart(document.getElementById('chart4').getContext('2d'), {
-    type: 'bar', // Typ des Diagramms auf 'horizontalBar' ändern
+    type: 'bar', // Typ des Diagramms auf 'bar' ändern
     data: {
         labels: <?php echo json_encode($labels); ?>,
         datasets: [{
@@ -74,6 +76,11 @@ const chart4 = new Chart(document.getElementById('chart4').getContext('2d'), {
                 ticks: {
                     autoSkip: false // Alle Bestellungen auf der y-Achse anzeigen
                 }
+            }
+        },
+        plugins: {
+            legend: {
+                onClick: (e) => e.stopPropagation() // Verhindert das Klicken auf die Legende
             }
         }
     }
@@ -109,6 +116,11 @@ const enlargedChart4 = new Chart(document.getElementById('enlargedChart4').getCo
                 ticks: {
                     autoSkip: false
                 }
+            }
+        },
+        plugins: {
+            legend: {
+                onClick: (e) => e.stopPropagation() // Verhindert das Klicken auf die Legende
             }
         }
     }

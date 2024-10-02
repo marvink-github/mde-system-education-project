@@ -50,13 +50,16 @@ $availabilityPercentages = array_values($sortedAvailability); // Aktualisierte V
 
 ?>
 
-<div class="card bg-dark" style="min-height: 350px; width: 100%;">
-    <div class="card-body">
-        <h5 class="card-title" style="color:white;">Maschinenaktivität</h5>
-        <canvas id="chart6" style="height: 300px;" onclick="openModal('chart6Modal')"></canvas>
-        <p class="card-text" style="color:white;">Diese Visualisierung zeigt die prozentuale Verfügbarkeit des gesamten Zeitraums an.</p>
+<div class="col-12 col-sm-6 col-md-4 d-flex justify-content-center mb-3">
+    <div class="card bg-dark" style="min-height: 350px; width: 100%; cursor: pointer;">
+        <div class="card-body">
+            <h5 class="card-title" style="color:white;">Maschinenaktivität</h5>
+            <canvas id="chart6" style="height: 300px;" onclick="openModal('chart6Modal')"></canvas>
+            <p class="card-text" style="color:white;">Diese Visualisierung zeigt die prozentuale Verfügbarkeit des gesamten Zeitraums an.</p>
+        </div>
     </div>
 </div>
+
 
 <!-- Modal für das vergrößerte Diagramm -->
 <div class="modal fade" id="chart6Modal" tabindex="-1" aria-labelledby="chart6ModalLabel" aria-hidden="true">
@@ -111,6 +114,11 @@ const chart6 = new Chart(document.getElementById('chart6').getContext('2d'), {
                 beginAtZero: true,
                 max: 100 // Maximalwert auf 100 setzen
             }
+        },
+        plugins: {
+            legend: {
+                onClick: (e) => e.stopPropagation() // Verhindert das Klicken auf die Legende
+            }
         }
     }
 });
@@ -146,6 +154,11 @@ const enlargedChart6 = new Chart(document.getElementById('enlargedChart6').getCo
                 },
                 beginAtZero: true,
                 max: 100 // Maximalwert auf 100 setzen
+            }
+        },
+        plugins: {
+            legend: {
+                onClick: (e) => e.stopPropagation() // Verhindert das Klicken auf die Legende
             }
         }
     }

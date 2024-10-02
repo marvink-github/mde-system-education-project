@@ -15,13 +15,16 @@ while ($row = $result->fetch_assoc()) {
 }
 ?>
 
-<div class="card bg-dark" style="min-height: 350px; width: 100%;">
-    <div class="card-body">
-        <h5 class="card-title" style="color:white;">Mitarbeiterleistung</h5>
-        <canvas id="chart2" style="height: 300px;" onclick="openModal('chart2Modal')"></canvas>
-        <p class="card-text" style="color:white;">Diese Visualisierung zeigt die produzierten Teile, sortiert nach Leistung.</p>
+<div class="col-12 col-sm-6 col-md-4 d-flex justify-content-center mb-3">
+    <div class="card bg-dark" style="min-height: 350px; width: 100%; cursor: pointer;">
+        <div class="card-body">
+            <h5 class="card-title" style="color:white;">Mitarbeiterleistung</h5>
+            <canvas id="chart2" style="height: 300px;" onclick="openModal('chart2Modal')"></canvas>
+            <p class="card-text" style="color:white;">Diese Visualisierung zeigt die produzierten Teile, sortiert nach Leistung.</p>
+        </div>
     </div>
 </div>
+
 
 <!-- Modal für das vergrößerte Diagramm -->
 <div class="modal fade" id="chart2Modal" tabindex="-1" aria-labelledby="chart2ModalLabel" aria-hidden="true">
@@ -61,6 +64,11 @@ const chart2 = new Chart(document.getElementById('chart2').getContext('2d'), {
         scales: {
             x: { title: { display: true, text: 'Benutzer-ID' }},
             y: { title: { display: true, text: 'Stückzahl' }}
+        },
+        plugins: {
+            legend: {
+                onClick: (e) => e.stopPropagation() // Verhindert das Klicken auf die Legende
+            }
         }
     }
 });
@@ -82,6 +90,11 @@ const enlargedChart2 = new Chart(document.getElementById('enlargedChart2').getCo
         scales: {
             x: { title: { display: true, text: 'Benutzer-ID' }},
             y: { title: { display: true, text: 'Stückzahl' }}
+        },
+        plugins: {
+            legend: {
+                onClick: (e) => e.stopPropagation() // Verhindert das Klicken auf die Legende
+            }
         }
     }
 });

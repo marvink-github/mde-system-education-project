@@ -7,8 +7,9 @@
     width: 100%; /* Standardbreite für kleine Bildschirme */
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Schatten für eine leichte Erhebung */
     transition: transform 0.3s ease, box-shadow 0.3s ease; /* Animation beim Hover */
+    margin: 15px; /* Einheitliche Margin für Karten */
+    box-sizing: border-box; /* Einschließen von Padding und Border in die Breite und Höhe */
 }
-
 
 /* Karteninhalt soll flexibel sein */
 .card-body {
@@ -36,26 +37,22 @@
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.3); /* Verstärkter Schatten */
 }
 
-
 /* Anpassung der Chart-Größe in der Karte */
 canvas {
     height: 200px !important; /* Kleinere Höhe der Diagramme */
 }
 
-/* Für kleine Mobilgeräte (bis 576px) */
+/* Responsive Anpassungen für verschiedene Bildschirmgrößen */
 @media (max-width: 576px) {
     .card {
         margin: 5px; /* Weniger Abstand zwischen Karten */
         min-height: 180px; /* Kleinere Mindesthöhe für mobile Geräte */
-        padding-right: 10px; /* Padding auf der rechten Seite */
-        margin-right: 10px;
     }
     canvas {
         height: 120px !important; /* Kleinere Höhe des Diagramms auf mobilen Geräten */
     }
 }
 
-/* Für kleine Tablets (576px bis 768px) */
 @media (min-width: 576px) and (max-width: 768px) {
     .card {
         margin: 10px; /* Ein bisschen mehr Abstand auf kleinen Tablets */
@@ -66,7 +63,6 @@ canvas {
     }
 }
 
-/* Für größere Bildschirme (ab 768px) */
 @media (min-width: 768px) {
     .card {
         margin: 15px; /* Abstand für größere Bildschirme */
@@ -77,8 +73,6 @@ canvas {
     }
 }
 
-
-/* Für mittlere bis große Bildschirme (992px bis 1200px) */
 @media (min-width: 992px) and (max-width: 1200px) {
     .card {
         margin: 20px; /* Mehr Abstand für größere Bildschirme */
@@ -89,7 +83,6 @@ canvas {
     }
 }
 
-/* Für große Bildschirme (ab 1200px) */
 @media (min-width: 1200px) {
     .card {
         margin: 25px; /* Abstand für sehr große Bildschirme */
@@ -98,7 +91,7 @@ canvas {
     canvas {
         height: 260px !important; /* Höhe des Diagramms auf großen Bildschirmen */
     }
-}
+}   
 
 /* Tabellenkopf Design */
 .table-dark th {
@@ -147,6 +140,7 @@ canvas {
 html, body {
     height: 100%;
     margin: 0;
+    overflow-x: hidden; /* Verhindert horizontales Scrollen */
 }
 
 body {
@@ -154,11 +148,17 @@ body {
     flex-direction: column;
     min-height: 100vh; 
     color: #333;
+    position: relative;
 }
 
 main {
     flex: 1; 
     background-color: #f7f7f7;
+}
+
+/* Container Fluid mit Padding */
+.container-fluid {
+    padding: 0 15px; /* Padding für links und rechts */
 }
 
 footer {
@@ -211,6 +211,7 @@ footer {
     margin: 5px 0; /* Reduzierte Margin */
     font-size: 1rem; /* Kleinere Schriftgröße */
 }
+
 
 
 

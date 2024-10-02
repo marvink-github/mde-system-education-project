@@ -1,4 +1,4 @@
-<?php
+<?php 
 include '../../connection.php';
 
 // Abfrage zum Ermitteln der `last_alive` Zeitstempel für das Gerät und andere Details
@@ -16,91 +16,56 @@ if ($result->num_rows > 0) {
 }
 ?>
 
-<div class="card bg-dark" style="min-height: 350px; width: 100%;">
-    <div class="card-body">
-        <h5 class="card-title" style="color:white;">Terminalaktivität</h5>
-        <canvas id="chart5" style="height: 300px;" onclick="openModal('chart5Modal')"></canvas>
-        <p class="card-text" style="color:white;">Diese Visualisierung zeigt die Aktivität basierend auf dem Aktivitätszeitstempel.</p>
-    </div>
-</div>
-
-<!-- Modal für das erweiterte Diagramm -->
-<div class="modal fade" id="chart5Modal" tabindex="-1" aria-labelledby="chart5ModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content bg-dark">
-            <div class="modal-header">
-                <h5 class="modal-title text-white" id="chart5ModalLabel">Erweiterte Terminalaktivität</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <canvas id="enlargedChart5"></canvas>
-            </div>
+<div class="col-12 col-sm-6 col-md-4 d-flex justify-content-center mb-3">
+    <div class="card bg-dark" style="min-height: 350px; width: 100%; cursor: pointer;">
+        <div class="card-body">
+            <h5 class="card-title" style="color:white;">Terminalaktivität</h5>
+            <canvas id="chart5" style="height: 300px;"></canvas>
+            <p class="card-text" style="color:white;">Diese Visualisierung zeigt die Aktivität basierend auf dem Aktivitätszeitstempel.</p>
         </div>
     </div>
 </div>
 
-<script>
-// Modal-Öffnungsfunktion
-function openModal(modalId) {
-    var myModal = new bootstrap.Modal(document.getElementById(modalId));
-    myModal.show();
-}
 
+<script>
 // Daten und Logik für das Hauptdiagramm mit Legende im Ring
 const lastAlive = new Date("<?php echo $lastAliveTimestamp; ?>");
 const now = new Date();
-let backgroundColor;
+let onlineTime = 0, maintenanceTime = 0, offlineTime = 0;
 
 const diff = (now - lastAlive) / 1000; // Unterschied in Sekunden
 
-if (diff > 86400) { 
-    backgroundColor = 'rgba(255, 99, 132, 1)'; // Rot
-} else if (diff > 3600) {
-    backgroundColor = 'rgba(255, 206, 86, 1)'; // Gelb
-} else {
-    backgroundColor = 'rgba(75, 192, 192, 1)'; // Grün
+// Berechnung der Zeiten
+if (diff <= 3600) { // Online: letzte Stunde
+    onlineTime = diff;
+} else if (diff <= 86400) { // Wartung: 1 Stunde bis 24 Stunden
+    onlineTime = 3600; // Maximal 1 Stunde online
+    maintenanceTime = diff - 3600; // Zeit in Wartung
+} else { // Offline: mehr als 24 Stunden
+    onlineTime = 3600; // Maximal 1 Stunde online
+    maintenanceTime = 86400 - 3600; // Zeit in Wartung
+    offlineTime = diff - 86400; // Zeit offline
 }
 
-// Plugin für die Legende im Ring
-const legendInRingPlugin = {
-    id: 'legendInRing',
-    afterDraw: function(chart) {
-        // Text im inneren Kreis entfernen
-        // Kein Code erforderlich, um Text anzuzeigen, also diese Funktion leer lassen
-    },
-    tooltip: {
-        callbacks: {
-            label: function(tooltipItem) {
-                // ID des Gerätes für Tooltip anzeigen
-                return `Terminal-ID: ${<?php echo $terminalId; ?>}`;
-            }
-        }
-    }
-};
+// Gesamte Zeit berechnen
+const totalTime = onlineTime + maintenanceTime + offlineTime;
 
 // Erstellen des Hauptdiagramms (Doughnut)
 const chart5 = new Chart(document.getElementById('chart5').getContext('2d'), {
     type: 'doughnut',
     data: {
-        labels: [
-            'Online', 
-            'Wartung', 
-            'Offline'
-        ],
+        labels: ['Online', 'Wartung', 'Offline'],
         datasets: [{
             label: 'Aktivität',
-            data: [
-                (diff <= 3600 ? 1 : 0), // Online
-                (diff > 3600 && diff <= 86400 ? 1 : 0), // Wartung
-                (diff > 86400 ? 1 : 0) // Offline
-            ],
+            data: [onlineTime, maintenanceTime, offlineTime],
             backgroundColor: [
                 'rgba(75, 192, 192, 1)',  // Grün: Online
-                'rgba(255, 206, 86, 1)',  // Orange: Wartung
+                'rgba(255, 206, 86, 1)',  // Gelb: Wartung
                 'rgba(255, 99, 132, 1)'    // Rot: Offline
             ],
             borderColor: 'rgba(255, 255, 255, 1)',
-            borderWidth: 1
+            borderWidth: 1,
+            hoverOffset: 20 // Vergrößert den Hover-Bereich
         }]
     },
     options: {
@@ -110,12 +75,20 @@ const chart5 = new Chart(document.getElementById('chart5').getContext('2d'), {
         radius: '80%',
         plugins: {
             legend: {
-                display: true 
+                display: true,
+                onClick: (e) => e.stopPropagation() // Verhindert das Klicken auf die Legende
             },
             tooltip: {
+                enabled: true,
+                mode: 'nearest',
+                intersect: true,
+                animation: false, // Deaktiviert die Animation des Tooltips
                 callbacks: {
                     label: function(tooltipItem) {
-                        return `idDevice: ${<?php echo $terminalId; ?>}`;
+                        const status = tooltipItem.label;
+                        const timeSpent = tooltipItem.raw;
+                        const percentage = ((timeSpent / totalTime) * 100).toFixed(2);
+                        return `${status}: ${percentage}%`;
                     }
                 }
             }
@@ -125,12 +98,27 @@ const chart5 = new Chart(document.getElementById('chart5').getContext('2d'), {
             animateRotate: true,
             duration: 1500
         }
-    },
-    plugins: [legendInRingPlugin]
+    }
 });
 
-// Hier wird die Callback-Funktion hinzugefügt
-document.getElementById('chart5Modal').addEventListener('show.bs.modal', function () {
-    // Logik, die beim Öffnen des Modals ausgeführt werden soll
+// Text in der Mitte des Donuts anzeigen
+Chart.plugins.register({
+    beforeDraw: function(chart) {
+        if (chart.config.options.elements.center) {
+            const ctx = chart.ctx;
+            const txt = `ID: ${<?php echo $terminalId; ?>}`; // Terminal-ID
+            const txt2 = 'Aktivität'; // Optionale Beschriftung
+            const fontSize = 18;
+            ctx.restore();
+            ctx.font = fontSize + "px Arial";
+            ctx.fillStyle = "white"; // Textfarbe
+            ctx.textBaseline = "middle";
+            const textX = Math.round((chart.width - ctx.measureText(txt).width) / 2);
+            const textY = Math.round(chart.height / 2);
+            ctx.fillText(txt, textX, textY);
+            ctx.fillText(txt2, textX, textY + 25); // Optionaler Text
+            ctx.save();
+        }
+    }
 });
 </script>
