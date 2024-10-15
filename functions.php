@@ -39,7 +39,7 @@ function getMachineAndValidateState($machineconn, $machine_id, $timestamp, $expe
         $machine = $stateCheckResult->fetch_assoc();
 
         if ($machine['state'] !== $expectedState) {
-            logDB($machineconn, 'state', "error: machine state is not as expected. (current state: {$machine['state']}, expected: $expectedState). idMachine: $machine_id. devicetime: $timestamp");
+            logDB($machineconn, 'state', "error: machine state is not as expected.");
             return false;
         }
     } else {
