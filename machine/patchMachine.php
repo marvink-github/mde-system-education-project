@@ -59,7 +59,7 @@ if (!empty($updateFields)) {
 
         http_response_code(200);
         echo json_encode([
-            "message" => "Machine information successfully patched.",
+            "message" => "Machine successfully patched.",
             "machineId" => $machine_id,
             "machinename" => $updatedData['name'] ?? null,
             "userid" => $updatedData['userid'] ?? null,

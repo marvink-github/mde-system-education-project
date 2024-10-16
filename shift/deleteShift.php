@@ -20,7 +20,7 @@ if ($machineconn->query($sql) === TRUE) {
         logDB($machineconn, 'info', $successMessage);
     } else {
         http_response_code(404);
-        $errorMessage = "No shift found that could be deleted.";
+        $errorMessage = "No shift found.";
         echo json_encode(["message" => $errorMessage], JSON_PRETTY_PRINT);
         logDB($machineconn, 'delete', $errorMessage);
     }

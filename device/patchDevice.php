@@ -44,7 +44,7 @@ if (!empty($updateFields)) {
 
         http_response_code(200);
         echo json_encode([
-            "message" => "Device information successfully patched.",
+            "message" => "Device successfully patched.",
             "deviceid" => $deviceId,
             "terminalid" => $updatedData['terminal_id'] ?? null,
             "terminaltype" => $updatedData['terminal_type'] ?? null,
