@@ -26,7 +26,8 @@ if ($type === 'kvp') {
             $currentFirmware = $kv_parts[1];
             logDB($machineconn, 'firmware', "Current firmware: $currentFirmware");
 
-            $query = "UPDATE device SET firmware_version = '$currentFirmware' WHERE terminal_id = '3533' AND terminal_type = 'EVO 4.6 FlexKey'";
+            $query = "UPDATE device SET firmware_version = '$currentFirmware' 
+                      WHERE terminal_id = '3533' AND terminal_type = 'EVO 4.6 FlexKey'";
             $result = mysqli_query($machineconn, $query);
 
             if (!$result) {
