@@ -42,12 +42,28 @@ switch ($table) {
         //$machineconn->real_escape_string(trim($_GET['df_col_DT'] ?? null));
         $badge = $machineconn->real_escape_string(trim($_GET['df_col_Badge'] ?? null)); 
         $action = $machineconn->real_escape_string(trim($_GET['df_col_Identifier'] ?? null));
-        //$machineconn->real_escape_string(trim($_GET['df_col_T_ID'] ?? null));
+        $order = $machineconn->real_escape_string(trim($_GET['df_col_Order'] ?? null)); 
+        //$terminal_id = $machineconn->real_escape_string(trim($_GET['df_col_T_ID'] ?? null));
         //$machineconn->real_escape_string(trim($_GET['df_col_T_Type'] ?? null));
         //$machineconn->real_escape_string(trim($_GET['df_col_User_ID'] ?? null));
         //$machineconn->real_escape_string(trim($_GET['df_col_QR_Code'] ?? null));
         //$machineconn->real_escape_string(trim($_GET['df_col_Inputtyp'] ?? null));
         //$machineconn->real_escape_string(trim($_GET['df_col_Projekt'] ?? null));
+        
+        // Mitarbeiter und Order in der Maschine über den Transponder eintragen
+        if ($action === 'start') {  
+            $machine_id = 1; 
+
+            $updateQuery = "UPDATE machine SET userid = '$badge', `order` = '$order' WHERE idMachine = '$machine_id'";
+            
+            if ($machineconn->query($updateQuery) === TRUE) {
+                logDB($machineconn, 'Daten', 'Werte erfolgreich aktualisiert.');
+            } else {
+                logDB($machineconn, 'Daten', 'Fehler beim Aktualisieren der Werte.');
+            }
+        } else {
+            logDB($machineconn, 'Daten', 'Ungültige Eingabewerte oder fehlende Aktion.');
+        }        
         
         // Display-Designer
         // if ($action === 'start' && $badge === '232C416A') {  
@@ -104,26 +120,33 @@ switch ($table) {
         $terminal_type = $machineconn->real_escape_string(trim($_GET['df_col_T_Typ'] ?? null));
         $alive_count = $machineconn->real_escape_string(trim($_GET['df_col_Count'] ?? null));
 
-        updateAliveStatus($machineconn, $timestamp, $terminal_id, $terminal_type); 
+        // updateAliveStatus($machineconn, $timestamp, $terminal_id, $terminal_type); 
 
         $currentFirmware = getFirmwareFromDevice($machineconn, $terminal_id, $terminal_type);
         
-        if (!empty($currentFirmware)) {
-            $latestFirmware = getFirmwareFromFileserver('latest');            
-            if (isUpdateRequired($currentFirmware, $latestFirmware)) {
-                $download_url = "http://127.0.0.1/api/firmware/files/$latestFirmware";         
-                echo "df_api=1&df_load_file=$download_url"; 
-                logDB($machineconn, 'firmware', 'Firmware updating to latest...');
-                exit;
-            } else {
-                logDB($machineconn, 'firmware', 'Latest firmware installed, no update required');
-            }
+        if (!empty($currentFirmware)){
+            logDB($machineconn, 'firmware', 'Latest firmware installed, no update required');
         } else {
-            // echo 'df_api=1&df_kvp=extinfo'; // Für Alle Infos vom Terminal
             echo 'df_api=1&df_kvp=firmwareversion';
             logDB($machineconn, 'firmware', 'No firmware version found, requesting now from device...');
-            exit;
         }
+
+        // if (!empty($currentFirmware)) {
+        //     $latestFirmware = getFirmwareFromFileserver('latest');            
+        //     if (isUpdateRequired($currentFirmware, $latestFirmware)) {
+        //         $download_url = "http://127.0.0.1/api/firmware/files/$latestFirmware";         
+        //         echo "df_api=1&df_load_file=$download_url"; 
+        //         logDB($machineconn, 'firmware', 'Firmware updating to latest...');
+        //         exit;
+        //     } else {
+        //         logDB($machineconn, 'firmware', 'Latest firmware installed, no update required');
+        //     }
+        // } else {
+        //     // echo 'df_api=1&df_kvp=extinfo'; // Für Alle Infos vom Terminal
+        //     echo 'df_api=1&df_kvp=firmwareversion';
+        //     logDB($machineconn, 'firmware', 'No firmware version found, requesting now from device...');
+        //     exit;
+        // }
         break;
         
         // Antwort auf df_api=1&df_kvp=firmwareversion
