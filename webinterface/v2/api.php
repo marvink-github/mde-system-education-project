@@ -33,7 +33,7 @@ include 'header.php';
         <div class="col-md-6 col-lg-6 d-flex justify-content-center mb-3">
             <div class="card text-white bg-dark mb-3" style="width: 34rem; height: 15rem; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#patchModal">
                 <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">PATCH - Maschine aktualisieren</h5>
+                    <h5 class="card-title">PATCH - Maschine bearbeiten</h5>
                     <p class="card-text flex-grow-1">Verwenden Sie PATCH-Anfragen, um bestehende Daten zu aktualisieren. Diese Anfragen sind hilfreich, wenn Sie nur Teile von Daten ändern möchten, ohne alles zu ersetzen.</p>
                     <a href="#" class="btn btn-primary mt-auto align-self-end">Aktualisieren</a>
                 </div>
