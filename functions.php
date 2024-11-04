@@ -51,7 +51,7 @@ function getMachineAndValidateState($machineconn, $machine_id, $timestamp, $expe
 }
 
 
-function getMachineData($machineconn, $machine_id) {
+function getUserIdAndState($machineconn, $machine_id) {
     $machineDataSql = "SELECT userid, state FROM machine WHERE idMachine = $machine_id";
     $machineDataResult = $machineconn->query($machineDataSql);
     
@@ -204,7 +204,7 @@ function handleStopAction($machineconn, $timestamp, $terminal_id, $d_entry_start
     }
 
     // Hole die Maschinendaten anhand der Machine-ID
-    $machineData = getMachineData($machineconn, $machine_id);
+    $machineData = getUserIdAndState($machineconn, $machine_id);
     
     if (!$machineData) {
         logDB($machineconn, 'stop', "error: machine data not found. devicetime: $timestamp");
