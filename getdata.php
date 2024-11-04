@@ -31,7 +31,7 @@ if ($type === 'kvp') {
             $result = mysqli_query($machineconn, $query);
 
             if (!$result) {
-                logDB($machineconn, 'error', 'Failed to update firmware in database.');
+                logDB($machineconn, 'error', 'Failed to update firmware in database.'); //aa
             }
         }
     }
