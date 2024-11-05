@@ -120,7 +120,7 @@ switch ($table) {
         $terminal_type = $machineconn->real_escape_string(trim($_GET['df_col_T_Typ'] ?? null));
         $alive_count = $machineconn->real_escape_string(trim($_GET['df_col_Count'] ?? null));
 
-        // updateAliveStatus($machineconn, $timestamp, $terminal_id, $terminal_type); 
+        updateAliveStatus($machineconn, $timestamp, $terminal_id, $terminal_type); 
 
         $currentFirmware = getFirmwareFromDevice($machineconn, $terminal_id, $terminal_type);
         
