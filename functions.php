@@ -203,7 +203,7 @@ function handleStopAction($machineconn, $timestamp, $terminal_id, $d_entry_start
         return; 
     }
 
-    // Hole die Maschinendaten anhand der Machine ID
+    // Hole die Maschinendaten anhand der Machine-ID
     $machineData = getUserIdAndState($machineconn, $machine_id);
     
     if (!$machineData) {
