@@ -19,7 +19,7 @@ if ($result->num_rows > 0) {
 <div class="col-12 col-sm-6 col-md-4 d-flex justify-content-center">
     <div class="card bg-dark" style="min-height: 350px; width: 100%; cursor: pointer;">
         <div class="card-body">
-            <h5 class="card-title" style="color:white;">Terminalaktivität (letzten 24 Stunden)</h5>
+            <h5 class="card-title" style="color:white;">Terminalaktivität</h5>
             <canvas id="chart5" style="height: 300px;"></canvas>
             <p class="card-text" style="color:white;">Diese Visualisierung zeigt die Aktivität basierend auf dem Aktivitätszeitstempel.</p>
         </div>
